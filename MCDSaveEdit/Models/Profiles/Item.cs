@@ -6,6 +6,7 @@ using MCDSaveEdit.Save.Models.Enums;
 
 namespace MCDSaveEdit.Save.Models.Profiles
 {
+    [Serializable]
     public partial class Item
     {
         [JsonPropertyName("armorproperties")]

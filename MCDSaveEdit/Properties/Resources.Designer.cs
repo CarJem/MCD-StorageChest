@@ -187,11 +187,29 @@ namespace MCDSaveEdit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy.
+        /// </summary>
+        public static string COPY {
+            get {
+                return ResourceManager.GetString("COPY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Creeping Winter.
         /// </summary>
         public static string CREEPING_WINTER {
             get {
                 return ResourceManager.GetString("CREEPING_WINTER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cut.
+        /// </summary>
+        public static string CUT {
+            get {
+                return ResourceManager.GetString("CUT", resourceCulture);
             }
         }
         
@@ -561,6 +579,15 @@ namespace MCDSaveEdit.Properties {
         public static string OLD_VERSION_LABEL {
             get {
                 return ResourceManager.GetString("OLD_VERSION_LABEL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paste.
+        /// </summary>
+        public static string PASTE {
+            get {
+                return ResourceManager.GetString("PASTE", resourceCulture);
             }
         }
         

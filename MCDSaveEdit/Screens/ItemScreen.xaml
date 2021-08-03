@@ -11,9 +11,12 @@
             <Button x:Name="inventoryItemButton" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Height="150" Margin="20" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Click="inventoryItemButton_Click">
                 <Image x:Name="inventoryIconImage" Source="../Images/Armor.png" />
             </Button>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Height="27" Margin="0,180,20,0">
-                <Button x:Name="duplicateItemButton" Content="*Duplicate*" Width="65" Margin="5,0" IsEnabled="false" Click="duplicateItemButton_Click"/>
-                <Button x:Name="deleteItemButton" Content="*Delete*" Width="65" Margin="5,0" IsEnabled="false" Click="deleteItemButton_Click"/>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Top" Width="100" Height="125" Margin="0,180,45,0">
+                <Button x:Name="duplicateItemButton" Content="*Duplicate*" Margin="5,0,5,5" IsEnabled="false" Click="duplicateItemButton_Click"/>
+                <Button x:Name="deleteItemButton" Content="*Delete*" Margin="5,0,5,5" IsEnabled="false" Click="deleteItemButton_Click"/>
+                <Button x:Name="cutItemButton" Content="*Cut*" Margin="5,0,5,5" IsEnabled="false" Click="cutItemButton_Click"/>
+                <Button x:Name="copyItemButton" Content="*Copy*" Margin="5,0,5,5" IsEnabled="false" Click="copyItemButton_Click"/>
+                <Button x:Name="pasteItemButton" Content="*Paste*" Margin="5,0,5,5" IsEnabled="True" Click="pasteItemButton_Click"/>
             </StackPanel>
             <StackPanel Margin="10,30,170,10">
                 <StackPanel Orientation="Horizontal">

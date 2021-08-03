@@ -249,6 +249,9 @@ namespace MCDSaveEdit
             selectedItemScreen.saveChanges = new RelayCommand<Item>(model.saveItem);
             selectedItemScreen.duplicateItem = new RelayCommand<Item>(duplicateItem);
             selectedItemScreen.deleteItem = new RelayCommand<Item>(removeItem);
+            selectedItemScreen.cutItem = new RelayCommand<Item>(cutItem);
+            selectedItemScreen.copyItem = new RelayCommand<Item>(copyItem);
+            selectedItemScreen.pasteItem = new RelayCommand<object>(pasteItem);
             selectedItemScreen.addEnchantmentSlot = new RelayCommand<object>(model.addEnchantmentSlot);
             selectedEnchantmentScreen.close = new RelayCommand<Enchantment>(model.selectEnchantment);
             selectedEnchantmentScreen.saveChanges = new RelayCommand<Enchantment>(model.saveEnchantment);
@@ -257,6 +260,7 @@ namespace MCDSaveEdit
             model.emeralds.subscribe(updateEmeraldsUI);
             model.gold.subscribe(updateGoldUI);
             model.selectedItem.subscribe(item => this.selectedItemScreen.item = item);
+            model.selectedItem.subscribe(_ => this.updateCopyPasteUI());
             model.selectedEnchantment.subscribe(updateEnchantmentScreenUI);
             model.profile.subscribe(_ => this.updateUI());
             model.equippedItemList.subscribe(_ => this.updateEnchantmentPointsUI());
@@ -275,6 +279,25 @@ namespace MCDSaveEdit
             model?.selectEnchantment(null);
             model?.selectItem(null);
             model?.removeItem(item);
+        }
+
+        private void cutItem(Item item)
+        {
+            model?.setClipboard(item);
+            model?.selectEnchantment(null);
+            model?.selectItem(null);
+            model?.removeItem(item);
+        }
+
+        private void copyItem(Item item)
+        {
+            model?.setClipboard(item);
+        }
+
+        private void pasteItem(object sender)
+        {
+            var item = model?.getClipboard();
+            model?.addItemToInventory(item);
         }
 
         #region Version Check
@@ -420,6 +443,30 @@ namespace MCDSaveEdit
             }
         }
 
+        private void cutCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var _item = selectedItemScreen?.item;
+            if (_item == null) { return; }
+            EventLogger.logEvent("cutCommandBinding_Executed");
+            cutItem(_item);
+
+        }
+
+        private void copyCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var _item = selectedItemScreen?.item;
+            if (_item == null) { return; }
+            EventLogger.logEvent("copyCommandBinding_Executed");
+            copyItem(_item);
+        }
+
+        private void pasteCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            EventLogger.logEvent("pasteCommandBinding_Executed");
+            pasteItem(sender);
+
+        }
+
         #endregion
 
         #region Helper Functions
@@ -501,8 +548,25 @@ namespace MCDSaveEdit
             fillMobKillsStack();
             updateMapScreensUI();
             updateEnchantmentPointsUI();
+            updateCopyPasteUI();
             selectedItemScreen.item = _model?.selectedItem.value;
             closeBusyIndicator();
+        }
+
+        private void updateCopyPasteUI()
+        {
+            if (selectedItemScreen?.item != null)
+            {
+                cutMenuItem.IsEnabled = true;
+                copyMenuItem.IsEnabled = true;
+            }
+            else
+            {
+                cutMenuItem.IsEnabled = false;
+                copyMenuItem.IsEnabled = false;
+            }
+
+            pasteMenuItem.IsEnabled = (_model?.profile.value != null);
         }
 
         private void updateMapScreensUI()

@@ -199,5 +199,15 @@ namespace MCDSaveEdit
 
             saveItem(selectedItem.value!);
         }
+
+        public void setClipboard(Item item)
+        {
+            System.Windows.Clipboard.SetData("MCDSaveEdit_Item", item);
+        }
+
+        public Item getClipboard()
+        {
+            return (Item)System.Windows.Clipboard.GetData("MCDSaveEdit_Item");
+        }
     }
 }

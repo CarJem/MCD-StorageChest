@@ -39,6 +39,9 @@ namespace MCDSaveEdit
 
             duplicateItemButton.Content = R.DUPLICATE;
             deleteItemButton.Content = R.DELETE;
+            cutItemButton.Content = R.CUT;
+            copyItemButton.Content = R.COPY;
+            pasteItemButton.Content = R.PASTE;
 
             updateUI();
         }
@@ -95,6 +98,8 @@ namespace MCDSaveEdit
                 giftedButtonCheckBox.IsChecked = false;
                 duplicateItemButton.IsEnabled = false;
                 deleteItemButton.IsEnabled = false;
+                cutItemButton.IsEnabled = false;
+                copyItemButton.IsEnabled = false;
             }
             else
             {
@@ -106,6 +111,8 @@ namespace MCDSaveEdit
                 giftedButton.IsEnabled = true;
                 duplicateItemButton.IsEnabled = true;
                 deleteItemButton.IsEnabled = true;
+                cutItemButton.IsEnabled = true;
+                copyItemButton.IsEnabled = true;
             }
         }
 
@@ -336,6 +343,9 @@ namespace MCDSaveEdit
             throw new NotImplementedException();
         }
 
+        public ICommand? cutItem { get; set; }
+        public ICommand? copyItem { get; set; }
+        public ICommand? pasteItem { get; set; }
         public ICommand? duplicateItem { get; set; }
         public ICommand? deleteItem { get; set; }
         public ICommand? saveChanges { get; set; }
@@ -494,5 +504,25 @@ namespace MCDSaveEdit
             updateUI();
         }
 
+        private void cutItemButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_item == null) { return; }
+            EventLogger.logEvent("cutItemButton_Click", new Dictionary<string, object>() { { "item", _item!.Type } });
+            this.cutItem?.Execute(_item);
+        }
+
+        private void copyItemButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_item == null) { return; }
+            EventLogger.logEvent("copyItemButton_Click", new Dictionary<string, object>() { { "item", _item!.Type } });
+            this.copyItem?.Execute(_item);
+        }
+
+        private void pasteItemButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_item == null) { return; }
+            EventLogger.logEvent("pasteItemButton_Click", new Dictionary<string, object>() { { "item", _item!.Type } });
+            this.pasteItem?.Execute(_item);
+        }
     }
 }

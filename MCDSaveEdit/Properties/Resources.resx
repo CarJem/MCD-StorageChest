@@ -173,9 +173,17 @@
     <value>Completed Threat Level:</value>
     <comment>Completed Threat Level:</comment>
   </data>
+  <data name="COPY" xml:space="preserve">
+    <value>Copy</value>
+    <comment>Copy</comment>
+  </data>
   <data name="CREEPING_WINTER" xml:space="preserve">
     <value>Creeping Winter</value>
     <comment>Creeping Winter</comment>
+  </data>
+  <data name="CUT" xml:space="preserve">
+    <value>Cut</value>
+    <comment>Cut</comment>
   </data>
   <data name="DECRYPTED_CHARACTER_SAVE_FILES" xml:space="preserve">
     <value>Decrypted Character Save files</value>
@@ -340,6 +348,10 @@
   <data name="OLD_VERSION_LABEL" xml:space="preserve">
     <value>Old</value>
     <comment>Old</comment>
+  </data>
+  <data name="PASTE" xml:space="preserve">
+    <value>Paste</value>
+    <comment>Paste</comment>
   </data>
   <data name="PLEASE_HAVE_LATEST_VERSION" xml:space="preserve">
     <value>Please make sure you have the latest version.</value>

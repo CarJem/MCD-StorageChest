@@ -14,11 +14,17 @@
         <CommandBinding Command="Open" Executed="openCommandBinding_Executed"/>
         <CommandBinding Command="Save" Executed="saveCommandBinding_Executed"/>
         <CommandBinding Command="SaveAs" Executed="saveAsCommandBinding_Executed"/>
+        <CommandBinding Command="Cut" Executed="cutCommandBinding_Executed"/>
+        <CommandBinding Command="Copy" Executed="copyCommandBinding_Executed"/>
+        <CommandBinding Command="Paste" Executed="pasteCommandBinding_Executed"/>
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Key="O" Modifiers="Control" Command="Open"/>
         <KeyBinding Key="S" Modifiers="Control" Command="Save"/>
         <KeyBinding Key="Q" Modifiers="Control" Command="Close"/>
+        <KeyBinding Key="X" Modifiers="Control" Command="Cut"/>
+        <KeyBinding Key="C" Modifiers="Control" Command="Copy"/>
+        <KeyBinding Key="V" Modifiers="Control" Command="Paste"/>
     </Window.InputBindings>
     <DockPanel AllowDrop="True" Drop="window_File_Drop" Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
 
@@ -31,6 +37,11 @@
                 <MenuItem x:Name="recentFilesMenuItem" Header="_Recent Files"/>
                 <Separator />
                 <MenuItem x:Name="exitMenuItem" Header="_Exit" Command="Close" InputGestureText="Ctrl+Q" />
+            </MenuItem>
+            <MenuItem x:Name="editMenuItem" Header="_Edit">
+                <MenuItem x:Name="cutMenuItem" Header="_Cut" Command="Cut" InputGestureText="Ctrl+X" />
+                <MenuItem x:Name="copyMenuItem" Header="_Copy" Command="Copy" InputGestureText="Ctrl+C" />
+                <MenuItem x:Name="pasteMenuItem" Header="_Paste" Command="Paste" InputGestureText="Ctrl+V" />
             </MenuItem>
             <MenuItem Header="_Game Paks">
                 <MenuItem x:Name="gameFilesLocationMenuItem" Header="No Game Files" IsEnabled="false" />
