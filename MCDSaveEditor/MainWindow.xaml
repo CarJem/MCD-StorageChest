@@ -1,0 +1,31 @@
+﻿<Window x:Class="MCDSaveEditor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MCDSaveEditor"
+        xmlns:controls="clr-namespace:MCDSaveEditor.Controls"
+        xmlns:models="clr-namespace:MCDSaveEditor.Models"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=models:MainViewModel}"
+        MinWidth="1240" Width="1240" MinHeight="620" Height="620"
+        Title="MainWindow" Initialized="Window_Initialized">
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Menu Grid.ColumnSpan="2">
+            <MenuItem Header="File">
+                <MenuItem Header="Open..." Name="OpenMenuItem" Click="OpenMenuItem_Click"></MenuItem>
+                <MenuItem Header="Load Game Data..." Name="LoadGameDataMenuItem" Click="LoadGameDataMenuItem_Click"></MenuItem>
+            </MenuItem>
+        </Menu>
+        <controls:Inventory Grid.Column="0" Grid.Row="1" x:Name="Inventory" DataContext="{Binding .}"/>
+        <controls:ItemPreview Grid.Column="1" Grid.Row="1" x:Name="CurrentItem" DataContext="{Binding CurrentItem}"></controls:ItemPreview>
+    </Grid>
+</Window>

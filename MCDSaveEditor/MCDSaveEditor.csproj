@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{037F8D82-9786-4413-8CEF-6381DD67D2E8}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>MCDSaveEditor</RootNamespace>
+    <AssemblyName>MCDSaveEditor</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;HIDE_MAP_SCREENS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Text.Json, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Controls\ArmorPropertyItemTemplate.xaml.cs">
+      <DependentUpon>ArmorPropertyItemTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EnchantmentPreview.xaml.cs">
+      <DependentUpon>EnchantmentPreview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Stepper.xaml.cs">
+      <DependentUpon>Stepper.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Extensions\CaseInSensitiveDictionary.cs" />
+    <Compile Include="Models\AssetLoader.cs" />
+    <Compile Include="Models\TypeLibrary.cs" />
+    <Compile Include="Save\Converters\LongToRomanNumeral.cs" />
+    <Compile Include="Save\Converters\IntToStringConverter.cs" />
+    <Compile Include="Save\Converters\NullVisibilityConverter.cs" />
+    <Compile Include="Save\Converters\RarityToBulletConverter.cs" />
+    <Compile Include="Save\Converters\ItemToBackgroundConverter.cs" />
+    <Compile Include="Save\Converters\EnchantToLvlConverter.cs" />
+    <Compile Include="Save\Converters\EnchantToNameConverter.cs" />
+    <Compile Include="Save\Converters\EnchantToImageConverter.cs" />
+    <Compile Include="Save\Converters\RarityToBackgroundConverter.cs" />
+    <Compile Include="Save\Converters\RarityToColorConverter.cs" />
+    <Compile Include="Save\Mapping\ImageMappings.cs" />
+    <Page Include="Controls\ArmorPropertyItemTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\EnchantmentPreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Inventory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\InventoryItemTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ItemPreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Stepper.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controls\Inventory.xaml.cs">
+      <DependentUpon>Inventory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\InventoryItemTemplate.xaml.cs">
+      <DependentUpon>InventoryItemTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ItemPreview.xaml.cs">
+      <DependentUpon>ItemPreview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Save\Profiles\EnchantmentCollection.cs" />
+    <Compile Include="Secrets.cs" />
+    <Compile Include="Logic\EventLogger.cs" />
+    <Compile Include="Logic\FileProcessHelper.cs" />
+    <Compile Include="Logic\GameCalculator.cs" />
+    <Compile Include="Logic\ImageResolver\IImageResolver.cs" />
+    <Compile Include="Logic\ImageResolver\LocalImageResolver.cs" />
+    <Compile Include="Logic\ImageResolver\PakImageResolver.cs" />
+    <Compile Include="Logic\ImageResolver\PakIndexExtensions.cs" />
+    <Compile Include="Extensions\ProfileExtensions.cs" />
+    <Compile Include="Models\StringLibrary.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\MainViewModel.cs" />
+    <Compile Include="Save\Enums\DifficultyEnum.cs" />
+    <Compile Include="Save\Enums\EquipmentSlotEnum.cs" />
+    <Compile Include="Save\Enums\ItemFilterEnum.cs" />
+    <Compile Include="Save\Enums\LevelTypeEnum.cs" />
+    <Compile Include="Save\Enums\Rarity.cs" />
+    <Compile Include="Save\Enums\ThreatLevelEnum.cs" />
+    <Compile Include="Save\Json\Mapping\AttributeBasedConverterFactory.cs" />
+    <Compile Include="Save\Json\Mapping\CustomNamingEnumJsonConverter.cs" />
+    <Compile Include="Save\Json\Mapping\EpochDateTimeJsonConverter.cs" />
+    <Compile Include="Save\Json\Mapping\GuidConverterFactory.cs" />
+    <Compile Include="Save\Json\Mapping\GuidJsonConverter.cs" />
+    <Compile Include="Save\Json\Mapping\INamingPolicy.cs" />
+    <Compile Include="Save\Json\Mapping\LowercaseNamingPolicy.cs" />
+    <Compile Include="Save\Json\Mapping\PrettyDateTimeJsonConverter.cs" />
+    <Compile Include="Save\Json\Mapping\SnakeCaseNamingPolicy.cs" />
+    <Compile Include="Save\Json\Mapping\TextDoubleJsonConverter.cs" />
+    <Compile Include="Save\Profiles\ArmorProperty.cs" />
+    <Compile Include="Save\Profiles\Cosmetic.cs" />
+    <Compile Include="Save\Profiles\Currency.cs" />
+    <Compile Include="Save\Profiles\Difficulties.cs" />
+    <Compile Include="Save\Profiles\Enchantment.cs" />
+    <Compile Include="Save\Profiles\Item.cs" />
+    <Compile Include="Save\Profiles\LobbyChest.cs" />
+    <Compile Include="Save\Profiles\MapUiState.cs" />
+    <Compile Include="Save\Profiles\MerchantDef.cs" />
+    <Compile Include="Save\Json\ProfileParser.cs" />
+    <Compile Include="Save\Profiles\ProfileSaveFile.cs" />
+    <Compile Include="Save\Profiles\Progress.cs" />
+    <Compile Include="Save\Profiles\Threats.cs" />
+    <Compile Include="Save\Profiles\UiHintsExpired.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Armor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Artifacts.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Emerald.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Enchantments.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Gold.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MeleeWeapons.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Points.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\RangedWeapons.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Unknown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DungeonTools\DungeonTools.csproj">
+      <Project>{ab2a3efa-0164-4e79-8091-59ca480594c5}</Project>
+      <Name>DungeonTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PakReader\PakReader.csproj">
+      <Project>{4ec98983-7730-4e55-83d8-dde055bc9da1}</Project>
+      <Name>PakReader</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="PostSharp">
+      <Version>6.9.7</Version>
+    </PackageReference>
+    <PackageReference Include="PostSharp.Patterns.Model">
+      <Version>6.9.7</Version>
+    </PackageReference>
+    <PackageReference Include="SkiaSharp">
+      <Version>2.80.2</Version>
+    </PackageReference>
+    <PackageReference Include="System.Threading.Tasks.Extensions">
+      <Version>4.5.4</Version>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
