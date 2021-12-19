@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 #nullable disable
 
-namespace MCDSaveEditor.Logic
+namespace MCDStorageChest.Logic
 {
     public class EventLogger
     {

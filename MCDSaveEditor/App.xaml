@@ -1,9 +1,10 @@
-﻿<Application x:Class="MCDSaveEditor.App"
+﻿<Application x:Class="MCDStorageChest.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:MCDSaveEditor"
+             xmlns:local="clr-namespace:MCDStorageChest"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <SolidColorBrush x:Key="UI_BackgroundColor" Color="Black"/>
+        <SolidColorBrush x:Key="UI_ForegroundColor" Color="White"/>
     </Application.Resources>
 </Application>

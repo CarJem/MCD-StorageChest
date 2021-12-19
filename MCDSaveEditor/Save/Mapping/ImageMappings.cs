@@ -1,4 +1,4 @@
-﻿using MCDSaveEditor.Save.Enums;
+﻿using MCDStorageChest.Save.Enums;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -7,10 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media;
-using MCDSaveEditor.Models;
+using MCDStorageChest.Models;
 using System.ComponentModel;
+using System.Windows.Media.Imaging;
+using System.Windows;
 
-namespace MCDSaveEditor.Save.Mapping
+namespace MCDStorageChest.Save.Mapping
 {
     public class ImageMappings : INotifyPropertyChanged
     {
@@ -50,6 +52,26 @@ namespace MCDSaveEditor.Save.Mapping
             }
         }
 
+
+        public Brush Inventory_Background
+        {
+            get
+            {
+                try
+                {
+                    var img = Models.AssetResolver.instance.imageSource("/Dungeons/Content/Textures/InventoryNew/master_inventory_backdrop");
+                    if (img != null)
+                    {
+                        var img2 = new CroppedBitmap(img, new Int32Rect(0, 0, 1920, 1080));
+                        var brush = new ImageBrush(img2);
+                        brush.Stretch = Stretch.UniformToFill;
+                        return brush;
+                    }
+                }
+                catch { }
+                return Brushes.Black;
+            }
+        }
         public ImageSource Inventory_AllItemsButtonImage => Models.AssetResolver.instance.imageSource("/Dungeons/Content/UI/Materials/Inventory2/Filter/filter_all_default");
         public ImageSource Inventory_MeleeItemsButtonImage => Models.AssetResolver.instance.imageSource("/Dungeons/Content/UI/Materials/Inventory2/Filter/filter_melee_default");
         public ImageSource Inventory_RangedItemsButtonImage => Models.AssetResolver.instance.imageSource("/Dungeons/Content/UI/Materials/Inventory2/Filter/filter_ranged_default");
@@ -74,6 +96,7 @@ namespace MCDSaveEditor.Save.Mapping
             OnPropertyChanged(nameof(Item_MarkedNewBackground));
             OnPropertyChanged(nameof(Item_GildedBackground));
 
+            OnPropertyChanged(nameof(Inventory_Background));
             OnPropertyChanged(nameof(Inventory_AllItemsButtonImage));
             OnPropertyChanged(nameof(Inventory_MeleeItemsButtonImage));
             OnPropertyChanged(nameof(Inventory_RangedItemsButtonImage));

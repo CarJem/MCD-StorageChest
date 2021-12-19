@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.Json.Serialization;
-using MCDSaveEditor.Save.Enums;
-using MCDSaveEditor.Extensions;
-using MCDSaveEditor.Models;
-using MCDSaveEditor.Logic;
+using MCDStorageChest.Save.Enums;
+using MCDStorageChest.Extensions;
+using MCDStorageChest.Models;
+using MCDStorageChest.Logic;
 using System.ComponentModel;
 using System.Windows.Media;
-using MCDSaveEditor.Save.Mapping;
+using MCDStorageChest.Save.Mapping;
 using PostSharp.Patterns.Model;
-#nullable disable
+using Newtonsoft.Json.Linq;
+using MCDStorageChest.Save.Json;
 
-namespace MCDSaveEditor.Save.Profiles
+namespace MCDStorageChest.Save.Profiles
 {
     [Serializable, NotifyPropertyChanged]
-    public partial class Item
+    public partial class Item : DynamicJSON
     {
         #region JSON
 
@@ -138,7 +139,7 @@ namespace MCDSaveEditor.Save.Profiles
         #endregion
     }
 
-    public partial class Item : ICloneable
+    public partial class Item : DynamicJSON, ICloneable
     {
         public object Clone()
         {
@@ -158,6 +159,7 @@ namespace MCDSaveEditor.Save.Profiles
             copy.Rarity = this.Rarity;
             copy.Type = this.Type;
             copy.Upgraded = this.Upgraded;
+            copy.Data = this.Data;
             return copy;
         }
     }

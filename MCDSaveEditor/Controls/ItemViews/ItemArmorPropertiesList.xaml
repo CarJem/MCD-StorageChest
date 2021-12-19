@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="MCDStorageChest.Controls.ItemViews.ItemArmorPropertiesList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MCDStorageChest.Controls.ItemViews"      
+             xmlns:templates="clr-namespace:MCDStorageChest.Controls.ItemTemplates"
+             xmlns:controls="clr-namespace:MCDStorageChest.Controls"
+             xmlns:profile="clr-namespace:MCDStorageChest.Save.Profiles"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=profile:Item}"
+             d:DesignHeight="800" d:DesignWidth="800">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="VisibleIfTrueConverter" />
+        <DataTemplate x:Key="ArmorPropertyControl">
+            <templates:ArmorPropertyItemTemplate DataContext="{Binding .}"></templates:ArmorPropertyItemTemplate>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid Visibility="{Binding IsArmor, Converter={StaticResource VisibleIfTrueConverter}}">
+        <ListBox ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding Armorproperties}" ItemTemplate="{StaticResource ArmorPropertyControl}"/>
+    </Grid>
+</UserControl>

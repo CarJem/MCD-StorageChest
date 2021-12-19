@@ -3,12 +3,12 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using MCDSaveEditor.Save.Mapping;
-using MCDSaveEditor.Save.Json;
-using MCDSaveEditor.Save.Json.Mapping;
-using MCDSaveEditor.Save.Profiles;
+using MCDStorageChest.Save.Mapping;
+using MCDStorageChest.Save.Json;
+using MCDStorageChest.Save.Json.Mapping;
+using MCDStorageChest.Save.Profiles;
 
-namespace MCDSaveEditor.Save.Json
+namespace MCDStorageChest.Save.Json
 {
     public static class ProfileParser
     {
@@ -26,8 +26,16 @@ namespace MCDSaveEditor.Save.Json
 
         public static async ValueTask<ProfileSaveFile> Read(Stream stream)
         {
+            return await JsonSerializer.DeserializeAsync<ProfileSaveFile>(stream, _options);
+        }
+
+        private static MemoryStream Sanitize(Stream stream)
+        {
             using BinaryReader reader = new BinaryReader(stream, Encoding.UTF8, false);
             using MemoryStream sanitized = new MemoryStream();
+
+            string text = string.Empty;
+
             while (reader.BaseStream.Position < reader.BaseStream.Length)
             {
                 byte b = reader.ReadByte();
@@ -36,11 +44,12 @@ namespace MCDSaveEditor.Save.Json
                     continue;
                 }
 
+                text += (char)b;
                 sanitized.WriteByte(b);
             }
 
             sanitized.Seek(0, SeekOrigin.Begin);
-            return await JsonSerializer.DeserializeAsync<ProfileSaveFile>(sanitized, _options);
+            return sanitized;
         }
 
         public static async ValueTask<Stream> Write(ProfileSaveFile settings)

@@ -1,4 +1,4 @@
-﻿using MCDSaveEditor.Save.Enums;
+﻿using MCDStorageChest.Save.Enums;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -7,10 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media;
-using MCDSaveEditor.Models;
-using MCDSaveEditor.Save.Mapping;
+using MCDStorageChest.Models;
+using MCDStorageChest.Save.Mapping;
 
-namespace MCDSaveEditor.Save.Converters
+namespace MCDStorageChest.Save.Converters
 {
 
     public sealed class EnchantToImageConverter : IValueConverter

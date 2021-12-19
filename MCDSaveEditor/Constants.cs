@@ -1,4 +1,4 @@
-﻿using MCDSaveEditor.Save.Enums;
+﻿using MCDStorageChest.Save.Enums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -8,7 +8,7 @@ using System;
 using System.Windows.Media.Imaging;
 #nullable enable
 
-namespace MCDSaveEditor
+namespace MCDStorageChest
 {
     #region Constants
     public static partial class Constants

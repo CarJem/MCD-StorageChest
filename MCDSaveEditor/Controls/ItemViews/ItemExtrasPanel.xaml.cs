@@ -13,16 +13,21 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MCDSaveEditor.Controls
+namespace MCDStorageChest.Controls.ItemViews
 {
     /// <summary>
-    /// Interaction logic for ArmorPropertyItemTemplate.xaml
+    /// Interaction logic for ItemExtrasPanel.xaml
     /// </summary>
-    public partial class ArmorPropertyItemTemplate : UserControl
+    public partial class ItemExtrasPanel : UserControl
     {
-        public ArmorPropertyItemTemplate()
+        public ItemExtrasPanel()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

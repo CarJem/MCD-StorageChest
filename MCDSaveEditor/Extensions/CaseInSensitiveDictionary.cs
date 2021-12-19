@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MCDSaveEditor.Extensions
+namespace MCDStorageChest.Extensions
 {
     public class CaseInSensitiveDictionary<TKey, TValue> : Dictionary<string, TValue>
     {

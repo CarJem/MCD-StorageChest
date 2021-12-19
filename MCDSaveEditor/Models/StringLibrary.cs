@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MCDSaveEditor.Extensions;
-using MCDSaveEditor.Logic;
+using MCDStorageChest.Extensions;
+using MCDStorageChest.Logic;
 #nullable enable
 
-namespace MCDSaveEditor.Models
+namespace MCDStorageChest.Models
 {
     public class StringLibrary : Properties.Resources
     {
@@ -192,8 +192,9 @@ namespace MCDSaveEditor.Models
 
         public static string itemDesc(string type)
         {
-            var key = "Flavour_" + type;
-            return getItemString(key) ?? type;
+            var attempt1 = getItemString("Flavour_" + type);
+            if (attempt1 != null) return attempt1;
+            else return getItemString("Desc_" + type) ?? type;
         }
 
         private static string? getItemString(string key)

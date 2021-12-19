@@ -1,9 +1,10 @@
-﻿using MCDSaveEditor.Save.Enums;
+﻿using MCDStorageChest.Save.Enums;
 using System.Text.Json.Serialization;
+using MCDStorageChest.Save.Json;
 
-namespace MCDSaveEditor.Save.Profiles
+namespace MCDStorageChest.Save.Profiles
 {
-    public partial class Progress
+    public partial class Progress : DynamicJSON
     {
         [JsonPropertyName("completedDifficulty")]
         public string CompletedDifficulty { get; set; }

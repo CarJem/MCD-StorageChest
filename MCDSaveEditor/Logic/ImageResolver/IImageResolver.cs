@@ -1,8 +1,8 @@
 ﻿using System.Windows.Media.Imaging;
-using MCDSaveEditor.Save.Profiles;
-using MCDSaveEditor.Save.Enums;
+using MCDStorageChest.Save.Profiles;
+using MCDStorageChest.Save.Enums;
 
-namespace MCDSaveEditor.Logic.ImageResolver
+namespace MCDStorageChest.Logic.ImageResolver
 {
     public interface IImageResolver
     {

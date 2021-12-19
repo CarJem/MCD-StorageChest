@@ -1,4 +1,4 @@
-﻿namespace MCDSaveEditor.Save.Json.Mapping
+﻿namespace MCDStorageChest.Save.Json.Mapping
 {
     public interface INamingPolicy<T>
     {

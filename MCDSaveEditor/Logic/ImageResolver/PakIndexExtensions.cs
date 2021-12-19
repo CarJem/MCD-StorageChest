@@ -6,7 +6,7 @@ using System.IO;
 using System.Windows.Media.Imaging;
 #nullable enable
 
-namespace MCDSaveEditor.Logic.ImageResolver
+namespace MCDStorageChest.Logic.ImageResolver
 {
     public static class PakIndexExtensions
     {

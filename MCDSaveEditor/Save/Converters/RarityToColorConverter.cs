@@ -1,4 +1,4 @@
-﻿using MCDSaveEditor.Save.Enums;
+﻿using MCDStorageChest.Save.Enums;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace MCDSaveEditor.Save.Converters
+namespace MCDStorageChest.Save.Converters
 {
     public sealed class RarityToColorConverter : IValueConverter
     {

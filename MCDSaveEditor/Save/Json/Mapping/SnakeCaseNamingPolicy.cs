@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace MCDSaveEditor.Save.Json.Mapping
+namespace MCDStorageChest.Save.Json.Mapping
 {
     public class SnakeCaseNamingPolicy<T> : INamingPolicy<T> where T : Enum
     {

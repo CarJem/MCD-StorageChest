@@ -1,18 +1,19 @@
-﻿using MCDSaveEditor.Extensions;
-using MCDSaveEditor.Logic;
-using MCDSaveEditor.Save.Enums;
+﻿using MCDStorageChest.Extensions;
+using MCDStorageChest.Logic;
+using MCDStorageChest.Save.Enums;
+using MCDStorageChest.Save.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text.Json.Serialization;
-#nullable disable
 
-namespace MCDSaveEditor.Save.Profiles
+namespace MCDStorageChest.Save.Profiles
 {
-    public partial class ProfileSaveFile : INotifyPropertyChanged
+    public partial class ProfileSaveFile : DynamicJSON, INotifyPropertyChanged
     {
-
+        private ObservableCollection<Item> _items;
         public event PropertyChangedEventHandler PropertyChanged;
 
         void OnPropertyChanged(string propertyName)
@@ -21,6 +22,19 @@ namespace MCDSaveEditor.Save.Profiles
             if (handler != null)
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+
+
+        [JsonPropertyName("items")]
+        public ObservableCollection<Item> Items
+        {
+            get { return _items; }
+            set
+            {
+                _items = value;
+                OnPropertyChanged(nameof(Items));
             }
         }
 
@@ -57,9 +71,6 @@ namespace MCDSaveEditor.Save.Profiles
         [JsonPropertyName("finishedObjectiveTags")]
         public Dictionary<string, long> FinishedObjectiveTags { get; set; }
 
-        [JsonPropertyName("items")]
-        public ObservableCollection<Item> Items { get; set; }
-
         [JsonPropertyName("itemsFound")]
         public string[] ItemsFound { get; set; }
 
@@ -71,7 +82,6 @@ namespace MCDSaveEditor.Save.Profiles
 
         [JsonPropertyName("mapUIState")]
         public object MapUiState { get; set; }
-        //public MapUiState MapUiState { get; set; }
 
         [JsonPropertyName("merchantData")]
         public Dictionary<string, MerchantDef> MerchantData { get; set; }
@@ -120,7 +130,6 @@ namespace MCDSaveEditor.Save.Profiles
 
         [JsonPropertyName("uiHintsExpired")]
         public object[] UiHintsExpired { get; set; }
-        //public UiHintsExpired[] UiHintsExpired { get; set; }
 
         [JsonPropertyName("version")]
         public long Version { get; set; }

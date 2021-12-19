@@ -1,12 +1,12 @@
-﻿<UserControl x:Class="MCDSaveEditor.Controls.ArmorPropertyItemTemplate"
+﻿<UserControl x:Class="MCDStorageChest.Controls.ItemTemplates.ArmorPropertyItemTemplate"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:MCDSaveEditor.Controls"
-             xmlns:profile="clr-namespace:MCDSaveEditor.Save.Profiles"
-             xmlns:mappings="clr-namespace:MCDSaveEditor.Save.Mapping"
-             xmlns:converters="clr-namespace:MCDSaveEditor.Save.Converters"
+             xmlns:local="clr-namespace:MCDStorageChest.Controls.ItemTemplates"
+             xmlns:profile="clr-namespace:MCDStorageChest.Save.Profiles"
+             xmlns:mappings="clr-namespace:MCDStorageChest.Save.Mapping"
+             xmlns:converters="clr-namespace:MCDStorageChest.Save.Converters"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=profile:Armorproperty}">
     <UserControl.Resources>

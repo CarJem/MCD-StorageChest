@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using MCDStorageChest.Save.Json;
 
-namespace MCDSaveEditor.Save.Profiles
+namespace MCDStorageChest.Save.Profiles
 {
-    public class MerchantDef
+    public class MerchantDef : DynamicJSON
     {
         [JsonPropertyName("everInteracted")]
         public bool EverInteracted { get; set; }
@@ -18,14 +19,14 @@ namespace MCDSaveEditor.Save.Profiles
         public Dictionary<string, MerchantSlot> Slots { get; set; }
     }
 
-    public class MerchantPricing
+    public class MerchantPricing : DynamicJSON
     {
         [JsonPropertyName("timesRestocked")]
         public long TimesRestocked { get; set; }
 
     }
 
-    public class MerchantQuest
+    public class MerchantQuest : DynamicJSON
     {
         [JsonPropertyName("dynamicQuestState")]
         public object DynamicQuestState { get; set; }
@@ -35,7 +36,7 @@ namespace MCDSaveEditor.Save.Profiles
 
     }
 
-    public class MerchantSlot
+    public class MerchantSlot : DynamicJSON
     {
         [JsonPropertyName("item")]
         public Item Item { get; set; }

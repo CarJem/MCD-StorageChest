@@ -7,7 +7,7 @@ using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace MCDSaveEditor.Extensions
+namespace MCDStorageChest.Extensions
 {
     public static class Extensions
     {

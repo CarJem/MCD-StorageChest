@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MCDSaveEditor.Save.Json.Mapping
+namespace MCDStorageChest.Save.Json.Mapping
 {
     public class LowercaseNamingPolicy<T> : INamingPolicy<T> where T : Enum
     {

@@ -1,12 +1,13 @@
-﻿using MCDSaveEditor.Save.Mapping;
+﻿using MCDStorageChest.Save.Mapping;
 using PostSharp.Patterns.Model;
 using System;
 using System.Text.Json.Serialization;
+using MCDStorageChest.Save.Json;
 
-namespace MCDSaveEditor.Save.Profiles
+namespace MCDStorageChest.Save.Profiles
 {
     [Serializable, NotifyPropertyChanged]
-    public class Currency
+    public class Currency : DynamicJSON
     {
         [JsonPropertyName("count")]
         public ulong Count { get; set; }

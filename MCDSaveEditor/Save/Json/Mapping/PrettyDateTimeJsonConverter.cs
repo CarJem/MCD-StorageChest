@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace MCDSaveEditor.Save.Json.Mapping
+namespace MCDStorageChest.Save.Json.Mapping
 {
     public class PrettyDateTimeJsonConverter : JsonConverter<DateTime>
     {

@@ -1,8 +1,9 @@
-﻿using System.Text.Json.Serialization;
+﻿using MCDStorageChest.Save.Json;
+using System.Text.Json.Serialization;
 
-namespace MCDSaveEditor.Save.Profiles
+namespace MCDStorageChest.Save.Profiles
 {
-    public partial class UiHintsExpired
+    public partial class UiHintsExpired : DynamicJSON
     {
         [JsonPropertyName("hintType")]
         public string HintType { get; set; }

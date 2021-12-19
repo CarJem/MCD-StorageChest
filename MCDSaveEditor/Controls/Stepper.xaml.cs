@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace MCDSaveEditor.Controls
+namespace MCDStorageChest.Controls
 {
     /// <summary>
     /// Interaction logic for NumericUpDown.xaml

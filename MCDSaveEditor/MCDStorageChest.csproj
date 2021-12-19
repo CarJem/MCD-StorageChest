@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{037F8D82-9786-4413-8CEF-6381DD67D2E8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>MCDSaveEditor</RootNamespace>
-    <AssemblyName>MCDSaveEditor</AssemblyName>
+    <RootNamespace>MCDStorageChest</RootNamespace>
+    <AssemblyName>MCDStorageChest</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -27,6 +27,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoWarn>
+    </NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -64,16 +66,49 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controls\ArmorPropertyItemTemplate.xaml.cs">
+    <Compile Include="Controls\HotbarPreview.xaml.cs">
+      <DependentUpon>HotbarPreview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\InventoryPreview.xaml.cs">
+      <DependentUpon>InventoryPreview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ItemTemplates\ArmorPropertyItemTemplate.xaml.cs">
       <DependentUpon>ArmorPropertyItemTemplate.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\EnchantmentPreview.xaml.cs">
-      <DependentUpon>EnchantmentPreview.xaml</DependentUpon>
+    <Compile Include="Controls\ItemViews\ItemEnchantmentPanel.xaml.cs">
+      <DependentUpon>ItemEnchantmentPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ItemViews\ItemArmorPropertiesList.xaml.cs">
+      <DependentUpon>ItemArmorPropertiesList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ItemViews\ItemEnchantmentPreview.xaml.cs">
+      <DependentUpon>ItemEnchantmentPreview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ItemViews\ItemExtrasPanel.xaml.cs">
+      <DependentUpon>ItemExtrasPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ItemViews\ItemGildedPanel.xaml.cs">
+      <DependentUpon>ItemGildedPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ItemViews\ItemDescriptionPanel.xaml.cs">
+      <DependentUpon>ItemDescriptionPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ItemViews\ItemHeader.xaml.cs">
+      <DependentUpon>ItemHeader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ItemViews\RawJSONPreview.xaml.cs">
+      <DependentUpon>RawJSONPreview.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Stepper.xaml.cs">
       <DependentUpon>Stepper.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Converters\MethodToValueConverter.cs" />
     <Compile Include="Extensions\CaseInSensitiveDictionary.cs" />
+    <Compile Include="Models\MainViewModel.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\AssetLoader.cs" />
     <Compile Include="Models\TypeLibrary.cs" />
     <Compile Include="Save\Converters\LongToRomanNumeral.cs" />
@@ -86,24 +121,57 @@
     <Compile Include="Save\Converters\EnchantToImageConverter.cs" />
     <Compile Include="Save\Converters\RarityToBackgroundConverter.cs" />
     <Compile Include="Save\Converters\RarityToColorConverter.cs" />
+    <Compile Include="Save\Json\DynamicJSON.cs" />
     <Compile Include="Save\Mapping\ImageMappings.cs" />
-    <Page Include="Controls\ArmorPropertyItemTemplate.xaml">
+    <Page Include="Controls\HotbarPreview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\EnchantmentPreview.xaml">
+    <Page Include="Controls\InventoryPreview.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ItemTemplates\ArmorPropertyItemTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Inventory.xaml">
+    <Page Include="Controls\ItemViews\ItemEnchantmentPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\InventoryItemTemplate.xaml">
+    <Page Include="Controls\ItemTemplates\InventoryItemTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\ItemPreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ItemViews\ItemArmorPropertiesList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ItemViews\ItemEnchantmentPreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ItemViews\ItemExtrasPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ItemViews\ItemGildedPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ItemViews\ItemDescriptionPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ItemViews\ItemHeader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ItemViews\RawJSONPreview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -119,10 +187,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controls\Inventory.xaml.cs">
-      <DependentUpon>Inventory.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\InventoryItemTemplate.xaml.cs">
+    <Compile Include="Controls\ItemTemplates\InventoryItemTemplate.xaml.cs">
       <DependentUpon>InventoryItemTemplate.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ItemPreview.xaml.cs">
@@ -141,13 +206,8 @@
     <Compile Include="Logic\ImageResolver\PakIndexExtensions.cs" />
     <Compile Include="Extensions\ProfileExtensions.cs" />
     <Compile Include="Models\StringLibrary.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\MainViewModel.cs" />
     <Compile Include="Save\Enums\DifficultyEnum.cs" />
     <Compile Include="Save\Enums\EquipmentSlotEnum.cs" />
     <Compile Include="Save\Enums\ItemFilterEnum.cs" />
@@ -254,5 +314,6 @@
       <Version>4.5.4</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

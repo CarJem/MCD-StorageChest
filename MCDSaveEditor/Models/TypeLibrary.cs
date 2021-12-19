@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MCDSaveEditor.Models
+namespace MCDStorageChest.Models
 {
     public static class TypeLibrary
     {

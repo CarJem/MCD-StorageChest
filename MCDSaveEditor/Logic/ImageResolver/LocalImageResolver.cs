@@ -1,12 +1,12 @@
-﻿using MCDSaveEditor.Save.Enums;
-using MCDSaveEditor.Save.Profiles;
+﻿using MCDStorageChest.Save.Enums;
+using MCDStorageChest.Save.Profiles;
 using System;
 using System.IO;
 using System.Net.Cache;
 using System.Windows.Media.Imaging;
-using MCDSaveEditor.Extensions;
+using MCDStorageChest.Extensions;
 
-namespace MCDSaveEditor.Logic.ImageResolver
+namespace MCDStorageChest.Logic.ImageResolver
 {
     public class LocalImageResolver: IImageResolver
     {

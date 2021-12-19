@@ -1,4 +1,4 @@
-﻿using MCDSaveEditor.Save.Profiles;
+﻿using MCDStorageChest.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using MCDSaveEditor.Models;
-using Microsoft.Win32;
 
-namespace MCDSaveEditor
+namespace MCDStorageChest
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -24,45 +22,66 @@ namespace MCDSaveEditor
     public partial class MainWindow : Window
     {
 
-        MainViewModel ViewModel;
+        public MainViewModel LeftViewModel { get; set; } = new MainViewModel();
+        public MainViewModel RightViewModel { get; set; } = new MainViewModel();
+
 
         public MainWindow()
         {
             InitializeComponent();
-            ViewModel = new MainViewModel(this);
-            this.DataContext = ViewModel;
         }
 
-        private void InitUI()
+        private void InitUILeft()
         {
-            Inventory.InitUI();
+            InventoryLeft.InitUI();
         }
 
-        private void Window_Initialized(object sender, EventArgs e)
+        private void InitUIRight()
         {
-
+            InventoryRight.InitUI();
         }
 
-        private async void OpenMenuItem_Click(object sender, RoutedEventArgs e)
+        private async void LoadLeft_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog()
-            {
-                Filter = "dat files (*.dat)|*.dat|json files (*.json)|*.json|All files (*.*)|*.*",
-                Multiselect = false,
-                CheckFileExists = true
-            };
-            if (ofd.ShowDialog().Value)
-            {
-                await ViewModel.FileOpenAsync(ofd.FileName);
-                this.Dispatcher.Invoke(() => InitUI());
-            }
+            await LeftViewModel.FileOpenAsync();
+            InitUILeft();
+        }
+
+        private async void LoadRight_Click(object sender, RoutedEventArgs e)
+        {
+            await RightViewModel.FileOpenAsync();
+            InitUIRight();
+        }
+
+        private async void SaveRight_Click(object sender, RoutedEventArgs e)
+        {
+            await RightViewModel.FileSaveAsync(RightViewModel.CurrentSaveFilePath, RightViewModel.CurrentSaveFile);
 
         }
 
-        private async void LoadGameDataMenuItem_Click(object sender, RoutedEventArgs e)
+        private async void SaveLeft_Click(object sender, RoutedEventArgs e)
+        {
+            await LeftViewModel.FileSaveAsync(LeftViewModel.CurrentSaveFilePath, LeftViewModel.CurrentSaveFile);
+        }
+
+        private async void LoadGameData_Click(object sender, RoutedEventArgs e)
         {
             await AssetResolver.FileLoadGameContent(string.Empty);
-            this.Dispatcher.Invoke(() => InitUI());
+        }
+
+        private void NewMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void UnloadGameDataMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            AssetResolver.FileUnloadGameContent();
         }
     }
 }

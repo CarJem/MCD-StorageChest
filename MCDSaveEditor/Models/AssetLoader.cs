@@ -1,5 +1,5 @@
 ﻿using DungeonTools.Save.File;
-using MCDSaveEditor.Save.Profiles;
+using MCDStorageChest.Save.Profiles;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,13 +13,13 @@ using SkiaSharp;
 using System.Linq;
 using System.Text;
 using System.Windows.Media.Imaging;
-using MCDSaveEditor;
-using MCDSaveEditor.Save;
-using MCDSaveEditor.Logic;
-using MCDSaveEditor.Logic.ImageResolver;
+using MCDStorageChest;
+using MCDStorageChest.Save;
+using MCDStorageChest.Logic;
+using MCDStorageChest.Logic.ImageResolver;
 #nullable enable
 
-namespace MCDSaveEditor.Models
+namespace MCDStorageChest.Models
 {
     public static class AssetResolver
     {

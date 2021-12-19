@@ -1,15 +1,16 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
-using MCDSaveEditor.Save.Enums;
-using MCDSaveEditor.Models;
-using MCDSaveEditor.Save.Mapping;
+using MCDStorageChest.Save.Enums;
+using MCDStorageChest.Models;
+using MCDStorageChest.Save.Mapping;
 using PostSharp.Patterns.Model;
+using MCDStorageChest.Save.Json;
 
-namespace MCDSaveEditor.Save.Profiles
+namespace MCDStorageChest.Save.Profiles
 {
     [Serializable, NotifyPropertyChanged]
-    public partial class Armorproperty
+    public partial class Armorproperty : DynamicJSON
     {
         #region JSON
 
@@ -30,7 +31,7 @@ namespace MCDSaveEditor.Save.Profiles
         #endregion
     }
 
-    public partial class Armorproperty : ICloneable
+    public partial class Armorproperty : DynamicJSON, ICloneable
     {
         public object Clone()
         {
@@ -42,6 +43,7 @@ namespace MCDSaveEditor.Save.Profiles
             var copy = new Armorproperty();
             copy.Id = this.Id;
             copy.Rarity = this.Rarity;
+            copy.Data = this.Data;
             return copy;
         }
     }

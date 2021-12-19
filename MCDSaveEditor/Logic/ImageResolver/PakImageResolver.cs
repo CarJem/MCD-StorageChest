@@ -1,5 +1,5 @@
-﻿using MCDSaveEditor.Save.Enums;
-using MCDSaveEditor.Save.Profiles;
+﻿using MCDStorageChest.Save.Enums;
+using MCDStorageChest.Save.Profiles;
 using PakReader.Pak;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,12 +7,12 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using MCDSaveEditor.Extensions;
-using MCDSaveEditor.Models;
+using MCDStorageChest.Extensions;
+using MCDStorageChest.Models;
 using System.Runtime.Serialization;
 using System;
 
-namespace MCDSaveEditor.Logic.ImageResolver
+namespace MCDStorageChest.Logic.ImageResolver
 {
     public class PakImageResolver : IImageResolver
     {

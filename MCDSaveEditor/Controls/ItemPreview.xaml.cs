@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MCDSaveEditor.Controls
+namespace MCDStorageChest.Controls
 {
     /// <summary>
     /// Interaction logic for ItemPreview.xaml

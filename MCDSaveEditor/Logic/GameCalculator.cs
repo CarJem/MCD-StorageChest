@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MCDSaveEditor.Logic
+namespace MCDStorageChest.Logic
 {
     public static class GameCalculator
     {

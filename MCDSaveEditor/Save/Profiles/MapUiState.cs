@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using MCDStorageChest.Save.Json;
 
-namespace MCDSaveEditor.Save.Profiles
+namespace MCDStorageChest.Save.Profiles
 {
-    public partial class MapUiState
+    public partial class MapUiState : DynamicJSON
     {
         [JsonPropertyName("panPosition")]
         public Dictionary<string, string> PanPosition { get; set; }

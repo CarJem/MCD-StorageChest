@@ -1,11 +1,11 @@
-﻿using MCDSaveEditor.Save.Enums;
-using MCDSaveEditor.Save.Profiles;
+﻿using MCDStorageChest.Save.Enums;
+using MCDStorageChest.Save.Profiles;
 using System.Collections.Generic;
 using System.Linq;
-using MCDSaveEditor.Logic;
+using MCDStorageChest.Logic;
 
 
-namespace MCDSaveEditor.Extensions
+namespace MCDStorageChest.Extensions
 {
     public static class ProfileExtensions
     {

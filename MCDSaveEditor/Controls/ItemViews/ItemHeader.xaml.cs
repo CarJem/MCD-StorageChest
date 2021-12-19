@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MCDSaveEditor.Controls
+namespace MCDStorageChest.Controls.ItemViews
 {
     /// <summary>
-    /// Interaction logic for InventoryItemTemplate.xaml
+    /// Interaction logic for ItemHeader.xaml
     /// </summary>
-    public partial class InventoryItemTemplate : UserControl
+    public partial class ItemHeader : UserControl
     {
-        public InventoryItemTemplate()
+        public ItemHeader()
         {
             InitializeComponent();
         }

@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using MCDSaveEditor.Save.Profiles;
+using MCDStorageChest.Save.Profiles;
 
-namespace MCDSaveEditor.Controls
+namespace MCDStorageChest.Controls.ItemViews
 {
     /// <summary>
     /// Interaction logic for EnchantmentPreview.xaml
     /// </summary>
-    public partial class EnchantmentPreview : UserControl
+    public partial class ItemEnchantmentPanel : UserControl
     {
 
         public static Enchantment DefaultEnchantment
@@ -35,17 +35,18 @@ namespace MCDSaveEditor.Controls
             }
         }
 
-        public EnchantmentPreview()
+        public ItemEnchantmentPanel()
         {
             InitializeComponent();
         }
-
+        
+        /*
         private void UpdateSet1(bool state)
         {
             if (state)
             {
-                backgroundImage1.Source = Save.Mapping.ImageMappings.Instance.EnchantmentSet_Background;
-                topEnchantmentSymbolImage1.Source = Save.Mapping.ImageMappings.Instance.EnchantCommonIcon;
+                //backgroundImage1.Source = Save.Mapping.ImageMappings.Instance.EnchantmentSet_Background;
+                //topEnchantmentSymbolImage1.Source = Save.Mapping.ImageMappings.Instance.EnchantCommonIcon;
 
                 enchantment1Button.Visibility = Visibility.Visible;
                 enchantment2Button.Visibility = Visibility.Visible;
@@ -53,8 +54,8 @@ namespace MCDSaveEditor.Controls
             }
             else
             {
-                backgroundImage1.Source = Save.Mapping.ImageMappings.Instance.EnchantmentSet_LockedNode;
-                topEnchantmentSymbolImage1.Source = null;
+                //backgroundImage1.Source = Save.Mapping.ImageMappings.Instance.EnchantmentSet_LockedNode;
+                //topEnchantmentSymbolImage1.Source = null;
 
                 enchantment1Button.Visibility = Visibility.Collapsed;
                 enchantment2Button.Visibility = Visibility.Collapsed;
@@ -129,10 +130,10 @@ namespace MCDSaveEditor.Controls
 
 
         }
-
+        */
         private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            UpdateStaticImages();
+            //UpdateStaticImages();
         }
     }
 }
