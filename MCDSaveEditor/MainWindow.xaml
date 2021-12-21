@@ -5,9 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         xmlns:v="clr-namespace:MCDStorageChest.Controls"
-        xmlns:json ="clr-namespace:Newtonsoft.Json;assembly=Newtonsoft.Json"
-        xmlns:jlinq ="clr-namespace:Newtonsoft.Json.Linq;assembly=Newtonsoft.Json"
+        xmlns:models="clr-namespace:MCDStorageChest.Models"
         Title="MainWindow" MinWidth="1240" Width="1240" MinHeight="620" Height="620" x:Name="Window">
+    <Window.DataContext>
+        <models:MainViewModel/>
+    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -17,11 +19,11 @@
             <MenuItem Header="File">
                 <MenuItem Header="New..." IsEnabled="False" Name="NewMenuItem" Click="NewMenuItem_Click"/>
                 <Separator/>
-                <MenuItem Header="Load (Left)" x:Name="LoadLeft" Click="LoadLeft_Click"/>
-                <MenuItem Header="Save (Left)" x:Name="SaveLeft" Click="SaveLeft_Click"/>
+                <MenuItem Header="Load Savegame..." x:Name="LoadLeft" Click="LoadLeft_Click"/>
+                <MenuItem Header="Save Savegame..." x:Name="SaveLeft" Click="SaveLeft_Click"/>
                 <Separator/>
-                <MenuItem Header="Load (Right)" x:Name="LoadRight" Click="LoadRight_Click" />
-                <MenuItem Header="Save (Right)" x:Name="SaveRight" Click="SaveRight_Click"/>
+                <MenuItem Header="Load Storage..." x:Name="LoadRight" Click="LoadRight_Click" />
+                <MenuItem Header="Save Storage..." x:Name="SaveRight" Click="SaveRight_Click"/>
                 <Separator/>
                 <MenuItem Header="Load Game Data..." Name="LoadGameData" Click="LoadGameData_Click"/>
                 <MenuItem Header="Unload Game Data..." Name="UnloadGameDataMenuItem" Click="UnloadGameDataMenuItem_Click"></MenuItem>
@@ -29,29 +31,29 @@
                 <MenuItem Header="Exit" Name="ExitMenuItem" Click="ExitMenuItem_Click"/>
             </MenuItem>
         </Menu>
-        <TabControl Grid.Row="1">
-            <TabItem Header="Left">
+        <TabControl Grid.Row="1" >
+            <TabItem x:Name="SaveTab" Header="Save" IsTabStop="True">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <v:HotbarPreview Grid.Column="0" Grid.Row="0" DataContext="{Binding ElementName=Window, Path=LeftViewModel}" />
-                    <v:InventoryPreview x:Name="InventoryLeft" Grid.Column="1" Grid.Row="0" DataContext="{Binding ElementName=Window, Path=LeftViewModel}" />
-                    <v:ItemPreview Grid.Column="2" Grid.Row="0" DataContext="{Binding ElementName=Window, Path=LeftViewModel.CurrentItem}"/>
+                    <v:HotbarPreview x:Name="HotbarLeft" Grid.Column="0" Grid.Row="0" DataContext="{Binding SaveModel}" />
+                    <v:InventoryPreview x:Name="InventoryLeft" Grid.Column="1" Grid.Row="0" DataContext="{Binding SaveModel}" />
+                    <v:ItemPreview Grid.Column="2" Grid.Row="0" DataContext="{Binding SaveModel.CurrentItem}"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Right">
+            <TabItem x:Name="StorageTab" Header="Storage" IsTabStop="True">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <v:HotbarPreview Grid.Column="0" Grid.Row="0" DataContext="{Binding ElementName=Window, Path=LeftViewModel}" />
-                    <v:InventoryPreview x:Name="InventoryRight"  Grid.Column="1" Grid.Row="0" DataContext="{Binding ElementName=Window, Path=RightViewModel}" />
-                    <v:ItemPreview Grid.Column="2" Grid.Row="0" DataContext="{Binding ElementName=Window, Path=RightViewModel.CurrentItem}"/>
+                    <v:HotbarPreview x:Name="HotbarRight" Grid.Column="0" Grid.Row="0" DataContext="{Binding StorageModel}" />
+                    <v:InventoryPreview x:Name="InventoryRight"  Grid.Column="1" Grid.Row="0" DataContext="{Binding StorageModel}" />
+                    <v:ItemPreview Grid.Column="2" Grid.Row="0" DataContext="{Binding StorageModel.CurrentItem}"/>
                 </Grid>
             </TabItem>
         </TabControl>

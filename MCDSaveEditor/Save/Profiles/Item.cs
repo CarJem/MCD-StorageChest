@@ -58,42 +58,42 @@ namespace MCDStorageChest.Save.Profiles
 
         #region Extensions
 
-        [JsonIgnore, IgnoreAutoChangeNotification]
+        [JsonIgnore, SafeForDependencyAnalysis]
         public int Level => GameCalculator.levelFromPower(Power);
 
-        [JsonIgnore, IgnoreAutoChangeNotification]
+        [JsonIgnore, SafeForDependencyAnalysis]
         public bool HasEnchantmentPoints => this.EnchantmentPoints != 0;
 
-        [JsonIgnore, IgnoreAutoChangeNotification]
+        [JsonIgnore, SafeForDependencyAnalysis]
         public string Description => StringLibrary.itemDesc(Type);
 
-        [JsonIgnore, IgnoreAutoChangeNotification]
+        [JsonIgnore, SafeForDependencyAnalysis]
         public string Name => StringLibrary.itemName(this.Type);
 
-        [JsonIgnore, IgnoreAutoChangeNotification]
+        [JsonIgnore, SafeForDependencyAnalysis]
         public ImageSource Image => AssetResolver.instance.imageSourceForItem(this);
 
-        [JsonIgnore, IgnoreAutoChangeNotification]
+        [JsonIgnore, SafeForDependencyAnalysis]
         public bool IsArmor => TypeLibrary.Items_Armor.Contains(this.Type);
 
-        [JsonIgnore, IgnoreAutoChangeNotification]
+        [JsonIgnore, SafeForDependencyAnalysis]
         public bool IsArtifact => TypeLibrary.Items_Artifacts.Contains(this.Type);
 
-        [JsonIgnore, IgnoreAutoChangeNotification]
+        [JsonIgnore, SafeForDependencyAnalysis]
         public bool IsMeleeWeapon => TypeLibrary.Items_MeleeWeapons.Contains(this.Type);
 
-        [JsonIgnore, IgnoreAutoChangeNotification]
+        [JsonIgnore, SafeForDependencyAnalysis]
         public bool IsRangedWeapon => TypeLibrary.Items_RangedWeapons.Contains(this.Type);
 
-        [JsonIgnore, IgnoreAutoChangeNotification]
+        [JsonIgnore, SafeForDependencyAnalysis]
         public bool IsEquiped => this.EquipmentSlot != null;
-        [JsonIgnore, IgnoreAutoChangeNotification]
+        [JsonIgnore, SafeForDependencyAnalysis]
         public bool IsEnchanted => this.EnchantmentPoints != 0;
 
-        [JsonIgnore, IgnoreAutoChangeNotification]
+        [JsonIgnore, SafeForDependencyAnalysis]
         public bool IsEnchantable => !this.IsArtifact;
 
-        [JsonIgnore, IgnoreAutoChangeNotification]
+        [JsonIgnore, SafeForDependencyAnalysis]
         public int EnchantmentPoints
         {
             get
@@ -126,7 +126,7 @@ namespace MCDStorageChest.Save.Profiles
             }
         }
 
-        [JsonIgnore, IgnoreAutoChangeNotification]
+        [JsonIgnore, SafeForDependencyAnalysis]
         public string DisplayText
         {
             get

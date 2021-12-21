@@ -30,6 +30,34 @@ namespace MCDStorageChest.Controls
             InitializeComponent();
         }
 
+        public void InitUI()
+        {
+            ResetBinding(MeleeGearButton);
+            ResetBinding(ArmorGearButton);
+            ResetBinding(RangedGearButton);
+            ResetBinding(HotbarSlot1Button);
+            ResetBinding(HotbarSlot2Button);
+            ResetBinding(HotbarSlot3Button);
+
+            SetBinding("CurrentSaveFile.MeleeGearItem", MeleeGearButton);
+            SetBinding("CurrentSaveFile.ArmorGearItem", ArmorGearButton);
+            SetBinding("CurrentSaveFile.RangedGearItem", RangedGearButton);
+            SetBinding("CurrentSaveFile.HotbarSlot1Item", HotbarSlot1Button);
+            SetBinding("CurrentSaveFile.HotbarSlot2Item", HotbarSlot2Button);
+            SetBinding("CurrentSaveFile.HotbarSlot3Item", HotbarSlot3Button);
+
+            void ResetBinding(ListViewItem refrence)
+            {
+                BindingOperations.ClearBinding(refrence, ListViewItem.DataContextProperty);
+            }
+
+            void SetBinding(string name, ListViewItem refrence)
+            {
+                BindingOperations.SetBinding(refrence, ListViewItem.DataContextProperty, new Binding(name));
+            }
+
+        }
+
 
 
         #region Drag and Drop (Gear)
@@ -38,16 +66,16 @@ namespace MCDStorageChest.Controls
         private void GearItem_MouseUp(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton != MouseButtonState.Released) return;
-            if (DataContext != null && DataContext is Models.MainViewModel && sender is ListViewItem)
+            if (DataContext != null && DataContext is Models.SaveModel && sender is ListViewItem)
             {
-                (DataContext as Models.MainViewModel).CurrentItem = (Save.Profiles.Item)(sender as ListViewItem).DataContext;
+                (DataContext as Models.SaveModel).CurrentItem = (Save.Profiles.Item)(sender as ListViewItem).DataContext;
             }
         }
 
         private void Gear_Drop(object sender, DragEventArgs e)
         {
 
-            if (DataContext is Models.MainViewModel)
+            if (DataContext is Models.SaveModel)
             {
                 if (e.Data.GetDataPresent("MCDSaveEditor.Save.Profiles.Item"))
                 {
@@ -67,8 +95,8 @@ namespace MCDStorageChest.Controls
                     }
                     e.Effects = DragDropEffects.Move;
 
-                    (DataContext as Models.MainViewModel).CurrentSaveFile.equiptItem(item, slot);
-                    (DataContext as Models.MainViewModel).RequestListUpdate();
+                    (DataContext as Models.SaveModel).CurrentSaveFile.equiptItem(item, slot);
+                    (DataContext as Models.SaveModel).RequestListUpdate();
 
                 }
             }
@@ -84,7 +112,7 @@ namespace MCDStorageChest.Controls
 
         private void Gear_MouseMove(object sender, MouseEventArgs e)
         {
-            if (DataContext is Models.MainViewModel)
+            if (DataContext is Models.SaveModel)
             {
                 // Get the current mouse position
                 Point mousePos = e.GetPosition(null);

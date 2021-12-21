@@ -9,7 +9,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using MCDStorageChest.Models;
 
-namespace MCDStorageChest.Save.Converters
+namespace MCDStorageChest.Converters
 {
     public sealed class LongToRomanNumeral : IValueConverter
     {

@@ -9,11 +9,12 @@
              xmlns:itempreview="clr-namespace:MCDStorageChest.Controls.ItemViews"
              xmlns:mappings="clr-namespace:MCDStorageChest.Save.Mapping"
              xmlns:converters="clr-namespace:MCDStorageChest.Save.Converters"
+             xmlns:converters2="clr-namespace:MCDStorageChest.Converters"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=profile:Item}"
              d:DesignHeight="600" d:DesignWidth="800">
     <UserControl.Resources>
-        <converters:NullVisibilityConverter x:Key="NullToVisibilityConverter"/>
+        <converters2:NullVisibilityConverter x:Key="NullToVisibilityConverter"/>
     </UserControl.Resources>
     <Grid Visibility="{Binding ., FallbackValue=False, TargetNullValue=False, Converter={StaticResource NullToVisibilityConverter}}">
         <ScrollViewer>

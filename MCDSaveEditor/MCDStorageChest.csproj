@@ -103,17 +103,19 @@
       <DependentUpon>Stepper.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Converters\IsNotNullConverter.cs" />
     <Compile Include="Converters\MethodToValueConverter.cs" />
     <Compile Include="Extensions\CaseInSensitiveDictionary.cs" />
     <Compile Include="Models\MainViewModel.cs" />
+    <Compile Include="Models\SaveModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\AssetLoader.cs" />
     <Compile Include="Models\TypeLibrary.cs" />
-    <Compile Include="Save\Converters\LongToRomanNumeral.cs" />
-    <Compile Include="Save\Converters\IntToStringConverter.cs" />
-    <Compile Include="Save\Converters\NullVisibilityConverter.cs" />
+    <Compile Include="Converters\LongToRomanNumeral.cs" />
+    <Compile Include="Converters\IntToStringConverter.cs" />
+    <Compile Include="Converters\NullVisibilityConverter.cs" />
     <Compile Include="Save\Converters\RarityToBulletConverter.cs" />
     <Compile Include="Save\Converters\ItemToBackgroundConverter.cs" />
     <Compile Include="Save\Converters\EnchantToLvlConverter.cs" />

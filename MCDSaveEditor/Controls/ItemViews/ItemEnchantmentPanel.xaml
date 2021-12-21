@@ -6,6 +6,7 @@
              xmlns:profile="clr-namespace:MCDStorageChest.Save.Profiles"
              xmlns:local="clr-namespace:MCDStorageChest.Controls.ItemViews"
              xmlns:converters="clr-namespace:MCDStorageChest.Save.Converters"
+             xmlns:converters2="clr-namespace:MCDStorageChest.Converters"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=profile:Item}"
@@ -13,7 +14,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="VisibleIfTrueConverter" />
-        <converters:LongToRomanNumeral x:Key="LongToRomanNumeral"/>
+        <converters2:LongToRomanNumeral x:Key="LongToRomanNumeral"/>
         <sys:Double x:Key="MainButtonSize">72</sys:Double>
         <sys:Double x:Key="ButtonSize">24</sys:Double>
         <Style TargetType="{x:Type TextBlock}" x:Key="ChosenSlot_Level">

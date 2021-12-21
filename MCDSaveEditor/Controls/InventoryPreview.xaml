@@ -13,8 +13,8 @@
              xmlns:mappings="clr-namespace:MCDStorageChest.Save.Mapping"
              mc:Ignorable="d" 
              DataContextChanged="UserControl_DataContextChanged"
-             xmlns:converters="clr-namespace:MCDStorageChest.Save.Converters"
-             d:DataContext="{d:DesignInstance Type=models:MainViewModel}"
+             xmlns:converters="clr-namespace:MCDStorageChest.Converters"
+             d:DataContext="{d:DesignInstance Type=models:SaveModel}"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <DataTemplate x:Key="ItemTemplate">
@@ -26,7 +26,9 @@
         <Image x:Key="Armor_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_ArmorItemsButtonImage}"/>
         <Image x:Key="Artifacts_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_ArtifactItemsButtonImage}"/>
         <Image x:Key="Enchanted_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_EnchantedItemsButtonImage}"/>
-        <converters:NullVisibilityConverter x:Key="NullToVis"></converters:NullVisibilityConverter>
+        <converters:NullVisibilityConverter x:Key="NullToVis"/>
+        <converters:IsNotNullConverter x:Key="isNotNullConverter"/>
+        <converters:InverseBooleanConverter x:Key="inverseBooleanConverter"/>
         <CollectionViewSource x:Key="ItemsList" Source="{Binding CurrentSaveFile.Items}" IsLiveSortingRequested="True">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="InventoryIndex" Direction="Ascending"></scm:SortDescription>
@@ -39,7 +41,7 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="25"></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid DockPanel.Dock="Top" Height="35">
+        <Grid DockPanel.Dock="Top" Height="45">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
@@ -48,12 +50,12 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" x:Name="allItemsButton" Content="{StaticResource AllItems_Content}" Margin="4" Click="allItemsButton_Click" Background="{x:Null}" BorderBrush="Transparent" />
-            <Button Grid.Column="1" x:Name="meleeItemsButton" Content="{StaticResource Melee_Content}" Margin="4" Click="allMeleeItemsButton_Click" Background="{x:Null}"  BorderBrush="Transparent"/>
-            <Button Grid.Column="2" x:Name="rangedItemsButton" Content="{StaticResource Ranged_Content}" Margin="4" Click="allRangedItemsButton_Click" Background="{x:Null}"  BorderBrush="Transparent"/>
-            <Button Grid.Column="3" x:Name="armorItemsButton" Content="{StaticResource Armor_Content}" Margin="4" Click="allArmorItemsButton_Click" Background="{x:Null}"  BorderBrush="Transparent"/>
-            <Button Grid.Column="4" x:Name="artifactItemsButton" Content="{StaticResource Artifacts_Content}" Margin="4" Click="allArtifactItemsButton_Click" Background="{x:Null}"  BorderBrush="Transparent"/>
-            <Button Grid.Column="5" x:Name="enchantedItemsButton" Content="{StaticResource Enchanted_Content}" Margin="4" Click="allEnchantedItemsButton_Click" Background="{x:Null}"  BorderBrush="Transparent"/>
+            <Button Grid.Column="0" x:Name="allItemsButton" Content="{StaticResource AllItems_Content}" Margin="4" Click="allItemsButton_Click" />
+            <Button Grid.Column="1" x:Name="meleeItemsButton" Content="{StaticResource Melee_Content}" Margin="4" Click="allMeleeItemsButton_Click" />
+            <Button Grid.Column="2" x:Name="rangedItemsButton" Content="{StaticResource Ranged_Content}" Margin="4" Click="allRangedItemsButton_Click" />
+            <Button Grid.Column="3" x:Name="armorItemsButton" Content="{StaticResource Armor_Content}" Margin="4" Click="allArmorItemsButton_Click" />
+            <Button Grid.Column="4" x:Name="artifactItemsButton" Content="{StaticResource Artifacts_Content}" Margin="4" Click="allArtifactItemsButton_Click" />
+            <Button Grid.Column="5" x:Name="enchantedItemsButton" Content="{StaticResource Enchanted_Content}" Margin="4" Click="allEnchantedItemsButton_Click" />
         </Grid>
         <Grid Grid.Row="1">
             <ListBox SelectedItem="{Binding CurrentItem}"
@@ -65,7 +67,15 @@
                   HorizontalContentAlignment="Stretch" 
                   ItemTemplate="{StaticResource ItemTemplate}" 
                   SelectionChanged="Items_SelectionChanged"
+                  ContextMenuService.IsEnabled="{Binding CurrentItem, Converter={StaticResource isNotNullConverter}}"
                   MouseMove="Items_MouseMove" PreviewMouseLeftButtonDown="Items_PreviewMouseLeftButtonDown" Drop="Items_Drop" AllowDrop="True">
+                <ListBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem x:Name="DeleteItem" Header="Delete Item"/>
+                        <MenuItem x:Name="SendToSave" IsEnabled="{Binding IsStorage}" Header="Send to Savegame" Click="SendToSave_Click"/>
+                        <MenuItem x:Name="SendToStorage" IsEnabled="{Binding IsStorage, Converter={StaticResource inverseBooleanConverter}}" Header="Send to Storage" Click="SendToStorage_Click"/>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Columns="3" VerticalAlignment="Top" HorizontalAlignment="Center"/>

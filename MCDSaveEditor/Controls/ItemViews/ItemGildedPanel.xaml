@@ -9,6 +9,7 @@
              xmlns:profile="clr-namespace:MCDStorageChest.Save.Profiles"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:converters="clr-namespace:MCDStorageChest.Save.Converters"
+             xmlns:converters2="clr-namespace:MCDStorageChest.Converters"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=profile:Item}"
              d:DesignHeight="128" d:DesignWidth="800">
@@ -19,7 +20,7 @@
         <converters:EnchantToImageConverter x:Key="enchantToImage"/>
         <converters:EnchantToNameConverter x:Key="enchantToName"/>
         <converters:EnchantToLvlConverter x:Key="enchantToLvl"/>
-        <converters:NullVisibilityConverter x:Key="NullToVisibilityConverter"/>
+        <converters2:NullVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <DataTemplate x:Key="ArmorPropertyControl">
             <templates:ArmorPropertyItemTemplate DataContext="{Binding .}"></templates:ArmorPropertyItemTemplate>
         </DataTemplate>

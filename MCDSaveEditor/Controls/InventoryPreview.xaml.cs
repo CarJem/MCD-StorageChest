@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MCDStorageChest.Save.Enums;
 using MCDStorageChest.Extensions;
+using System.Collections.ObjectModel;
 #nullable disable
 
 namespace MCDStorageChest.Controls
@@ -37,9 +38,9 @@ namespace MCDStorageChest.Controls
 
         private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (DataContext is Models.MainViewModel)
+            if (DataContext is Models.SaveModel)
             {
-                (DataContext as Models.MainViewModel).ListUpdated += (sender, args) => UpdateList();
+                (DataContext as Models.SaveModel).ListUpdated += (sender, args) => UpdateList();
             }
         }
 
@@ -91,9 +92,9 @@ namespace MCDStorageChest.Controls
 
         private void UpdateFilter(Save.Enums.ItemFilterEnum filter)
         {
-            if (DataContext is Models.MainViewModel)
+            if (DataContext is Models.SaveModel)
             {
-                (DataContext as Models.MainViewModel).CurrentFilter = filter;
+                (DataContext as Models.SaveModel).CurrentFilter = filter;
             }
 
             if (Items.ItemsSource == null) return;
@@ -198,7 +199,7 @@ namespace MCDStorageChest.Controls
 
         public void UpdateFilter()
         {
-            if (DataContext is Models.MainViewModel) UpdateFilter((DataContext as Models.MainViewModel).CurrentFilter);
+            if (DataContext is Models.SaveModel) UpdateFilter((DataContext as Models.SaveModel).CurrentFilter);
         }
 
         #endregion
@@ -208,16 +209,15 @@ namespace MCDStorageChest.Controls
         private void Items_Drop(object sender, DragEventArgs e)
         {
 
-            if (DataContext is Models.MainViewModel)
+            if (DataContext is Models.SaveModel)
             {            
                 int index = -1;
                 int droppedIndex = -1;
                 if (e.Data.GetDataPresent("MCDSaveEditor.Save.Profiles.Item"))
                 {
                     Save.Profiles.Item droppedItem = (Save.Profiles.Item)e.Data.GetData("MCDSaveEditor.Save.Profiles.Item");
-                    if (!(DataContext as Models.MainViewModel).CurrentSaveFile.Items.Contains(droppedItem))
+                    if (!(DataContext as Models.SaveModel).CurrentSaveFile.Items.Contains(droppedItem))
                     {
-
                         e.Effects = DragDropEffects.None;
                         return;
                     }
@@ -226,7 +226,6 @@ namespace MCDStorageChest.Controls
                     ListBoxItem listViewItem = FindAnchestor<ListBoxItem>((DependencyObject)e.OriginalSource);
                     if (listViewItem == null)
                     {
-
                         e.Effects = DragDropEffects.None;
                         return;
                     }
@@ -245,8 +244,8 @@ namespace MCDStorageChest.Controls
                         if (wasEquipped)
                         {
                             var slot = droppedItem.EquipmentSlot;
-                            (DataContext as Models.MainViewModel).CurrentSaveFile.unequiptItem(droppedItem);
-                            (DataContext as Models.MainViewModel).CurrentSaveFile.equiptItem(item, (EquipmentSlotEnum)Enum.Parse(typeof(EquipmentSlotEnum), slot));
+                            (DataContext as Models.SaveModel).CurrentSaveFile.unequiptItem(droppedItem);
+                            (DataContext as Models.SaveModel).CurrentSaveFile.equiptItem(item, (EquipmentSlotEnum)Enum.Parse(typeof(EquipmentSlotEnum), slot));
                         }
 
                         droppedItem.InventoryIndex = index;
@@ -287,7 +286,7 @@ namespace MCDStorageChest.Controls
 
         private void Items_MouseMove(object sender, MouseEventArgs e)
         {
-            if (DataContext is Models.MainViewModel)
+            if (DataContext is Models.SaveModel)
             {
                 // Get the current mouse position
                 Point mousePos = e.GetPosition(null);
@@ -312,5 +311,21 @@ namespace MCDStorageChest.Controls
         }
 
         #endregion
+
+        private void SendToSave_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is Models.SaveModel)
+            {
+                (DataContext as Models.SaveModel).MoveToSavegame((DataContext as Models.SaveModel).CurrentItem);
+            }
+        }
+
+        private void SendToStorage_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is Models.SaveModel)
+            {
+                (DataContext as Models.SaveModel).MoveToStorage((DataContext as Models.SaveModel).CurrentItem);
+            }
+        }
     }
 }
