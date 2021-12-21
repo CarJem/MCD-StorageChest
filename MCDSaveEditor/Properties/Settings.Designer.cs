@@ -22,5 +22,41 @@ namespace MCDStorageChest.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string PakFileLocation {
+            get {
+                return ((string)(this["PakFileLocation"]));
+            }
+            set {
+                this["PakFileLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastStorageDirectory {
+            get {
+                return ((string)(this["LastStorageDirectory"]));
+            }
+            set {
+                this["LastStorageDirectory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastSaveGameDirectory {
+            get {
+                return ((string)(this["LastSaveGameDirectory"]));
+            }
+            set {
+                this["LastSaveGameDirectory"] = value;
+            }
+        }
     }
 }

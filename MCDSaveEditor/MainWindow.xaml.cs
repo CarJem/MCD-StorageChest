@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.WindowsAPICodePack.Dialogs;
+
 
 namespace MCDStorageChest
 {
@@ -57,13 +59,13 @@ namespace MCDStorageChest
 
         private async void LoadLeft_Click(object sender, RoutedEventArgs e)
         {
-            await ViewModel.SaveModel.FileOpenAsync();
+            await ViewModel.SaveModel.FileOpenAsync(false);
             InitUILeft();
         }
 
         private async void LoadRight_Click(object sender, RoutedEventArgs e)
         {
-            await ViewModel.StorageModel.FileOpenAsync();
+            await ViewModel.StorageModel.FileOpenAsync(true);
             InitUIRight();
         }
 
@@ -80,7 +82,19 @@ namespace MCDStorageChest
 
         private async void LoadGameData_Click(object sender, RoutedEventArgs e)
         {
-            await AssetResolver.FileLoadGameContent(string.Empty);
+            CommonOpenFileDialog cofd = new CommonOpenFileDialog()
+            {
+                InitialDirectory = Properties.Settings.Default.PakFileLocation,
+                IsFolderPicker = true
+            };
+
+            if (cofd.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                Properties.Settings.Default.PakFileLocation = cofd.FileName;
+                Properties.Settings.Default.Save();
+                await AssetResolver.FileLoadGameContent(Properties.Settings.Default.PakFileLocation);
+            }
+
             InitUILeft();
             InitUIRight();
         }

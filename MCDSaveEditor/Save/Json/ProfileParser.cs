@@ -7,6 +7,7 @@ using MCDStorageChest.Save.Mapping;
 using MCDStorageChest.Save.Json;
 using MCDStorageChest.Save.Json.Mapping;
 using MCDStorageChest.Save.Profiles;
+using Newtonsoft.Json.Linq;
 
 namespace MCDStorageChest.Save.Json
 {
@@ -58,5 +59,6 @@ namespace MCDStorageChest.Save.Json
             await JsonSerializer.SerializeAsync(stream, settings, _options);
             return stream;
         }
+
     }
 }

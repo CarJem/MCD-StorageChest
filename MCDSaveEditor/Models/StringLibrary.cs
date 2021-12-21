@@ -9,7 +9,7 @@ namespace MCDStorageChest.Models
 {
     public class StringLibrary : Properties.Resources
     {
-        private static readonly Dictionary<string, string> _mismatches = new CaseInSensitiveDictionary<string, string>() {
+        private static readonly Dictionary<string, string> Mismatches = new CaseInSensitiveDictionary<string, string>() {
             //{"Imagefile reference","Game.json reference"},
             { "Unset_desc","Unset" },
 
@@ -138,6 +138,13 @@ namespace MCDStorageChest.Models
             { "archhaven_name","pumpkinpasturesbonus_name" },
         };
 
+        public static readonly Dictionary<string, string> ImageMismatches = new Dictionary<string, string>() {
+            //{"Imagefile foldername","Savefile reference"},
+            { "Sword_Steel","Sword" },
+            { "Pickaxe_Steel","Pickaxe" },
+            { "Pickaxe_Unique1_Steel","Pickaxe_Unique1" },
+        };
+
         private static Dictionary<string, string> _itemType = new CaseInSensitiveDictionary<string, string>();
         private static Dictionary<string, string> _enchantment = new CaseInSensitiveDictionary<string, string>();
         private static Dictionary<string, string> _armorProperties = new CaseInSensitiveDictionary<string, string>();
@@ -200,9 +207,9 @@ namespace MCDStorageChest.Models
         private static string? getItemString(string key)
         {
             if (!isStringsLoaded) { return key; }
-            if (_mismatches.ContainsKey(key))
+            if (Mismatches.ContainsKey(key))
             {
-                key = _mismatches[key];
+                key = Mismatches[key];
             }
             if (_itemType.TryGetValue(key, out string value))
             {
@@ -218,9 +225,9 @@ namespace MCDStorageChest.Models
         {
             var key = enchantment;
             if (!isStringsLoaded) { return key; }
-            if (_mismatches.ContainsKey(key))
+            if (Mismatches.ContainsKey(key))
             {
-                key = _mismatches[key];
+                key = Mismatches[key];
             }
             if (_enchantment.TryGetValue(key, out string value))
             {
@@ -257,9 +264,9 @@ namespace MCDStorageChest.Models
         private static string? getEnchantmentString(string key)
         {
             if (!isStringsLoaded) { return key; }
-            if (_mismatches.ContainsKey(key))
+            if (Mismatches.ContainsKey(key))
             {
-                key = _mismatches[key];
+                key = Mismatches[key];
             }
             if (_enchantment.TryGetValue(key, out string value))
             {
@@ -283,9 +290,9 @@ namespace MCDStorageChest.Models
         private static string? getArmorPropertyString(string key)
         {
             if (!isStringsLoaded) { return key; }
-            if (_mismatches.ContainsKey(key))
+            if (Mismatches.ContainsKey(key))
             {
-                key = _mismatches[key];
+                key = Mismatches[key];
             }
             if (_armorProperties.TryGetValue(key, out string value))
             {
@@ -304,9 +311,9 @@ namespace MCDStorageChest.Models
         private static string? getMissionString(string key)
         {
             if (!isStringsLoaded) { return key; }
-            if (_mismatches.ContainsKey(key))
+            if (Mismatches.ContainsKey(key))
             {
-                key = _mismatches[key];
+                key = Mismatches[key];
             }
             if (_mission.TryGetValue(key, out string value))
             {
@@ -319,9 +326,9 @@ namespace MCDStorageChest.Models
         public static string? getString(string key)
         {
             if (!isStringsLoaded) { return null; }
-            if (_mismatches.ContainsKey(key))
+            if (Mismatches.ContainsKey(key))
             {
-                key = _mismatches[key];
+                key = Mismatches[key];
             }
             if (_clickys.TryGetValue(key, out string value))
             {

@@ -13,6 +13,7 @@ using MCDStorageChest.Save.Mapping;
 using PostSharp.Patterns.Model;
 using Newtonsoft.Json.Linq;
 using MCDStorageChest.Save.Json;
+using System.Text.Json;
 
 namespace MCDStorageChest.Save.Profiles
 {
@@ -136,6 +137,9 @@ namespace MCDStorageChest.Save.Profiles
             }
         }
 
+        [JsonIgnore, SafeForDependencyAnalysis]
+        public JObject RawData => JObject.Parse(JsonSerializer.Serialize(this));
+
         #endregion
     }
 
@@ -150,8 +154,8 @@ namespace MCDStorageChest.Save.Profiles
         {
             var copy = new Item();
             //NOTE: deliberately skipping EquipmentSlot and InventoryIndex
-            copy.Armorproperties = new ObservableCollection<Armorproperty>(this.Armorproperties?.deepClone()?.ToList());
-            copy.Enchantments = new EnchantmentCollection(this.Enchantments?.deepClone()?.ToList());
+            if (this.Armorproperties != null) copy.Armorproperties = new ObservableCollection<Armorproperty>(this.Armorproperties?.deepClone()?.ToList());
+            if (this.Enchantments != null) copy.Enchantments = new EnchantmentCollection(this.Enchantments?.deepClone()?.ToList());
             copy.Gifted = this.Gifted;
             copy.MarkedNew = this.MarkedNew;
             copy.NetheriteEnchant = this.NetheriteEnchant?.Copy();

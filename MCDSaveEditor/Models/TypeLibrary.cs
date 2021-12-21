@@ -8,8 +8,8 @@ namespace MCDStorageChest.Models
 {
     public static class TypeLibrary
     {
-        public static HashSet<string> AllEnchantments = new HashSet<string>();
-        public static HashSet<string> PowerfulEnchantments = new HashSet<string>() {
+        public static HashSet<string> AllEnchantments = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        public static HashSet<string> PowerfulEnchantments = new HashSet<string>(StringComparer.OrdinalIgnoreCase) {
             "FinalShout",
             "Chilling",
             "Protection",
@@ -28,7 +28,7 @@ namespace MCDStorageChest.Models
             "RadianceRanged",
             "ShockWeb",
         };
-        public static HashSet<string> ArmorEnchantments = new HashSet<string>() {
+        public static HashSet<string> ArmorEnchantments = new HashSet<string>(StringComparer.OrdinalIgnoreCase) {
             "Swiftfooted",
             "PotionFortification",
             "Snowing",
@@ -53,7 +53,7 @@ namespace MCDStorageChest.Models
             "Protection",
             "GravityPulse",
         };
-        public static HashSet<string> MeleeEnchantments = new HashSet<string>() {
+        public static HashSet<string> MeleeEnchantments = new HashSet<string>(StringComparer.OrdinalIgnoreCase) {
             "Weakening",
             "FireAspect",
             "Looting",
@@ -78,7 +78,7 @@ namespace MCDStorageChest.Models
             "Shockwave",
             "Swirling",
         };
-        public static HashSet<string> RangedEnchantments = new HashSet<string>() {
+        public static HashSet<string> RangedEnchantments = new HashSet<string>(StringComparer.OrdinalIgnoreCase) {
             "Accelerating",
             "Growing",
             "AnimaConduitRanged",
@@ -102,12 +102,12 @@ namespace MCDStorageChest.Models
             "RadianceRanged",
         };
 
-        public static HashSet<string> Items_All = new HashSet<string>();
-        public static HashSet<string> Items_Artifacts = new HashSet<string>();
-        public static HashSet<string> Items_Armor = new HashSet<string>();
-        public static HashSet<string> Items_MeleeWeapons = new HashSet<string>();
-        public static HashSet<string> Items_RangedWeapons = new HashSet<string>();
+        public static HashSet<string> Items_All = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        public static HashSet<string> Items_Artifacts = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        public static HashSet<string> Items_Armor = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        public static HashSet<string> Items_MeleeWeapons = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        public static HashSet<string> Items_RangedWeapons = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        public static HashSet<string> ArmorProperties = new HashSet<string>();
+        public static HashSet<string> ArmorProperties = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
     }
 }

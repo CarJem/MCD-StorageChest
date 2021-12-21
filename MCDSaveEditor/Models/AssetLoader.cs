@@ -34,7 +34,6 @@ namespace MCDStorageChest.Models
 
         public static async Task FileLoadGameContent(string paksFolderPath)
         {
-            paksFolderPath = @"D:\UserData\Saved Games\Minecraft Dungeons\dungeons\dungeons\Dungeons\Content\Paks";
             var pakIndex = await loadPakIndex(paksFolderPath);
             if (pakIndex == null)
             {

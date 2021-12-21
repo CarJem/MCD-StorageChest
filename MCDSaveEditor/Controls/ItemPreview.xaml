@@ -17,13 +17,21 @@
         <converters2:NullVisibilityConverter x:Key="NullToVisibilityConverter"/>
     </UserControl.Resources>
     <Grid Visibility="{Binding ., FallbackValue=False, TargetNullValue=False, Converter={StaticResource NullToVisibilityConverter}}">
-        <ScrollViewer>
-            <StackPanel>
-                <itempreview:ItemHeader Height="100" DataContext="{Binding .}"></itempreview:ItemHeader>
-                <itempreview:ItemGildedPanel MinHeight="40" DataContext="{Binding .}"></itempreview:ItemGildedPanel>
-                <itempreview:ItemArmorPropertiesList MinHeight="40" DataContext="{Binding .}"></itempreview:ItemArmorPropertiesList>
-                <itempreview:ItemEnchantmentPanel DataContext="{Binding .}"></itempreview:ItemEnchantmentPanel>
-            </StackPanel>
-        </ScrollViewer>
+        <TabControl>
+            <TabItem Header="Normal">
+                <ScrollViewer>
+                    <StackPanel>
+                        <itempreview:ItemHeader Height="100" DataContext="{Binding .}"></itempreview:ItemHeader>
+                        <itempreview:ItemGildedPanel MinHeight="40" DataContext="{Binding .}"></itempreview:ItemGildedPanel>
+                        <itempreview:ItemArmorPropertiesList MinHeight="40" DataContext="{Binding .}"></itempreview:ItemArmorPropertiesList>
+                        <itempreview:ItemEnchantmentPanel DataContext="{Binding .}"></itempreview:ItemEnchantmentPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="JSON">
+                <itempreview:RawJSONPreview DataContext="{Binding RawData}"/>
+            </TabItem>
+        </TabControl>
+
     </Grid>
 </UserControl>

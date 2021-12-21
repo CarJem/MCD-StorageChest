@@ -16,12 +16,7 @@ namespace MCDStorageChest.Logic.ImageResolver
 {
     public class PakImageResolver : IImageResolver
     {
-        private static readonly Dictionary<string, string> _mismatches = new Dictionary<string, string>() {
-            //{"Imagefile foldername","Savefile reference"},
-            { "Sword_Steel","Sword" },
-            { "Pickaxe_Steel","Pickaxe" },
-            { "Pickaxe_Unique1_Steel","Pickaxe_Unique1" },
-        };
+
 
         private readonly LocalImageResolver _backupResolver;
         private readonly PakIndex _pakIndex;
@@ -119,9 +114,9 @@ namespace MCDStorageChest.Logic.ImageResolver
                     {
                         _enchantments.Add(enchantmentName, fullPath);
                         //Handle exceptions
-                        if (_mismatches.ContainsKey(enchantmentName))
+                        if (StringLibrary.ImageMismatches.ContainsKey(enchantmentName))
                         {
-                            var correctedEnchantmentName = _mismatches[enchantmentName];
+                            var correctedEnchantmentName = StringLibrary.ImageMismatches[enchantmentName];
                             _enchantments.Add(correctedEnchantmentName, fullPath);
                             Models.TypeLibrary.AllEnchantments.Add(correctedEnchantmentName);
                         }
@@ -150,9 +145,9 @@ namespace MCDStorageChest.Logic.ImageResolver
                     if (fullPath.Contains("Equipment") && fullPath.Contains("MeleeWeapons"))
                     {
                         //Handle exceptions
-                        if (_mismatches.ContainsKey(itemName))
+                        if (StringLibrary.ImageMismatches.ContainsKey(itemName))
                         {
-                            var correctedItemName = _mismatches[itemName];
+                            var correctedItemName = StringLibrary.ImageMismatches[itemName];
                             if (!_equipment.ContainsKey(correctedItemName)) _equipment.Add(correctedItemName, fullPath);
                             Models.TypeLibrary.Items_MeleeWeapons.Add(correctedItemName);
                         }
@@ -161,12 +156,13 @@ namespace MCDStorageChest.Logic.ImageResolver
                             Models.TypeLibrary.Items_MeleeWeapons.Add(itemName);
                         }
                     }
+
                     if (fullPath.Contains("Equipment") && fullPath.Contains("RangedWeapons"))
                     {
                         //Handle exceptions
-                        if (_mismatches.ContainsKey(itemName))
+                        if (StringLibrary.ImageMismatches.ContainsKey(itemName))
                         {
-                            var correctedItemName = _mismatches[itemName];
+                            var correctedItemName = StringLibrary.ImageMismatches[itemName];
                             if (!_equipment.ContainsKey(correctedItemName)) _equipment.Add(correctedItemName, fullPath);
                             Models.TypeLibrary.Items_RangedWeapons.Add(correctedItemName);
                         }
@@ -178,9 +174,9 @@ namespace MCDStorageChest.Logic.ImageResolver
                     if (fullPath.Contains("Equipment") && fullPath.Contains("Armor"))
                     {
                         //Handle exceptions
-                        if (_mismatches.ContainsKey(itemName))
+                        if (StringLibrary.ImageMismatches.ContainsKey(itemName))
                         {
-                            var correctedItemName = _mismatches[itemName];
+                            var correctedItemName = StringLibrary.ImageMismatches[itemName];
                             if (!_equipment.ContainsKey(correctedItemName)) _equipment.Add(correctedItemName, fullPath);
                             Models.TypeLibrary.Items_Armor.Add(correctedItemName);
                         }
@@ -193,9 +189,9 @@ namespace MCDStorageChest.Logic.ImageResolver
                     {
                         if (!itemName.StartsWith("MysteryBox"))
                         {
-                            if (_mismatches.ContainsKey(itemName))
+                            if (StringLibrary.ImageMismatches.ContainsKey(itemName))
                             {
-                                var correctedItemName = _mismatches[itemName];
+                                var correctedItemName = StringLibrary.ImageMismatches[itemName];
                                 if (!_equipment.ContainsKey(correctedItemName)) _equipment.Add(correctedItemName, fullPath);
                                 Models.TypeLibrary.Items_Artifacts.Add(correctedItemName);
                             }

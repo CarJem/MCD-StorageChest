@@ -100,16 +100,21 @@ namespace MCDStorageChest.Models
 
         #region Methods
 
-        public async Task FileOpenAsync()
+        public async Task FileOpenAsync(bool isStorage)
         {
             OpenFileDialog ofd = new OpenFileDialog()
             {
+                InitialDirectory = isStorage ? Properties.Settings.Default.LastStorageDirectory : Properties.Settings.Default.LastSaveGameDirectory,
                 Filter = "dat files (*.dat)|*.dat|json files (*.json)|*.json|All files (*.*)|*.*",
                 Multiselect = false,
                 CheckFileExists = true
             };
             if (ofd.ShowDialog().Value)
             {
+                if (isStorage) Properties.Settings.Default.LastStorageDirectory = Path.GetDirectoryName(ofd.FileName);
+                else Properties.Settings.Default.LastSaveGameDirectory = Path.GetDirectoryName(ofd.FileName);
+                Properties.Settings.Default.Save();
+
                 CurrentSaveFile = await Logic.FileProcessHelper.FileOpenAsync(ofd.FileName);
                 CurrentSaveFilePath = ofd.FileName;
                 OnPropertyChanged(nameof(CurrentSaveFile));
@@ -117,7 +122,10 @@ namespace MCDStorageChest.Models
         }
         public async Task FileSaveAsync(string filePath, ProfileSaveFile profile)
         {
-
+            var result = MessageBox.Show("Would you like to make a backup", "Saving...", MessageBoxButton.YesNoCancel);
+            if (result == MessageBoxResult.Cancel || result == MessageBoxResult.None) return;
+            if (result == MessageBoxResult.Yes) File.Copy(filePath, Path.ChangeExtension(filePath, Path.GetExtension(filePath) + ".bak"));
+            await Logic.FileProcessHelper.FileSaveAsync(filePath, profile);
         }
         public void RequestListUpdate()
         {
