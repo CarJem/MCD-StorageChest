@@ -9,18 +9,15 @@
              xmlns:base="clr-namespace:MCDStorageChest"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:profile="clr-namespace:MCDStorageChest.Save.Profiles"
-             xmlns:mappings="clr-namespace:MCDStorageChest.Save.Mapping"
+             xmlns:profile="clr-namespace:MCDStorageChest.Json.Classes"
+             xmlns:mappings="clr-namespace:MCDStorageChest.Json.Mapping"
              mc:Ignorable="d" 
              DataContextChanged="UserControl_DataContextChanged"
-             xmlns:converters="clr-namespace:MCDStorageChest.Save.Converters"
+             xmlns:converters="clr-namespace:MCDStorageChest.Json.Converters"
              xmlns:converters2="clr-namespace:MCDStorageChest.Converters"
              d:DataContext="{d:DesignInstance Type=models:SaveModel}"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <DataTemplate x:Key="ItemTemplate">
-            <templates:InventoryItemTemplate/>
-        </DataTemplate>
         <Image x:Key="AllItems_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_AllItemsButtonImage}"/>
         <Image x:Key="Melee_Content"  Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_MeleeItemsButtonImage}"/>
         <Image x:Key="Ranged_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_RangedItemsButtonImage}"/>
@@ -33,6 +30,9 @@
                 <Setter Property="Height" Value="24"/>
             </Style.Setters>
         </Style>
+        <DataTemplate x:Key="ItemTemplate" DataType="{x:Type profile:Item}">
+            <templates:InventoryItemTemplate DataContext="{Binding .}" d:DataContext="{d:DesignInstance Type=profile:Item}"></templates:InventoryItemTemplate>
+        </DataTemplate>
         <converters2:NullVisibilityConverter x:Key="NullToVis"></converters2:NullVisibilityConverter>
         <CollectionViewSource x:Key="ItemsList" Source="{Binding CurrentSaveFile.Items}" IsLiveSortingRequested="True">
             <CollectionViewSource.SortDescriptions>
@@ -68,15 +68,9 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <ListViewItem Background="Transparent" BorderBrush="DarkGray" AllowDrop="True" Drop="Gear_Drop" PreviewMouseLeftButtonDown="Gear_PreviewMouseLeftButtonDown" MouseMove="Gear_MouseMove" x:Name="MeleeGearButton" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" MouseUp="GearItem_MouseUp" DataContext="{Binding CurrentSaveFile.MeleeGearItem}">
-                    <templates:InventoryItemTemplate x:Name="HotbarMeleeItem" Visibility="{Binding ., Converter={StaticResource NullToVis}}" DataContext="{Binding .}"></templates:InventoryItemTemplate>
-                </ListViewItem>
-                <ListViewItem Background="Transparent" BorderBrush="DarkGray" AllowDrop="True" Drop="Gear_Drop" PreviewMouseLeftButtonDown="Gear_PreviewMouseLeftButtonDown" MouseMove="Gear_MouseMove" x:Name="ArmorGearButton" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" MouseUp="GearItem_MouseUp" DataContext="{Binding CurrentSaveFile.ArmorGearItem}">
-                    <templates:InventoryItemTemplate x:Name="HotbarArmorItem"  Visibility="{Binding ., Converter={StaticResource NullToVis}}" DataContext="{Binding .}"></templates:InventoryItemTemplate>
-                </ListViewItem>
-                <ListViewItem Background="Transparent" BorderBrush="DarkGray" AllowDrop="True" Drop="Gear_Drop" PreviewMouseLeftButtonDown="Gear_PreviewMouseLeftButtonDown" MouseMove="Gear_MouseMove" x:Name="RangedGearButton" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" MouseUp="GearItem_MouseUp" DataContext="{Binding CurrentSaveFile.RangedGearItem}">
-                    <templates:InventoryItemTemplate x:Name="HotbarRangedItem"  Visibility="{Binding ., Converter={StaticResource NullToVis}}" DataContext="{Binding .}"></templates:InventoryItemTemplate>
-                </ListViewItem>
+                <ListViewItem Background="Transparent" BorderBrush="DarkGray" AllowDrop="True" Drop="Gear_Drop" PreviewMouseLeftButtonDown="Gear_PreviewMouseLeftButtonDown" MouseMove="Gear_MouseMove" x:Name="MeleeGearButton" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" MouseUp="GearItem_MouseUp" Content="{Binding CurrentSaveFile.MeleeGearItem}" ContentTemplate="{DynamicResource ItemTemplate}"/>
+                <ListViewItem Background="Transparent" BorderBrush="DarkGray" AllowDrop="True" Drop="Gear_Drop" PreviewMouseLeftButtonDown="Gear_PreviewMouseLeftButtonDown" MouseMove="Gear_MouseMove" x:Name="ArmorGearButton" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" MouseUp="GearItem_MouseUp" Content="{Binding CurrentSaveFile.ArmorGearItem}" ContentTemplate="{DynamicResource ItemTemplate}"/>
+                <ListViewItem Background="Transparent" BorderBrush="DarkGray" AllowDrop="True" Drop="Gear_Drop" PreviewMouseLeftButtonDown="Gear_PreviewMouseLeftButtonDown" MouseMove="Gear_MouseMove" x:Name="RangedGearButton" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" MouseUp="GearItem_MouseUp" Content="{Binding CurrentSaveFile.RangedGearItem}" ContentTemplate="{DynamicResource ItemTemplate}"/>
             </Grid>
 
             <Grid Grid.Row="1">
@@ -117,15 +111,9 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <ListViewItem Background="Transparent" BorderBrush="DarkGray" AllowDrop="True" Drop="Gear_Drop" PreviewMouseLeftButtonDown="Gear_PreviewMouseLeftButtonDown" MouseMove="Gear_MouseMove" x:Name="HotbarSlot1Button" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" MouseUp="GearItem_MouseUp" DataContext="{Binding CurrentSaveFile.HotbarSlot1Item}">
-                    <templates:InventoryItemTemplate x:Name="HotbarArtifact1" Visibility="{Binding ., Converter={StaticResource NullToVis}}" DataContext="{Binding .}"></templates:InventoryItemTemplate>
-                </ListViewItem>
-                <ListViewItem Background="Transparent" BorderBrush="DarkGray" AllowDrop="True" Drop="Gear_Drop" PreviewMouseLeftButtonDown="Gear_PreviewMouseLeftButtonDown" MouseMove="Gear_MouseMove" x:Name="HotbarSlot2Button" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" MouseUp="GearItem_MouseUp" DataContext="{Binding CurrentSaveFile.HotbarSlot2Item}">
-                    <templates:InventoryItemTemplate x:Name="HotbarArtifact2" Visibility="{Binding ., Converter={StaticResource NullToVis}}" DataContext="{Binding .}"></templates:InventoryItemTemplate>
-                </ListViewItem>
-                <ListViewItem Background="Transparent" BorderBrush="DarkGray" AllowDrop="True" Drop="Gear_Drop" PreviewMouseLeftButtonDown="Gear_PreviewMouseLeftButtonDown" MouseMove="Gear_MouseMove" x:Name="HotbarSlot3Button" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" MouseUp="GearItem_MouseUp" DataContext="{Binding CurrentSaveFile.HotbarSlot3Item}">
-                    <templates:InventoryItemTemplate x:Name="HotbarArtifact3" Visibility="{Binding ., Converter={StaticResource NullToVis}}" DataContext="{Binding .}"></templates:InventoryItemTemplate>
-                </ListViewItem>
+                <ListViewItem Background="Transparent" BorderBrush="DarkGray" AllowDrop="True" Drop="Gear_Drop" PreviewMouseLeftButtonDown="Gear_PreviewMouseLeftButtonDown" MouseMove="Gear_MouseMove" x:Name="HotbarSlot1Button" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" MouseUp="GearItem_MouseUp" Content="{Binding CurrentSaveFile.HotbarSlot1Item}" ContentTemplate="{DynamicResource ItemTemplate}"/>
+                <ListViewItem Background="Transparent" BorderBrush="DarkGray" AllowDrop="True" Drop="Gear_Drop" PreviewMouseLeftButtonDown="Gear_PreviewMouseLeftButtonDown" MouseMove="Gear_MouseMove" x:Name="HotbarSlot2Button" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" MouseUp="GearItem_MouseUp" Content="{Binding CurrentSaveFile.HotbarSlot2Item}" ContentTemplate="{DynamicResource ItemTemplate}"/>
+                <ListViewItem Background="Transparent" BorderBrush="DarkGray" AllowDrop="True" Drop="Gear_Drop" PreviewMouseLeftButtonDown="Gear_PreviewMouseLeftButtonDown" MouseMove="Gear_MouseMove" x:Name="HotbarSlot3Button" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" MouseUp="GearItem_MouseUp" Content="{Binding CurrentSaveFile.HotbarSlot3Item}" ContentTemplate="{DynamicResource ItemTemplate}"/>
             </Grid>
         </Grid>
     </Grid>

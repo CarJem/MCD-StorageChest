@@ -4,10 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MCDStorageChest.Controls.ItemTemplates"
-             xmlns:mappings="clr-namespace:MCDStorageChest.Save.Mapping"
-             xmlns:converters="clr-namespace:MCDStorageChest.Save.Converters"
+             xmlns:mappings="clr-namespace:MCDStorageChest.Json.Mapping"
+             xmlns:converters="clr-namespace:MCDStorageChest.Json.Converters"
              xmlns:converters2="clr-namespace:MCDStorageChest.Converters"
-             xmlns:profile="clr-namespace:MCDStorageChest.Save.Profiles"
+             xmlns:profile="clr-namespace:MCDStorageChest.Json.Classes"             
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="150"
              VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
@@ -18,31 +19,68 @@
         <converters:RarityToColorConverter x:Key="rarityToColor" />
         <converters2:InverseBooleanConverter x:Key="InverseBoolean"/>
         <converters:ItemToBackgroundConverter x:Key="ItemToBG" />
+        <Style TargetType="{x:Type local:RuneIcon}" x:Key="RuneIcon">
+            <Setter Property="Width" Value="16"/>
+            <Setter Property="Height" Value="16"/>
+            <Setter Property="LayoutTransform">
+                <Setter.Value>
+                    <RotateTransform Angle="180"></RotateTransform>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="RuneGrid" TargetType="{x:Type UniformGrid}">
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="FlowDirection" Value="RightToLeft"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="LayoutTransform">
+                <Setter.Value>
+                    <RotateTransform Angle="180"></RotateTransform>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </UserControl.Resources>
-    <Grid Background="{Binding ., Converter={StaticResource ItemToBG}}" >
-        <Grid Background="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Item_MarkedNewBackground}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="30" Height="30" Visibility="{Binding MarkedNew, Converter={StaticResource VisibleIfTrueConverter}}"/>
+    <Grid Background="{Binding Images_BG}" Width="100" Height="100">
+        <UniformGrid Style="{StaticResource RuneGrid}">
+            <local:RuneIcon CurrentArchetype="A" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_A, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
+            <local:RuneIcon CurrentArchetype="C" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_C, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
+            <local:RuneIcon CurrentArchetype="I" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_I, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
+            <local:RuneIcon CurrentArchetype="O" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_O, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
+            <local:RuneIcon CurrentArchetype="P" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_P, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
+            <local:RuneIcon CurrentArchetype="R" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_R, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
+            <local:RuneIcon CurrentArchetype="S" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_S, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
+            <local:RuneIcon CurrentArchetype="T" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_T, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
+            <local:RuneIcon CurrentArchetype="U" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_U, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
+        </UniformGrid>
+        <Grid Background="{Binding Images_StatusNew}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="30" Height="30" Visibility="{Binding MarkedNew, Converter={StaticResource VisibleIfTrueConverter}}"/>
         <StackPanel Margin="5" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Top" Visibility="{Binding HasEnchantmentPoints, Converter={StaticResource VisibleIfTrueConverter}}">
-            <Image Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=EnchantCommonIcon}" Height="16" Width="16">
+            <Image Source="{Binding Images_EnchantIcon}" Height="16" Width="16">
                 <Image.Effect>
-                    <DropShadowEffect ShadowDepth="3" BlurRadius="3" Opacity="1"></DropShadowEffect>
+                    <DropShadowEffect ShadowDepth="1" BlurRadius="1" Opacity="1"></DropShadowEffect>
                 </Image.Effect>
             </Image>
             <TextBlock Padding="2,0,0,0" Text="{Binding EnchantmentPoints}" TextAlignment="Left">
                 <TextBlock.Effect>
-                    <DropShadowEffect ShadowDepth="3" BlurRadius="3" Opacity="1"></DropShadowEffect>
+                    <DropShadowEffect ShadowDepth="1" BlurRadius="1" Opacity="1"></DropShadowEffect>
                 </TextBlock.Effect>
             </TextBlock>
         </StackPanel>
-        <Image Source="{Binding Image}" Panel.ZIndex="-1" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Image Source="{Binding Image}" Panel.ZIndex="-1" Width="80" Height="80" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Image.Effect>
-                <DropShadowEffect BlurRadius="4"></DropShadowEffect>
+                <DropShadowEffect BlurRadius="1" Opacity="0.75"></DropShadowEffect>
             </Image.Effect>
         </Image>
-        <TextBlock Text="{Binding DisplayText}" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Center"></TextBlock>
-        <TextBlock Text="{Binding Level}" Padding="5"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom" TextAlignment="Right">
+        <TextBlock Text="{Binding DisplayText}" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Center">
             <TextBlock.Effect>
-                <DropShadowEffect ShadowDepth="3" BlurRadius="3" Opacity="1"></DropShadowEffect>
+                <DropShadowEffect ShadowDepth="1" BlurRadius="1" Opacity="1"></DropShadowEffect>
             </TextBlock.Effect>
         </TextBlock>
+        <TextBlock Text="{Binding Level}" Padding="5" Margin="4,2"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom" TextAlignment="Right">
+            <TextBlock.Effect>
+                <DropShadowEffect ShadowDepth="1" BlurRadius="1" Opacity="1"></DropShadowEffect>
+            </TextBlock.Effect>
+        </TextBlock>
+        
     </Grid>
 </UserControl>

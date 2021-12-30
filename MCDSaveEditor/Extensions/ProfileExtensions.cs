@@ -1,5 +1,5 @@
-﻿using MCDStorageChest.Save.Enums;
-using MCDStorageChest.Save.Profiles;
+﻿using MCDStorageChest.Json.Enums;
+using MCDStorageChest.Json.Classes;
 using System.Collections.Generic;
 using System.Linq;
 using MCDStorageChest.Logic;
@@ -78,7 +78,7 @@ namespace MCDStorageChest.Extensions
         public static void unequiptItem(this ProfileSaveFile profile, Item item)
         {
             if (item == null) return;
-            item.EquipmentSlot = null;
+            item.EquipmentSlot = null!;
             profile.UpdateEquiptmentSlots();
         }
         public static void equiptItem(this ProfileSaveFile profile, Item item, EquipmentSlotEnum slot)
@@ -89,32 +89,32 @@ namespace MCDStorageChest.Extensions
 
             if (slot == EquipmentSlotEnum.ArmorGear && item.IsArmor)
             {
-                if (slotItem != null) slotItem.EquipmentSlot = null;
+                if (slotItem != null) slotItem.EquipmentSlot = null!;
                 item.EquipmentSlot = slot.ToString();
             }
             else if (slot == EquipmentSlotEnum.MeleeGear && item.IsMeleeWeapon)
             {
-                if (slotItem != null) slotItem.EquipmentSlot = null;
+                if (slotItem != null) slotItem.EquipmentSlot = null!;
                 item.EquipmentSlot = slot.ToString();
             }
             else if (slot == EquipmentSlotEnum.RangedGear && item.IsRangedWeapon)
             {
-                if (slotItem != null) slotItem.EquipmentSlot = null;
+                if (slotItem != null) slotItem.EquipmentSlot = null!;
                 item.EquipmentSlot = slot.ToString();
             }
             else if (slot == EquipmentSlotEnum.HotbarSlot1 && item.IsArtifact)
             {
-                if (slotItem != null) slotItem.EquipmentSlot = null;
+                if (slotItem != null) slotItem.EquipmentSlot = null!;
                 item.EquipmentSlot = slot.ToString();
             }
             else if (slot == EquipmentSlotEnum.HotbarSlot2 && item.IsArtifact)
             {
-                if (slotItem != null) slotItem.EquipmentSlot = null;
+                if (slotItem != null) slotItem.EquipmentSlot = null!;
                 item.EquipmentSlot = slot.ToString();
             }
             else if (slot == EquipmentSlotEnum.HotbarSlot3 && item.IsArtifact)
             {
-                if (slotItem != null) slotItem.EquipmentSlot = null;
+                if (slotItem != null) slotItem.EquipmentSlot = null!;
                 item.EquipmentSlot = slot.ToString();
             }
 

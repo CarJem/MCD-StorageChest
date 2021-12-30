@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media.Imaging;
-using MCDStorageChest.Save.Profiles;
-using MCDStorageChest.Save.Enums;
+using MCDStorageChest.Json.Classes;
+using MCDStorageChest.Json.Enums;
 
 namespace MCDStorageChest.Logic.ImageResolver
 {
@@ -9,7 +9,7 @@ namespace MCDStorageChest.Logic.ImageResolver
         string path { get; }
         BitmapImage imageSourceForItem(Item item);
         BitmapImage imageSourceForItem(string itemType);
-        BitmapImage imageSourceForRarity(Rarity rarity);
+        BitmapImage imageSourceForRarity(RarityEnum rarity);
         BitmapImage imageSourceForEnchantment(Enchantment enchantment);
         BitmapImage imageSourceForEnchantment(string enchantmentType);
         BitmapImage imageSource(string path);

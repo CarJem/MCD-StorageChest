@@ -12,9 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using MCDStorageChest.Save.Enums;
+using MCDStorageChest.Json.Enums;
 using MCDStorageChest.Extensions;
-#nullable disable
 
 namespace MCDStorageChest.Controls
 {
@@ -32,30 +31,8 @@ namespace MCDStorageChest.Controls
 
         public void InitUI()
         {
-            ResetBinding(MeleeGearButton);
-            ResetBinding(ArmorGearButton);
-            ResetBinding(RangedGearButton);
-            ResetBinding(HotbarSlot1Button);
-            ResetBinding(HotbarSlot2Button);
-            ResetBinding(HotbarSlot3Button);
-
-            SetBinding("CurrentSaveFile.MeleeGearItem", MeleeGearButton);
-            SetBinding("CurrentSaveFile.ArmorGearItem", ArmorGearButton);
-            SetBinding("CurrentSaveFile.RangedGearItem", RangedGearButton);
-            SetBinding("CurrentSaveFile.HotbarSlot1Item", HotbarSlot1Button);
-            SetBinding("CurrentSaveFile.HotbarSlot2Item", HotbarSlot2Button);
-            SetBinding("CurrentSaveFile.HotbarSlot3Item", HotbarSlot3Button);
-
-            void ResetBinding(ListViewItem refrence)
-            {
-                BindingOperations.ClearBinding(refrence, ListViewItem.DataContextProperty);
-            }
-
-            void SetBinding(string name, ListViewItem refrence)
-            {
-                BindingOperations.SetBinding(refrence, ListViewItem.DataContextProperty, new Binding(name));
-            }
-
+            if ((DataContext as Models.SaveModel).CurrentSaveFile == null) return;
+            (DataContext as Models.SaveModel).CurrentSaveFile.UpdateEquiptmentSlots();
         }
 
 
@@ -68,7 +45,7 @@ namespace MCDStorageChest.Controls
             if (e.LeftButton != MouseButtonState.Released) return;
             if (DataContext != null && DataContext is Models.SaveModel && sender is ListViewItem)
             {
-                (DataContext as Models.SaveModel).CurrentItem = (Save.Profiles.Item)(sender as ListViewItem).DataContext;
+                (DataContext as Models.SaveModel).CurrentItem = (Json.Classes.Item)(sender as ListViewItem).Content;
             }
         }
 
@@ -79,15 +56,15 @@ namespace MCDStorageChest.Controls
             {
                 if (e.Data.GetDataPresent("MCDSaveEditor.Save.Profiles.Item"))
                 {
-                    Save.Profiles.Item item = (Save.Profiles.Item)e.Data.GetData("MCDSaveEditor.Save.Profiles.Item");
+                    Json.Classes.Item item = (Json.Classes.Item)e.Data.GetData("MCDSaveEditor.Save.Profiles.Item");
                     ListBoxItem button = (ListBoxItem)sender;
-                    Save.Enums.EquipmentSlotEnum slot;
-                    if (button == ArmorGearButton) slot = Save.Enums.EquipmentSlotEnum.ArmorGear;
-                    else if (button == MeleeGearButton) slot = Save.Enums.EquipmentSlotEnum.MeleeGear;
-                    else if (button == RangedGearButton) slot = Save.Enums.EquipmentSlotEnum.RangedGear;
-                    else if (button == HotbarSlot1Button) slot = Save.Enums.EquipmentSlotEnum.HotbarSlot1;
-                    else if (button == HotbarSlot2Button) slot = Save.Enums.EquipmentSlotEnum.HotbarSlot2;
-                    else if (button == HotbarSlot3Button) slot = Save.Enums.EquipmentSlotEnum.HotbarSlot3;
+                    Json.Enums.EquipmentSlotEnum slot;
+                    if (button == ArmorGearButton) slot = Json.Enums.EquipmentSlotEnum.ArmorGear;
+                    else if (button == MeleeGearButton) slot = Json.Enums.EquipmentSlotEnum.MeleeGear;
+                    else if (button == RangedGearButton) slot = Json.Enums.EquipmentSlotEnum.RangedGear;
+                    else if (button == HotbarSlot1Button) slot = Json.Enums.EquipmentSlotEnum.HotbarSlot1;
+                    else if (button == HotbarSlot2Button) slot = Json.Enums.EquipmentSlotEnum.HotbarSlot2;
+                    else if (button == HotbarSlot3Button) slot = Json.Enums.EquipmentSlotEnum.HotbarSlot3;
                     else
                     {
                         e.Effects = DragDropEffects.None;
@@ -125,7 +102,7 @@ namespace MCDStorageChest.Controls
                     // Get the dragged ListViewItem
                     ListViewItem button = sender as ListViewItem;
                     if (button == null) return;
-                    Save.Profiles.Item item = (Save.Profiles.Item)button.DataContext;
+                    Json.Classes.Item item = (Json.Classes.Item)button.Content;
                     if (item == null) return;
                     DataObject dragData = new DataObject("MCDSaveEditor.Save.Profiles.Item", item);
                     DragDrop.DoDragDrop(button, dragData, DragDropEffects.Copy | DragDropEffects.Move);

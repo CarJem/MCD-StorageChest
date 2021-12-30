@@ -12,10 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using MCDStorageChest.Save.Enums;
+using MCDStorageChest.Json.Enums;
 using MCDStorageChest.Extensions;
 using System.Collections.ObjectModel;
-#nullable disable
 
 namespace MCDStorageChest.Controls
 {
@@ -40,7 +39,7 @@ namespace MCDStorageChest.Controls
         {
             if (DataContext is Models.SaveModel)
             {
-                (DataContext as Models.SaveModel).ListUpdated += (sender, args) => UpdateList();
+                (DataContext as Models.SaveModel).ListUpdated += (sender2, args) => UpdateList();
             }
         }
 
@@ -82,6 +81,11 @@ namespace MCDStorageChest.Controls
             UpdateFilter(ItemFilterEnum.Enchanted);
         }
 
+        private void searchButton_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateFilter(ItemFilterEnum.Custom);
+        }
+
         private void UpdateList()
         {
             if (Items.ItemsSource == null) return;
@@ -90,7 +94,7 @@ namespace MCDStorageChest.Controls
             view.Refresh();
         }
 
-        private void UpdateFilter(Save.Enums.ItemFilterEnum filter)
+        private void UpdateFilter(Json.Enums.ItemFilterEnum filter)
         {
             if (DataContext is Models.SaveModel)
             {
@@ -122,16 +126,16 @@ namespace MCDStorageChest.Controls
                     view.Filter = allEnchantedItemsFilter;
                     break;
                 default:
-                    view.Filter = allItemsFilter;
+                    view.Filter = searchItemsFilter;
                     break;
             }
         }
 
         private bool allItemsFilter(object item)
         {
-            if (item is Save.Profiles.Item)
+            if (item is Json.Classes.Item)
             {
-                var item1 = item as Save.Profiles.Item;
+                var item1 = item as Json.Classes.Item;
                 return !item1.IsEquiped;
             }
             else return false;
@@ -139,9 +143,9 @@ namespace MCDStorageChest.Controls
 
         private bool allMeleeItemsFilter(object item)
         {
-            if (item is Save.Profiles.Item)
+            if (item is Json.Classes.Item)
             {
-                var item1 = item as Save.Profiles.Item;
+                var item1 = item as Json.Classes.Item;
                 return item1.IsMeleeWeapon && !item1.IsEquiped;
             }
             else return false;
@@ -149,9 +153,9 @@ namespace MCDStorageChest.Controls
 
         private bool allRangedItemsFilter(object item)
         {
-            if (item is Save.Profiles.Item)
+            if (item is Json.Classes.Item)
             {
-                var item1 = item as Save.Profiles.Item;
+                var item1 = item as Json.Classes.Item;
                 return item1.IsRangedWeapon && !item1.IsEquiped;
             }
             else return false;
@@ -159,9 +163,9 @@ namespace MCDStorageChest.Controls
 
         private bool allArmorItemsFilter(object item)
         {
-            if (item is Save.Profiles.Item)
+            if (item is Json.Classes.Item)
             {
-                var item1 = item as Save.Profiles.Item;
+                var item1 = item as Json.Classes.Item;
                 return item1.IsArmor && !item1.IsEquiped;
             }
             else return false;
@@ -169,9 +173,9 @@ namespace MCDStorageChest.Controls
 
         private bool allArtifactItemsFilter(object item)
         {
-            if (item is Save.Profiles.Item)
+            if (item is Json.Classes.Item)
             {
-                var item1 = item as Save.Profiles.Item;
+                var item1 = item as Json.Classes.Item;
                 return item1.IsArtifact && !item1.IsEquiped;
             }
             else return false;
@@ -179,13 +183,23 @@ namespace MCDStorageChest.Controls
 
         private bool allEnchantedItemsFilter(object item)
         {
-            if (item is Save.Profiles.Item)
+            if (item is Json.Classes.Item)
             {
-                var item1 = item as Save.Profiles.Item;
+                var item1 = item as Json.Classes.Item;
                 return item1.EnchantmentPoints != 0 && !item1.IsEquiped;
             }
             else return false;
         }
+
+        public bool searchItemsFilter(object item)
+        {
+            if (item is Json.Classes.Item && DataContext is Models.SaveModel)
+            {
+                return (DataContext as Models.SaveModel).SearchSettings.Filter(item as Json.Classes.Item);
+            }
+            else return false;
+        }
+
 
 
         #endregion
@@ -215,7 +229,7 @@ namespace MCDStorageChest.Controls
                 int droppedIndex = -1;
                 if (e.Data.GetDataPresent("MCDSaveEditor.Save.Profiles.Item"))
                 {
-                    Save.Profiles.Item droppedItem = (Save.Profiles.Item)e.Data.GetData("MCDSaveEditor.Save.Profiles.Item");
+                    Json.Classes.Item droppedItem = (Json.Classes.Item)e.Data.GetData("MCDSaveEditor.Save.Profiles.Item");
                     if (!(DataContext as Models.SaveModel).CurrentSaveFile.Items.Contains(droppedItem))
                     {
                         e.Effects = DragDropEffects.None;
@@ -230,7 +244,7 @@ namespace MCDStorageChest.Controls
                         return;
                     }
 
-                    Save.Profiles.Item item = (Save.Profiles.Item)listView.ItemContainerGenerator.ItemFromContainer(listViewItem);
+                    Json.Classes.Item item = (Json.Classes.Item)listView.ItemContainerGenerator.ItemFromContainer(listViewItem);
 
 
                     e.Effects = DragDropEffects.Move;
@@ -301,7 +315,7 @@ namespace MCDStorageChest.Controls
                     ListBoxItem listViewItem = FindAnchestor<ListBoxItem>((DependencyObject)e.OriginalSource);
                     if (listViewItem == null) return; 
 
-                    Save.Profiles.Item item = (Save.Profiles.Item)listView.ItemContainerGenerator.ItemFromContainer(listViewItem);
+                    Json.Classes.Item item = (Json.Classes.Item)listView.ItemContainerGenerator.ItemFromContainer(listViewItem);
                     if (item == null) return;
 
                     DataObject dragData = new DataObject("MCDSaveEditor.Save.Profiles.Item", item);
@@ -326,6 +340,13 @@ namespace MCDStorageChest.Controls
             {
                 (DataContext as Models.SaveModel).MoveToStorage((DataContext as Models.SaveModel).CurrentItem);
             }
+        }
+
+        private void searchItemsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(sender is UIElement)) return;
+            CustomSearchOptions.PlacementTarget = (sender as UIElement);
+            CustomSearchOptions.IsOpen = true;
         }
     }
 }

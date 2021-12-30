@@ -1,6 +1,6 @@
 ﻿using DungeonTools.Save.File;
-using MCDStorageChest.Save.Profiles;
-using MCDStorageChest.Save.Json;
+using MCDStorageChest.Json.Classes;
+using MCDStorageChest.Json;
 using MCDStorageChest.Extensions;
 using System;
 using System.Collections.Generic;
@@ -16,17 +16,18 @@ using System.Linq;
 using System.Text;
 using System.Windows.Media.Imaging;
 using MCDStorageChest;
-using MCDStorageChest.Save;
 using System.ComponentModel;
 using MCDStorageChest.Logic;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
 using System.Windows;
 using Microsoft.Win32;
+using PostSharp.Patterns.Model;
 #nullable disable
 
 namespace MCDStorageChest.Models
 {
+    [NotifyPropertyChanged]
     public class SaveModel : INotifyPropertyChanged
     {
 
@@ -61,26 +62,30 @@ namespace MCDStorageChest.Models
 
         private ProfileSaveFile _CurrentSaveFile;
         private Item _CurrentItem;
-        private Save.Enums.ItemFilterEnum _CurrentFiler = Save.Enums.ItemFilterEnum.All;
+        private Json.Enums.ItemFilterEnum _CurrentFiler = Json.Enums.ItemFilterEnum.All;
         private string _CurrentSaveFilePath = string.Empty;
         public bool _isStorage = false;
+        private Models.SearchModel _SearchSettings = new SearchModel();
 
 
         public ProfileSaveFile CurrentSaveFile
         {
             get { return _CurrentSaveFile; }
-            private set
-            {
-                _CurrentSaveFile = value;
-                OnPropertyChanged(nameof(CurrentSaveFile));
-            }
+            private set { _CurrentSaveFile = value; OnPropertyChanged(nameof(CurrentSaveFile)); }
         }
+
+        public Models.SearchModel SearchSettings
+        {
+            get { return _SearchSettings; }
+            set { _SearchSettings = value; OnPropertyChanged(nameof(SearchSettings)); }
+        }
+
         public Item CurrentItem
         {
             get { return _CurrentItem; }
             set { _CurrentItem = value; OnPropertyChanged(nameof(CurrentItem)); }
         }
-        public Save.Enums.ItemFilterEnum CurrentFilter
+        public Json.Enums.ItemFilterEnum CurrentFilter
         {
             get { return _CurrentFiler; }
             set { _CurrentFiler = value; OnPropertyChanged(nameof(CurrentFilter)); }
@@ -115,7 +120,7 @@ namespace MCDStorageChest.Models
                 else Properties.Settings.Default.LastSaveGameDirectory = Path.GetDirectoryName(ofd.FileName);
                 Properties.Settings.Default.Save();
 
-                CurrentSaveFile = await Logic.FileProcessHelper.FileOpenAsync(ofd.FileName);
+                CurrentSaveFile = await Logic.FileLoader.FileOpenAsync(ofd.FileName);
                 CurrentSaveFilePath = ofd.FileName;
                 OnPropertyChanged(nameof(CurrentSaveFile));
             };
@@ -125,7 +130,7 @@ namespace MCDStorageChest.Models
             var result = MessageBox.Show("Would you like to make a backup", "Saving...", MessageBoxButton.YesNoCancel);
             if (result == MessageBoxResult.Cancel || result == MessageBoxResult.None) return;
             if (result == MessageBoxResult.Yes) File.Copy(filePath, Path.ChangeExtension(filePath, Path.GetExtension(filePath) + ".bak"));
-            await Logic.FileProcessHelper.FileSaveAsync(filePath, profile);
+            await Logic.FileLoader.FileSaveAsync(filePath, profile);
         }
         public void RequestListUpdate()
         {

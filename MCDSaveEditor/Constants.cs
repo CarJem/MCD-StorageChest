@@ -1,4 +1,4 @@
-﻿using MCDStorageChest.Save.Enums;
+﻿using MCDStorageChest.Json.Enums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -6,7 +6,7 @@ using System.Windows.Media;
 using System.IO;
 using System;
 using System.Windows.Media.Imaging;
-#nullable enable
+
 
 namespace MCDStorageChest
 {
@@ -180,7 +180,7 @@ namespace MCDStorageChest
             mapImageSourcePath = "/Dungeons/Content/UI/Materials/MissionSelectMap/background/missionselect_map_center_xbox",
             backgroundColor = Colors.White,
             cropToRect = new Int32Rect(10, 83, 6136, 2975),
-            levelData = MAINLAND_LEVEL_DATA!,
+            levelData = MAINLAND_LEVEL_DATA,
         };
 
         public readonly static StaticLevelData[] JUNGLE_AWAKENS_LEVEL_DATA = new StaticLevelData[] {
@@ -196,7 +196,7 @@ namespace MCDStorageChest
             mapImageSourcePath = "/Dungeons/Content/UI/Materials/MissionSelectMap/background/islands/DLC_Jungle_Island",
             backgroundColor = Colors.LightCyan,
             cropToRect = new Int32Rect(0, 0, 2166, 1455),
-            levelData = JUNGLE_AWAKENS_LEVEL_DATA!,
+            levelData = JUNGLE_AWAKENS_LEVEL_DATA,
         };
 
         public readonly static StaticLevelData[] CREEPING_WINTER_LEVEL_DATA = new StaticLevelData[] {
@@ -212,7 +212,7 @@ namespace MCDStorageChest
             mapImageSourcePath = "/Dungeons/Content/UI/Materials/MissionSelectMap/background/islands/DLC_Snowy_Island",
             backgroundColor = Colors.LightCyan,
             cropToRect = new Int32Rect(0, 0, 2211, 1437),
-            levelData = CREEPING_WINTER_LEVEL_DATA!,
+            levelData = CREEPING_WINTER_LEVEL_DATA,
         };
 
         public readonly static StaticLevelData[] HOWLING_PEAKS_LEVEL_DATA = new StaticLevelData[] {
@@ -228,7 +228,7 @@ namespace MCDStorageChest
             mapImageSourcePath = "/Dungeons/Content/UI/Materials/MissionSelectMap/background/islands/Mountain_base_NOTPOTWO",
             backgroundColor = Colors.LightCyan,
             cropToRect = new Int32Rect(0, 0, 2466, 2414),
-            levelData = HOWLING_PEAKS_LEVEL_DATA!,
+            levelData = HOWLING_PEAKS_LEVEL_DATA,
         };
 
         public readonly static Dictionary<string, StaticLevelData> LEVEL_DATA_LOOKUP =
@@ -273,7 +273,7 @@ namespace MCDStorageChest
         public Int32Rect? cropToRect;
         public StaticLevelData[] levelData;
 
-        public BitmapSource? mapImageSource;
+        public BitmapSource mapImageSource;
 
         public string title()
         {
@@ -285,7 +285,7 @@ namespace MCDStorageChest
             //this.mapImageSource = AppModel.instance.imageSource(mapImageSourcePath);
         }
 
-        public ImageSource? usableImageSource()
+        public ImageSource usableImageSource()
         {
             if (this.mapImageSource == null)
             {
@@ -294,7 +294,7 @@ namespace MCDStorageChest
 
             if (this.mapImageSource != null && this.cropToRect.HasValue)
             {
-                return new CroppedBitmap(this.mapImageSource!, this.cropToRect.Value);
+                return new CroppedBitmap(this.mapImageSource, this.cropToRect.Value);
             }
             else
             {

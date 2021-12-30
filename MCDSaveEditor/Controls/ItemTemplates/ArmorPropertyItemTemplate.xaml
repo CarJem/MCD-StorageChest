@@ -4,9 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MCDStorageChest.Controls.ItemTemplates"
-             xmlns:profile="clr-namespace:MCDStorageChest.Save.Profiles"
-             xmlns:mappings="clr-namespace:MCDStorageChest.Save.Mapping"
-             xmlns:converters="clr-namespace:MCDStorageChest.Save.Converters"
+             xmlns:profile="clr-namespace:MCDStorageChest.Json.Classes"
+             xmlns:mappings="clr-namespace:MCDStorageChest.Json.Mapping"
+             xmlns:converters="clr-namespace:MCDStorageChest.Json.Converters"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=profile:Armorproperty}">
     <UserControl.Resources>
@@ -20,4 +20,15 @@
             <TextBlock Margin="0,0,0,0" Text="{Binding Description, Mode=OneWay}" Visibility="Collapsed"/>
         </StackPanel>
     </StackPanel>
+    <UserControl.ToolTip>
+        <StackPanel>
+            <TextBlock>
+                    <Run Text="Name: "/>
+                    <Run Text="{Binding Name, Mode=OneWay}"/>
+                    <LineBreak/>
+                    <Run Text="ID: "/>
+                    <Run Text="{Binding Id}"/>
+            </TextBlock>
+        </StackPanel>
+    </UserControl.ToolTip>
 </UserControl>

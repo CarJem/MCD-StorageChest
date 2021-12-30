@@ -3,41 +3,59 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:profile="clr-namespace:MCDStorageChest.Save.Profiles"
+             xmlns:profile="clr-namespace:MCDStorageChest.Json.Classes"
              xmlns:local="clr-namespace:MCDStorageChest.Controls.ItemViews"
-             xmlns:converters="clr-namespace:MCDStorageChest.Save.Converters"
+             xmlns:converters="clr-namespace:MCDStorageChest.Json.Converters"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
+             x:Name="UserControl"
              d:DataContext="{d:DesignInstance Type=profile:Enchantment}"
              d:DesignHeight="450" d:DesignWidth="450">
     <UserControl.Resources>
-        <Thickness x:Key="ButtonMargin">0</Thickness>
         <Style TargetType="{x:Type Image}" x:Key="ImageView">
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
             <Setter Property="VerticalAlignment" Value="Stretch"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="Source" Value="../../Images/Enchantments.png"/>
+            <Setter Property="Margin" Value="0"/>
             <Setter Property="ClipToBounds" Value="False"/>
         </Style>
         <Style TargetType="{x:Type Button}" x:Key="ButtonStyle">
-            <Setter Property="Margin" Value="{StaticResource ButtonMargin}"/>
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
             <Setter Property="VerticalAlignment" Value="Stretch"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-            <Setter Property="ClipToBounds" Value="False"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="ClipToBounds" Value="True"/>
         </Style>
     </UserControl.Resources>
     <Button Style="{StaticResource ButtonStyle}" x:Name="enchantment3Button" DataContext="{Binding .}">
-        <Grid>
-            <Image x:Name="enchantmentImage" Source="{Binding Image}" Style="{StaticResource ImageView}"/>
-        </Grid>
+        <Image x:Name="enchantmentImage" Source="{Binding Image}" Style="{StaticResource ImageView}">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <RotateTransform Angle="315"  />
+                    <ScaleTransform ScaleX="1.705" ScaleY="1.705"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
         <Button.ToolTip>
             <StackPanel>
                 <TextBlock>
+                    <Run Text="Name: "/>
+                    <Run Text="{Binding Name, Mode=OneWay}"/>
+                    <LineBreak/>
                     <Run Text="ID: "/>
                     <Run Text="{Binding Id}"/>
                 </TextBlock>
             </StackPanel>
         </Button.ToolTip>
+        <Button.RenderTransform>
+            <TransformGroup>
+                <RotateTransform Angle="45" />
+                <ScaleTransform ScaleX="0.705" ScaleY="0.705"/>
+            </TransformGroup>
+        </Button.RenderTransform>
     </Button>
+
 </UserControl>

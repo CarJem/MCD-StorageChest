@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:MCDStorageChest.Controls.ItemViews"      
              xmlns:templates="clr-namespace:MCDStorageChest.Controls.ItemTemplates"
              xmlns:controls="clr-namespace:MCDStorageChest.Controls"
-             xmlns:profile="clr-namespace:MCDStorageChest.Save.Profiles"
+             xmlns:profile="clr-namespace:MCDStorageChest.Json.Classes"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=profile:Item}"
              d:DesignHeight="800" d:DesignWidth="800">
@@ -15,8 +15,13 @@
         <DataTemplate x:Key="ArmorPropertyControl">
             <templates:ArmorPropertyItemTemplate DataContext="{Binding .}"></templates:ArmorPropertyItemTemplate>
         </DataTemplate>
+        <DataTemplate x:Key="BuiltInEnchantmentsControl">
+            <templates:BuiltInEnchantmentItemTemplate DataContext="{Binding .}"></templates:BuiltInEnchantmentItemTemplate>
+        </DataTemplate>
     </UserControl.Resources>
-    <Grid Visibility="{Binding IsArmor, Converter={StaticResource VisibleIfTrueConverter}}">
-        <ListBox ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding Armorproperties}" ItemTemplate="{StaticResource ArmorPropertyControl}"/>
+    <Grid>
+        <ListBox ScrollViewer.VerticalScrollBarVisibility="Visible" Visibility="{Binding IsRangedWeapon, Converter={StaticResource VisibleIfTrueConverter}}" ItemsSource="{Binding BuiltInEnchantments}" ItemTemplate="{StaticResource BuiltInEnchantmentsControl}"/>
+        <ListBox ScrollViewer.VerticalScrollBarVisibility="Visible" Visibility="{Binding IsMeleeWeapon, Converter={StaticResource VisibleIfTrueConverter}}" ItemsSource="{Binding BuiltInEnchantments}" ItemTemplate="{StaticResource BuiltInEnchantmentsControl}"/>
+        <ListBox ScrollViewer.VerticalScrollBarVisibility="Visible" Visibility="{Binding IsArmor, Converter={StaticResource VisibleIfTrueConverter}}" ItemsSource="{Binding Armorproperties}" ItemTemplate="{StaticResource ArmorPropertyControl}"/>
     </Grid>
 </UserControl>

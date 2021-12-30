@@ -4,7 +4,7 @@ using PakReader.Parsers.Class;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Media.Imaging;
-#nullable enable
+
 
 namespace MCDStorageChest.Logic.ImageResolver
 {

@@ -27,8 +27,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoWarn>
-    </NoWarn>
+    <NoWarn>CS8625; CS8618; CS8603; CS8602; CS8600;</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -66,14 +65,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\RuneData.cs" />
     <Compile Include="Controls\HotbarPreview.xaml.cs">
       <DependentUpon>HotbarPreview.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\InventoryPreview.xaml.cs">
       <DependentUpon>InventoryPreview.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ItemTemplates\BuiltInEnchantmentItemTemplate.xaml.cs">
+      <DependentUpon>BuiltInEnchantmentItemTemplate.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ItemTemplates\ArmorPropertyItemTemplate.xaml.cs">
       <DependentUpon>ArmorPropertyItemTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ItemTemplates\RuneIcon.xaml.cs">
+      <DependentUpon>RuneIcon.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ItemViews\ItemEnchantmentPanel.xaml.cs">
       <DependentUpon>ItemEnchantmentPanel.xaml</DependentUpon>
@@ -106,25 +112,27 @@
     <Compile Include="Converters\IsNotNullConverter.cs" />
     <Compile Include="Converters\MethodToValueConverter.cs" />
     <Compile Include="Extensions\CaseInSensitiveDictionary.cs" />
+    <Compile Include="Models\ExtraDataLibrary.cs" />
     <Compile Include="Models\MainViewModel.cs" />
     <Compile Include="Models\SaveModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\AssetLoader.cs" />
+    <Compile Include="Logic\AssetLoader.cs" />
+    <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Models\TypeLibrary.cs" />
     <Compile Include="Converters\LongToRomanNumeral.cs" />
     <Compile Include="Converters\IntToStringConverter.cs" />
     <Compile Include="Converters\NullVisibilityConverter.cs" />
-    <Compile Include="Save\Converters\RarityToBulletConverter.cs" />
-    <Compile Include="Save\Converters\ItemToBackgroundConverter.cs" />
-    <Compile Include="Save\Converters\EnchantToLvlConverter.cs" />
-    <Compile Include="Save\Converters\EnchantToNameConverter.cs" />
-    <Compile Include="Save\Converters\EnchantToImageConverter.cs" />
-    <Compile Include="Save\Converters\RarityToBackgroundConverter.cs" />
-    <Compile Include="Save\Converters\RarityToColorConverter.cs" />
-    <Compile Include="Save\Json\DynamicJSON.cs" />
-    <Compile Include="Save\Mapping\ImageMappings.cs" />
+    <Compile Include="Json\Converters\RarityToBulletConverter.cs" />
+    <Compile Include="Json\Converters\ItemToBackgroundConverter.cs" />
+    <Compile Include="Json\Converters\EnchantToLvlConverter.cs" />
+    <Compile Include="Json\Converters\EnchantToNameConverter.cs" />
+    <Compile Include="Json\Converters\EnchantToImageConverter.cs" />
+    <Compile Include="Json\Converters\RarityToBackgroundConverter.cs" />
+    <Compile Include="Json\Converters\RarityToColorConverter.cs" />
+    <Compile Include="Json\DynamicJSON.cs" />
+    <Compile Include="Logic\ImageMapper.cs" />
     <Page Include="Controls\HotbarPreview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -133,7 +141,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\ItemTemplates\BuiltInEnchantmentItemTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\ItemTemplates\ArmorPropertyItemTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ItemTemplates\RuneIcon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -197,10 +213,11 @@
     </Compile>
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="Save\Profiles\EnchantmentCollection.cs" />
+    <Compile Include="Json\Classes\EnchantmentCollection.cs" />
+    <Compile Include="Csv\ExtraDataEntry.cs" />
     <Compile Include="Secrets.cs" />
     <Compile Include="Logic\EventLogger.cs" />
-    <Compile Include="Logic\FileProcessHelper.cs" />
+    <Compile Include="Logic\FileLoader.cs" />
     <Compile Include="Logic\GameCalculator.cs" />
     <Compile Include="Logic\ImageResolver\IImageResolver.cs" />
     <Compile Include="Logic\ImageResolver\LocalImageResolver.cs" />
@@ -210,36 +227,36 @@
     <Compile Include="Models\StringLibrary.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Save\Enums\DifficultyEnum.cs" />
-    <Compile Include="Save\Enums\EquipmentSlotEnum.cs" />
-    <Compile Include="Save\Enums\ItemFilterEnum.cs" />
-    <Compile Include="Save\Enums\LevelTypeEnum.cs" />
-    <Compile Include="Save\Enums\Rarity.cs" />
-    <Compile Include="Save\Enums\ThreatLevelEnum.cs" />
-    <Compile Include="Save\Json\Mapping\AttributeBasedConverterFactory.cs" />
-    <Compile Include="Save\Json\Mapping\CustomNamingEnumJsonConverter.cs" />
-    <Compile Include="Save\Json\Mapping\EpochDateTimeJsonConverter.cs" />
-    <Compile Include="Save\Json\Mapping\GuidConverterFactory.cs" />
-    <Compile Include="Save\Json\Mapping\GuidJsonConverter.cs" />
-    <Compile Include="Save\Json\Mapping\INamingPolicy.cs" />
-    <Compile Include="Save\Json\Mapping\LowercaseNamingPolicy.cs" />
-    <Compile Include="Save\Json\Mapping\PrettyDateTimeJsonConverter.cs" />
-    <Compile Include="Save\Json\Mapping\SnakeCaseNamingPolicy.cs" />
-    <Compile Include="Save\Json\Mapping\TextDoubleJsonConverter.cs" />
-    <Compile Include="Save\Profiles\ArmorProperty.cs" />
-    <Compile Include="Save\Profiles\Cosmetic.cs" />
-    <Compile Include="Save\Profiles\Currency.cs" />
-    <Compile Include="Save\Profiles\Difficulties.cs" />
-    <Compile Include="Save\Profiles\Enchantment.cs" />
-    <Compile Include="Save\Profiles\Item.cs" />
-    <Compile Include="Save\Profiles\LobbyChest.cs" />
-    <Compile Include="Save\Profiles\MapUiState.cs" />
-    <Compile Include="Save\Profiles\MerchantDef.cs" />
-    <Compile Include="Save\Json\ProfileParser.cs" />
-    <Compile Include="Save\Profiles\ProfileSaveFile.cs" />
-    <Compile Include="Save\Profiles\Progress.cs" />
-    <Compile Include="Save\Profiles\Threats.cs" />
-    <Compile Include="Save\Profiles\UiHintsExpired.cs" />
+    <Compile Include="Json\Enums\DifficultyEnum.cs" />
+    <Compile Include="Json\Enums\EquipmentSlotEnum.cs" />
+    <Compile Include="Json\Enums\ItemFilterEnum.cs" />
+    <Compile Include="Json\Enums\LevelTypeEnum.cs" />
+    <Compile Include="Json\Enums\RarityEnum.cs" />
+    <Compile Include="Json\Enums\ThreatLevelEnum.cs" />
+    <Compile Include="Json\Mapping\AttributeBasedConverterFactory.cs" />
+    <Compile Include="Json\Mapping\CustomNamingEnumJsonConverter.cs" />
+    <Compile Include="Json\Mapping\EpochDateTimeJsonConverter.cs" />
+    <Compile Include="Json\Mapping\GuidConverterFactory.cs" />
+    <Compile Include="Json\Mapping\GuidJsonConverter.cs" />
+    <Compile Include="Json\Mapping\INamingPolicy.cs" />
+    <Compile Include="Json\Mapping\LowercaseNamingPolicy.cs" />
+    <Compile Include="Json\Mapping\PrettyDateTimeJsonConverter.cs" />
+    <Compile Include="Json\Mapping\SnakeCaseNamingPolicy.cs" />
+    <Compile Include="Json\Mapping\TextDoubleJsonConverter.cs" />
+    <Compile Include="Json\Classes\ArmorProperty.cs" />
+    <Compile Include="Json\Classes\Cosmetic.cs" />
+    <Compile Include="Json\Classes\Currency.cs" />
+    <Compile Include="Json\Classes\Difficulties.cs" />
+    <Compile Include="Json\Classes\Enchantment.cs" />
+    <Compile Include="Json\Classes\Item.cs" />
+    <Compile Include="Json\Classes\LobbyChest.cs" />
+    <Compile Include="Json\Classes\MapUiState.cs" />
+    <Compile Include="Json\Classes\MerchantDef.cs" />
+    <Compile Include="Json\ProfileParser.cs" />
+    <Compile Include="Json\Classes\ProfileSaveFile.cs" />
+    <Compile Include="Json\Classes\Progress.cs" />
+    <Compile Include="Json\Classes\Threats.cs" />
+    <Compile Include="Json\Classes\UiHintsExpired.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -257,6 +274,10 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Data\README.txt" />
+    <Content Include="Data\RuneTable.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -303,6 +324,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="CsvHelper">
+      <Version>27.2.1</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.WindowsAPICodePack-Shell">
       <Version>1.1.0</Version>
     </PackageReference>
@@ -319,6 +343,16 @@
       <Version>4.5.4</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\Runes\ArchetypeA.png" />
+    <Resource Include="Images\Runes\ArchetypeC.png" />
+    <Resource Include="Images\Runes\ArchetypeI.png" />
+    <Resource Include="Images\Runes\ArchetypeO.png" />
+    <Resource Include="Images\Runes\ArchetypeP.png" />
+    <Resource Include="Images\Runes\ArchetypeR.png" />
+    <Resource Include="Images\Runes\ArchetypeS.png" />
+    <Resource Include="Images\Runes\ArchetypeT.png" />
+    <Resource Include="Images\Runes\ArchetypeU.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         xmlns:v="clr-namespace:MCDStorageChest.Controls"
+        xmlns:itempreview="clr-namespace:MCDStorageChest.Controls.ItemViews"
         xmlns:models="clr-namespace:MCDStorageChest.Models"
         Title="MainWindow" MinWidth="1240" Width="1240" MinHeight="620" Height="620" x:Name="Window">
     <Window.DataContext>
@@ -33,28 +34,43 @@
         </Menu>
         <TabControl Grid.Row="1" >
             <TabItem x:Name="SaveTab" Header="Save" IsTabStop="True">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <v:HotbarPreview x:Name="HotbarLeft" Grid.Column="0" Grid.Row="0" DataContext="{Binding SaveModel}" />
-                    <v:InventoryPreview x:Name="InventoryLeft" Grid.Column="1" Grid.Row="0" DataContext="{Binding SaveModel}" />
-                    <v:ItemPreview Grid.Column="2" Grid.Row="0" DataContext="{Binding SaveModel.CurrentItem}"/>
-                </Grid>
+                <TabControl>
+                    <TabItem Header="Normal">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <v:HotbarPreview x:Name="HotbarLeft" Grid.Column="0" Grid.Row="0" DataContext="{Binding SaveModel}" />
+                            <v:InventoryPreview x:Name="InventoryLeft" Grid.Column="1" Grid.Row="0" DataContext="{Binding SaveModel}" />
+                            <v:ItemPreview Grid.Column="2" Grid.Row="0" DataContext="{Binding SaveModel.CurrentItem}"/>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="JSON">
+                        <itempreview:RawJSONPreview DataContext="{Binding SaveModel.CurrentSaveFile.RawData}"/>
+                    </TabItem>
+                </TabControl>
             </TabItem>
             <TabItem x:Name="StorageTab" Header="Storage" IsTabStop="True">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <v:HotbarPreview x:Name="HotbarRight" Grid.Column="0" Grid.Row="0" DataContext="{Binding StorageModel}" />
-                    <v:InventoryPreview x:Name="InventoryRight"  Grid.Column="1" Grid.Row="0" DataContext="{Binding StorageModel}" />
-                    <v:ItemPreview Grid.Column="2" Grid.Row="0" DataContext="{Binding StorageModel.CurrentItem}"/>
-                </Grid>
+                <TabControl>
+                    <TabItem Header="Normal">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <v:HotbarPreview x:Name="HotbarRight" Grid.Column="0" Grid.Row="0" DataContext="{Binding StorageModel}" />
+                            <v:InventoryPreview x:Name="InventoryRight"  Grid.Column="1" Grid.Row="0" DataContext="{Binding StorageModel}" />
+                            <v:ItemPreview Grid.Column="2" Grid.Row="0" DataContext="{Binding StorageModel.CurrentItem}"/>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="JSON">
+                        <itempreview:RawJSONPreview DataContext="{Binding StorageModel.CurrentSaveFile.RawData}"/>
+                    </TabItem>
+                </TabControl>
+
             </TabItem>
         </TabControl>
     </Grid>

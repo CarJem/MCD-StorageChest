@@ -1,4 +1,4 @@
-﻿using MCDStorageChest.Save.Profiles;
+﻿using MCDStorageChest.Json.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;

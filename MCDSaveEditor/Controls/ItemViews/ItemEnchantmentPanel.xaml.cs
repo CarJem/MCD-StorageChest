@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using MCDStorageChest.Save.Profiles;
+using MCDStorageChest.Json.Classes;
 
 namespace MCDStorageChest.Controls.ItemViews
 {

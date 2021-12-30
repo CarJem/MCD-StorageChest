@@ -5,10 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MCDStorageChest.Controls.ItemViews"       
              xmlns:controls="clr-namespace:MCDStorageChest.Controls"
-             xmlns:profile="clr-namespace:MCDStorageChest.Save.Profiles"
+             xmlns:profile="clr-namespace:MCDStorageChest.Json.Classes"
+             xmlns:tem="clr-namespace:MCDStorageChest.Controls.ItemTemplates"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:mappings="clr-namespace:MCDStorageChest.Save.Mapping"
-             xmlns:converters="clr-namespace:MCDStorageChest.Save.Converters"
+             xmlns:mappings="clr-namespace:MCDStorageChest.Json.Mapping"
+             xmlns:converters="clr-namespace:MCDStorageChest.Json.Converters"
              xmlns:converters2="clr-namespace:MCDStorageChest.Converters"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=profile:Item}"
@@ -21,6 +22,7 @@
         <converters:EnchantToNameConverter x:Key="enchantToName"/>
         <converters:EnchantToLvlConverter x:Key="enchantToLvl"/>
         <converters2:NullVisibilityConverter x:Key="NullToVisibilityConverter"/>
+       
         <Style TargetType="{x:Type ListBox}">
             <Style.Setters>
                 <Setter Property="Background" Value="#33000000"/>
@@ -34,25 +36,44 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="{x:Type tem:RuneIcon}" x:Key="RuneIcon">
+            <Setter Property="Width" Value="22"/>
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="Margin" Value="0,0,2,0"/>
+        </Style>
     </UserControl.Resources>
     <Grid x:Name="Header">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="{Binding ElementName=Header, Path=ActualHeight}"/>
         </Grid.ColumnDefinitions>
-        <StackPanel VerticalAlignment="Center">
+        <StackPanel VerticalAlignment="Center" Margin="5,0">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <TextBlock Text="{Binding Level}" Padding="8,2" Margin="0,0,5,0"/>
+                <TextBlock Text="{Binding Level}" Padding="0,2,8,2" Margin="0,0,5,0"/>
                 <TextBlock Text="{Binding Rarity}" Foreground="Black" Padding="8,2" Margin="10,0,5,0" FontWeight="Bold" Background="{Binding Rarity, Converter={StaticResource rarityToColor}}"/>
                 <TextBlock Text="Gilded" Foreground="Black" Padding="8,2" Margin="5,0" FontWeight="Bold" Background="Yellow" Visibility="{Binding IsGilded, Converter={StaticResource VisibleIfTrueConverter}}"/>
-                <TextBlock Text="Gifted" Padding="8,2" Margin="5,0" FontWeight="Bold" Foreground="LimeGreen" Background="Transparent" Visibility="{Binding Gifted, Converter={StaticResource VisibleIfTrueConverter}}"/>
+                <TextBlock Text="Gifted" Padding="8,2"  FontWeight="Bold" Foreground="LimeGreen" Background="Transparent" Visibility="{Binding Gifted, Converter={StaticResource VisibleIfTrueConverter}}"/>
             </StackPanel>
-            <TextBlock Text="{Binding Name}" Margin="5,0" VerticalAlignment="Center" FontSize="20"></TextBlock>
+            <TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontSize="20"></TextBlock>
+            <TextBlock VerticalAlignment="Center" FontSize="10">
+                <Run Text="{Binding Type, Mode=OneWay}"/>
+            </TextBlock>
+            <StackPanel Orientation="Horizontal" Margin="0,5">
+                <tem:RuneIcon CurrentArchetype="A" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_A, Converter={StaticResource VisibleIfTrueConverter}}"/>
+                <tem:RuneIcon CurrentArchetype="C" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_C, Converter={StaticResource VisibleIfTrueConverter}}"/>
+                <tem:RuneIcon CurrentArchetype="I" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_I, Converter={StaticResource VisibleIfTrueConverter}}"/>
+                <tem:RuneIcon CurrentArchetype="O" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_O, Converter={StaticResource VisibleIfTrueConverter}}"/>
+                <tem:RuneIcon CurrentArchetype="P" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_P, Converter={StaticResource VisibleIfTrueConverter}}"/>
+                <tem:RuneIcon CurrentArchetype="R" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_R, Converter={StaticResource VisibleIfTrueConverter}}"/>
+                <tem:RuneIcon CurrentArchetype="S" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_S, Converter={StaticResource VisibleIfTrueConverter}}"/>
+                <tem:RuneIcon CurrentArchetype="T" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_T, Converter={StaticResource VisibleIfTrueConverter}}"/>
+                <tem:RuneIcon CurrentArchetype="U" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_U, Converter={StaticResource VisibleIfTrueConverter}}"/>
+            </StackPanel>                                  
         </StackPanel>
 
-        <Image VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="1" Source="{Binding Image}">
+        <Image VerticalAlignment="Stretch" Margin="5" HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="1" Source="{Binding Image}">
             <Image.Effect>
-                <DropShadowEffect BlurRadius="4"></DropShadowEffect>
+                <DropShadowEffect ShadowDepth="3" BlurRadius="1" Opacity="0.75"></DropShadowEffect>
             </Image.Effect>
         </Image>
     </Grid>

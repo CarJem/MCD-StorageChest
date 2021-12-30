@@ -9,8 +9,8 @@
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:templates="clr-namespace:MCDStorageChest.Controls.ItemTemplates"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:profile="clr-namespace:MCDStorageChest.Save.Profiles"
-             xmlns:mappings="clr-namespace:MCDStorageChest.Save.Mapping"
+             xmlns:profile="clr-namespace:MCDStorageChest.Json.Classes"
+             xmlns:mappings="clr-namespace:MCDStorageChest.Json.Mapping"
              mc:Ignorable="d" 
              DataContextChanged="UserControl_DataContextChanged"
              xmlns:converters="clr-namespace:MCDStorageChest.Converters"
@@ -34,6 +34,86 @@
                 <scm:SortDescription PropertyName="InventoryIndex" Direction="Ascending"></scm:SortDescription>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <SolidColorBrush x:Key="RuneCheckbox.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="RuneCheckbox.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="RuneCheckbox.MouseOver.Background" Color="#FFBEE6FD"/>
+        <SolidColorBrush x:Key="RuneCheckbox.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="RuneCheckbox.Pressed.Background" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="RuneCheckbox.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="RuneCheckbox.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="RuneCheckbox.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="RuneCheckbox.Disabled.Foreground" Color="#FF838383"/>
+
+        <SolidColorBrush x:Key="RuneCheckbox.Overlay.Null" Color="#7FFFFFFF"/>
+        <SolidColorBrush x:Key="RuneCheckbox.Overlay.True" Color="#7F000000"/>
+        <SolidColorBrush x:Key="RuneCheckbox.Overlay.False"/>
+
+        <Style x:Key="RuneCheckbox" TargetType="{x:Type ToggleButton}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource RuneCheckbox.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource RuneCheckbox.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="IsThreeState" Value="True"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <Grid>
+                                <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                <Border x:Name="overlay" Focusable="False" Width="{Binding ElementName=contentPresenter, Path=ActualWidth}" Height="{Binding ElementName=contentPresenter, Path=ActualHeight}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Button.IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource RuneCheckbox.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource RuneCheckbox.MouseOver.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource RuneCheckbox.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource RuneCheckbox.Pressed.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource RuneCheckbox.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource RuneCheckbox.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource RuneCheckbox.Disabled.Foreground}"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="{x:Null}">
+                                <Setter Property="Background" TargetName="overlay" Value="{StaticResource RuneCheckbox.Overlay.Null}"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter Property="Background" TargetName="overlay" Value="{StaticResource RuneCheckbox.Overlay.False}"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Background" TargetName="overlay" Value="{StaticResource RuneCheckbox.Overlay.True}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="ContainerMenuItem" TargetType="{x:Type MenuItem}">
+            <Grid Margin="35,5,35,5" Background="{TemplateBinding Background}">
+                <ContentPresenter Content="{TemplateBinding Header}" />
+            </Grid>
+        </ControlTemplate>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -49,13 +129,101 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" x:Name="allItemsButton" Content="{StaticResource AllItems_Content}" Margin="4" Click="allItemsButton_Click" />
-            <Button Grid.Column="1" x:Name="meleeItemsButton" Content="{StaticResource Melee_Content}" Margin="4" Click="allMeleeItemsButton_Click" />
-            <Button Grid.Column="2" x:Name="rangedItemsButton" Content="{StaticResource Ranged_Content}" Margin="4" Click="allRangedItemsButton_Click" />
-            <Button Grid.Column="3" x:Name="armorItemsButton" Content="{StaticResource Armor_Content}" Margin="4" Click="allArmorItemsButton_Click" />
-            <Button Grid.Column="4" x:Name="artifactItemsButton" Content="{StaticResource Artifacts_Content}" Margin="4" Click="allArtifactItemsButton_Click" />
-            <Button Grid.Column="5" x:Name="enchantedItemsButton" Content="{StaticResource Enchanted_Content}" Margin="4" Click="allEnchantedItemsButton_Click" />
+            <Button Grid.Column="0" x:Name="allItemsButton" Content="{StaticResource AllItems_Content}" Padding="4" Margin="4" Click="allItemsButton_Click" />
+            <Button Grid.Column="1" x:Name="meleeItemsButton" Content="{StaticResource Melee_Content}" Padding="4" Margin="4" Click="allMeleeItemsButton_Click" />
+            <Button Grid.Column="2" x:Name="rangedItemsButton" Content="{StaticResource Ranged_Content}" Padding="4" Margin="4" Click="allRangedItemsButton_Click" />
+            <Button Grid.Column="3" x:Name="armorItemsButton" Content="{StaticResource Armor_Content}" Padding="4" Margin="4" Click="allArmorItemsButton_Click" />
+            <Button Grid.Column="4" x:Name="artifactItemsButton" Content="{StaticResource Artifacts_Content}" Padding="4" Margin="4" Click="allArtifactItemsButton_Click" />
+            <Button Grid.Column="5" x:Name="enchantedItemsButton" Content="{StaticResource Enchanted_Content}" Padding="4" Margin="4" Click="allEnchantedItemsButton_Click" />
+            <Button Grid.Column="6" x:Name="searchItemsButton" Padding="4" Margin="4" Click="searchItemsButton_Click">
+                <Button.Content>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Image Margin="1" Grid.Column="0" Grid.Row="0" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_ArtifactItemsButtonImage}"/>
+                        <Image Margin="1" Grid.Column="1" Grid.Row="0" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_MeleeItemsButtonImage}"/>
+                        <Image Margin="1" Grid.Column="0" Grid.Row="1" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_RangedItemsButtonImage}"/>
+                        <Image Margin="1" Grid.Column="1" Grid.Row="1" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_ArmorItemsButtonImage}"/>
+                    </Grid>
+                </Button.Content>
+                <Button.ContextMenu>
+                    <ContextMenu Name="CustomSearchOptions">
+                        <MenuItem Template="{StaticResource ContainerMenuItem}" StaysOpenOnClick="True">
+                            <MenuItem.Header>
+                                <StackPanel>
+                                    <StackPanel>
+                                        <CheckBox IsChecked="{Binding SearchSettings.SearchByName}" Content="By Name:" Margin="0,0,0,5"></CheckBox>
+                                        <TextBox Text="{Binding SearchSettings.SearchByName_Text}" Width="120" IsEnabled="{Binding SearchSettings.SearchByName}" Margin="0,0,0,5"/>
+                                        <CheckBox IsChecked="{Binding SearchSettings.SearchByName_UseIDs}" Content="Use Internal Names" IsEnabled="{Binding SearchSettings.SearchByName}" Margin="0,0,0,5"></CheckBox>
+                                    </StackPanel>
+                                    <TextBlock IsEnabled="False" Text="Limit to..." Focusable="False"/>
+                                    <CheckBox IsChecked="{Binding SearchSettings.LimitTo_Armor}" Content="Armor" IsThreeState="False"></CheckBox>
+                                    <CheckBox IsChecked="{Binding SearchSettings.LimitTo_Melee}" Content="Melee" IsThreeState="False"></CheckBox>
+                                    <CheckBox IsChecked="{Binding SearchSettings.LimitTo_Ranged}" Content="Ranged" IsThreeState="False"></CheckBox>
+                                    <CheckBox IsChecked="{Binding SearchSettings.LimitTo_Artifact}" Content="Artifact" IsThreeState="False"></CheckBox>
+                                    <Grid Height="10"/>
+                                    <CheckBox IsChecked="{Binding SearchSettings.LimitTo_Common}" Content="Common" IsThreeState="False"></CheckBox>
+                                    <CheckBox IsChecked="{Binding SearchSettings.LimitTo_Rare}" Content="Rare" IsThreeState="False"></CheckBox>
+                                    <CheckBox IsChecked="{Binding SearchSettings.LimitTo_Unique}" Content="Unique" IsThreeState="False"></CheckBox>
+                                    <TextBlock IsEnabled="False" Text="Filter by..." Focusable="False" Margin="0,10,0,0"/>
+                                    <CheckBox IsChecked="{Binding SearchSettings.FilterBy_Enchanted}" Content="Enchanted" IsThreeState="True"></CheckBox>
+                                    <CheckBox IsChecked="{Binding SearchSettings.FilterBy_Gilded}" Content="Gilded" IsThreeState="True"></CheckBox>
+                                    <Grid VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1,10,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel>
+                                            <ToggleButton Style="{StaticResource RuneCheckbox}" IsChecked="{Binding SearchSettings.FilterBy_RuneA}">
+                                                <templates:RuneIcon CurrentArchetype="A" Height="25" Width="25"/>
+                                            </ToggleButton>
+                                            <ToggleButton Style="{StaticResource RuneCheckbox}" IsChecked="{Binding SearchSettings.FilterBy_RuneC}">
+                                                <templates:RuneIcon CurrentArchetype="C" Height="25" Width="25"/>
+                                            </ToggleButton>
+                                            <ToggleButton Style="{StaticResource RuneCheckbox}" IsChecked="{Binding SearchSettings.FilterBy_RuneI}">
+                                                <templates:RuneIcon CurrentArchetype="I" Height="25" Width="25"/>
+                                            </ToggleButton>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1">
+                                            <ToggleButton Style="{StaticResource RuneCheckbox}" IsChecked="{Binding SearchSettings.FilterBy_RuneO}">
+                                                <templates:RuneIcon CurrentArchetype="O" Height="25" Width="25"/>
+                                            </ToggleButton>
+                                            <ToggleButton Style="{StaticResource RuneCheckbox}" IsChecked="{Binding SearchSettings.FilterBy_RuneP}">
+                                                <templates:RuneIcon CurrentArchetype="P" Height="25" Width="25"/>
+                                            </ToggleButton>
+                                            <ToggleButton Style="{StaticResource RuneCheckbox}" IsChecked="{Binding SearchSettings.FilterBy_RuneR}">
+                                                <templates:RuneIcon CurrentArchetype="R" Height="25" Width="25"/>
+                                            </ToggleButton>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="2">
+                                            <ToggleButton Style="{StaticResource RuneCheckbox}" IsChecked="{Binding SearchSettings.FilterBy_RuneS}">
+                                                <templates:RuneIcon CurrentArchetype="S" Height="25" Width="25"/>
+                                            </ToggleButton>
+                                            <ToggleButton Style="{StaticResource RuneCheckbox}" IsChecked="{Binding SearchSettings.FilterBy_RuneT}">
+                                                <templates:RuneIcon CurrentArchetype="T" Height="25" Width="25"/>
+                                            </ToggleButton>
+                                            <ToggleButton Style="{StaticResource RuneCheckbox}" IsChecked="{Binding SearchSettings.FilterBy_RuneU}">
+                                                <templates:RuneIcon CurrentArchetype="U" Height="25" Width="25"/>
+                                            </ToggleButton>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </MenuItem.Header>
+                        </MenuItem>
+                        <Separator></Separator>
+                        <MenuItem x:Name="searchButton" Header="Search..." Click="searchButton_Click"></MenuItem>
+                    </ContextMenu>
+                </Button.ContextMenu>
+            </Button>
         </Grid>
         <Grid Grid.Row="1">
             <ListBox SelectedItem="{Binding CurrentItem}"

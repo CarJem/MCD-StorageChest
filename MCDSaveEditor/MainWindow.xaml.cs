@@ -1,5 +1,4 @@
-﻿using MCDStorageChest.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MCDStorageChest.Models;
+using MCDStorageChest.Logic;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
 
@@ -27,7 +28,7 @@ namespace MCDStorageChest
         {
             get
             {
-                return DataContext as MainViewModel;
+                return (DataContext as MainViewModel);
             }
         }
 

@@ -1,5 +1,5 @@
-﻿using MCDStorageChest.Save.Enums;
-using MCDStorageChest.Save.Profiles;
+﻿using MCDStorageChest.Json.Enums;
+using MCDStorageChest.Json.Classes;
 using PakReader.Pak;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -50,8 +50,8 @@ namespace MCDStorageChest.Logic.ImageResolver
             {
                 if (item == null) continue;
                 //Drop the mount point prefix
-                var startIndex = item!.IndexOf("//") + 1;
-                var fullPath = item!.Substring(startIndex);
+                var startIndex = item.IndexOf("//") + 1;
+                var fullPath = item.Substring(startIndex);
 
                 if (fullPath.Contains("Localization") && fullPath.EndsWith("Game"))
                 {
@@ -221,7 +221,7 @@ namespace MCDStorageChest.Logic.ImageResolver
             {
                 var bitmap = _pakIndex.extractBitmap(path);
                 if (bitmap == null) return null;
-                _bitmaps[path] = bitmap!;
+                _bitmaps[path] = bitmap;
             }
             return _bitmaps[path];
         }
@@ -244,13 +244,13 @@ namespace MCDStorageChest.Logic.ImageResolver
             return _backupResolver.imageSourceForItem(itemType);
         }
 
-        public BitmapImage imageSourceForRarity(Rarity rarity)
+        public BitmapImage imageSourceForRarity(RarityEnum rarity)
         {
             switch (rarity)
             {
-                case Rarity.Common: return imageSource("/Dungeons/Content/UI/Materials/MissionSelectMap/inspector/loot/drops_gear_frame");
-                case Rarity.Rare: return imageSource("/Dungeons/Content/UI/Materials/MissionSelectMap/inspector/loot/drops_rare_frame");
-                case Rarity.Unique: return imageSource("/Dungeons/Content/UI/Materials/MissionSelectMap/inspector/loot/drops_unique_frame");
+                case RarityEnum.Common: return imageSource("/Dungeons/Content/UI/Materials/MissionSelectMap/inspector/loot/drops_gear_frame");
+                case RarityEnum.Rare: return imageSource("/Dungeons/Content/UI/Materials/MissionSelectMap/inspector/loot/drops_rare_frame");
+                case RarityEnum.Unique: return imageSource("/Dungeons/Content/UI/Materials/MissionSelectMap/inspector/loot/drops_unique_frame");
             }
             return _backupResolver.imageSourceForRarity(rarity);
         }

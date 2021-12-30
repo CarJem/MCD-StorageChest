@@ -10,6 +10,10 @@ namespace MCDStorageChest.Extensions
     {
         public CaseInSensitiveDictionary() : base(StringComparer.OrdinalIgnoreCase) { }
 
+        public CaseInSensitiveDictionary(Dictionary<string, TValue> dictionary) : base(StringComparer.OrdinalIgnoreCase)
+        {
+            foreach (var set in dictionary) base.Add(set.Key, set.Value);
+        }
 
         public new bool ContainsKey(string key)
         {
@@ -30,5 +34,11 @@ namespace MCDStorageChest.Extensions
 
             return keyExists ?? false;
         }
+
+        public new bool TryGetValue(string key, out TValue value)
+        {
+            return base.TryGetValue(key, out value);
+        }
+
     }
 }

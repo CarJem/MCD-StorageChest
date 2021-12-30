@@ -1,4 +1,4 @@
-﻿using MCDStorageChest.Save.Enums;
+﻿using MCDStorageChest.Json.Enums;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

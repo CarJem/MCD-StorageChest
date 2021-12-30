@@ -1,5 +1,5 @@
-﻿using MCDStorageChest.Save.Enums;
-using MCDStorageChest.Save.Profiles;
+﻿using MCDStorageChest.Json.Enums;
+using MCDStorageChest.Json.Classes;
 using System;
 using System.IO;
 using System.Net.Cache;
@@ -14,17 +14,19 @@ namespace MCDStorageChest.Logic.ImageResolver
         private const string IMAGES_URI = @"pack://application:,,/Images";
         private readonly RequestCachePolicy REQUEST_CACHE_POLICY = new RequestCachePolicy(RequestCacheLevel.CacheIfAvailable);
 
-        public string path { get { return null; } }
+        public string path { get { return null!; } }
 
         public BitmapImage imageSource(string path)
         {
-            return null;
+            if (path.StartsWith("/Dungeons/Content/")) return null;
+            else return tryBitmapImageForUri(GetImageURI(path));
         }
 
         private BitmapImage tryBitmapImageForUri(Uri uri)
         {
             try
             {
+                if (uri == null) return null;
                 //Console.WriteLine("Requesting Uri: {0}", uri);
                 var image = new BitmapImage(uri, REQUEST_CACHE_POLICY);
                 return image;
@@ -34,7 +36,7 @@ namespace MCDStorageChest.Logic.ImageResolver
                 EventLogger.logError($"Error creating bitmap for {uri}");
                 Console.Write(e);
                 //Debug.Assert(false);
-                return null;
+                return null!;
             }
         }
 
@@ -42,7 +44,7 @@ namespace MCDStorageChest.Logic.ImageResolver
 
         public BitmapImage imageSourceForItem(Item item)
         {
-            return null;
+            return null!;
         }
 
         public BitmapImage imageSourceForItem(string itemType)
@@ -84,9 +86,9 @@ namespace MCDStorageChest.Logic.ImageResolver
 
         #region Raritys
 
-        public BitmapImage imageSourceForRarity(Rarity rarity)
+        public BitmapImage imageSourceForRarity(RarityEnum rarity)
         {
-            return null;
+            return null!;
             //var filename = imageNameFromRarity(rarity);
             //if(filename == null) { return null; }
             //var path = Path.Combine(IMAGES_URI, "UI", "ItemRarity", filename);
@@ -94,13 +96,13 @@ namespace MCDStorageChest.Logic.ImageResolver
             //return tryBitmapImageForUri(uri);
         }
 
-        private string imageNameFromRarity(Rarity rarity)
+        private string imageNameFromRarity(RarityEnum rarity)
         {
             switch (rarity)
             {
-                case Rarity.Common: return "drops_items_frame.png";
-                case Rarity.Rare: return "drops_rare_frame.png";
-                case Rarity.Unique: return "drops_unique_frame.png";
+                case RarityEnum.Common: return "drops_items_frame.png";
+                case RarityEnum.Rare: return "drops_rare_frame.png";
+                case RarityEnum.Unique: return "drops_unique_frame.png";
             }
             throw new NotImplementedException();
         }
@@ -119,7 +121,7 @@ namespace MCDStorageChest.Logic.ImageResolver
             var enchantmentId = enchantment;
             if (enchantmentId == Constants.DEFAULT_ENCHANTMENT_ID)
             {
-                return null;
+                return null!;
             }
             return tryBitmapImageForUri(GetImageURI("Enchantments.png"));
         }
@@ -129,9 +131,8 @@ namespace MCDStorageChest.Logic.ImageResolver
         private Uri GetImageURI(string filename)
         {
             var path = Path.Combine(IMAGES_URI, filename);
-            var uri = new Uri(path);
-            return uri;
+            if (Uri.TryCreate(path, UriKind.RelativeOrAbsolute, out Uri uri)) return uri;
+            else return null!;
         }
-
     }
 }
