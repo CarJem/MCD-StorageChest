@@ -17,7 +17,7 @@ using MCDStorageChest;
 using MCDStorageChest.Json;
 using MCDStorageChest.Logic;
 using MCDStorageChest.Logic.ImageResolver;
-
+using System.Windows;
 
 namespace MCDStorageChest.Logic
 {
@@ -34,16 +34,25 @@ namespace MCDStorageChest.Logic
 
         public static async Task FileLoadGameContent(string paksFolderPath)
         {
-            var pakIndex = await loadPakIndex(paksFolderPath);
-            if (pakIndex == null)
+            try
             {
-                throw new NullReferenceException($"PakIndex is null. Cannot Continue.");
+                var pakIndex = await loadPakIndex(paksFolderPath);
+                if (pakIndex == null)
+                {
+                    throw new NullReferenceException($"PakIndex is null. Cannot Continue.");
+                }
+                var pakImageResolver = new PakImageResolver(pakIndex!, paksFolderPath);
+                await pakImageResolver.loadPakFilesAsync(preloadBitmaps: false);
+                instance = pakImageResolver;
+                gameContentLoaded = true;
+                Json.Mapping.ImageMappings.Instance.UpdateProperties();
             }
-            var pakImageResolver = new PakImageResolver(pakIndex!, paksFolderPath);
-            await pakImageResolver.loadPakFilesAsync(preloadBitmaps: false);
-            instance = pakImageResolver;
-            gameContentLoaded = true;
-            Json.Mapping.ImageMappings.Instance.UpdateProperties();
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                FileUnloadGameContent();
+            }
+
         }
         public static void FileUnloadGameContent()
         {

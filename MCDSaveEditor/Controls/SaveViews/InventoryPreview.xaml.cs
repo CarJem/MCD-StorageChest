@@ -16,7 +16,7 @@ using MCDStorageChest.Json.Enums;
 using MCDStorageChest.Extensions;
 using System.Collections.ObjectModel;
 
-namespace MCDStorageChest.Controls
+namespace MCDStorageChest.Controls.SaveViews
 {
     /// <summary>
     /// Interaction logic for InventoryPreview.xaml
@@ -29,6 +29,8 @@ namespace MCDStorageChest.Controls
         {
             InitializeComponent();
         }
+
+        public bool ShowCheckboxes { get; set; } = false;
 
         private void Items_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -193,6 +195,7 @@ namespace MCDStorageChest.Controls
 
         public bool searchItemsFilter(object item)
         {
+            if (item == null) return false;
             if (item is Json.Classes.Item && DataContext is Models.SaveModel)
             {
                 return (DataContext as Models.SaveModel).SearchSettings.Filter(item as Json.Classes.Item);
@@ -206,7 +209,7 @@ namespace MCDStorageChest.Controls
 
         #region UI Icons
 
-        public void InitUI()
+        public void RefreshUI()
         {
             UpdateFilter(ItemFilterEnum.All);
         }
@@ -326,19 +329,22 @@ namespace MCDStorageChest.Controls
 
         #endregion
 
-        private void SendToSave_Click(object sender, RoutedEventArgs e)
+        private void searchItemsButton_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (DataContext is Models.SaveModel)
-            {
-                (DataContext as Models.SaveModel).MoveToSavegame((DataContext as Models.SaveModel).CurrentItem);
-            }
+            e.Handled = true;
         }
 
-        private void SendToStorage_Click(object sender, RoutedEventArgs e)
+        private void searchItemsButton_Click(object sender, RoutedEventArgs e)
         {
-            if (DataContext is Models.SaveModel)
+            var button = sender as Button;
+            if (button != null)
             {
-                (DataContext as Models.SaveModel).MoveToStorage((DataContext as Models.SaveModel).CurrentItem);
+                button.ContextMenu.DataContext = button.DataContext;
+                button.ContextMenu.PlacementTarget = button;
+                button.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Left;
+                button.ContextMenu.HorizontalOffset = button.ActualWidth;
+                button.ContextMenu.VerticalOffset = button.ActualHeight;
+                button.ContextMenu.IsOpen = true;
             }
         }
     }

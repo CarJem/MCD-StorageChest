@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MCDStorageChest.Json.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,18 @@ namespace MCDStorageChest.Controls.ItemViews
     /// </summary>
     public partial class ItemEnchantmentPreview : UserControl
     {
+        public static Enchantment DefaultEnchantment
+        {
+            get
+            {
+                return new Enchantment()
+                {
+                    Id = Constants.DEFAULT_ENCHANTMENT_ID,
+                    Level = 0
+                };
+            }
+        }
+
         public ItemEnchantmentPreview()
         {
             InitializeComponent();

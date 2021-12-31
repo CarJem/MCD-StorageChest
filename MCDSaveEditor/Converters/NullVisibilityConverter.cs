@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
@@ -11,12 +7,23 @@ namespace MCDStorageChest.Converters
 {
     public class NullVisibilityConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public NullVisibilityConverter() : this(Visibility.Hidden, Visibility.Visible) { }
+
+        public NullVisibilityConverter(Visibility trueValue, Visibility falseValue)
         {
-            return value == null ? Visibility.Hidden : Visibility.Visible;
+            IsNull = trueValue;
+            IsNotNull = falseValue;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public Visibility IsNull { get; set; }
+        public Visibility IsNotNull { get; set; }
+
+        public virtual object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value == null ? IsNull : IsNotNull;
+        }
+
+        public virtual object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

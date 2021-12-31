@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 using MCDStorageChest.Json.Enums;
 using MCDStorageChest.Extensions;
 
-namespace MCDStorageChest.Controls
+namespace MCDStorageChest.Controls.SaveViews
 {
     /// <summary>
     /// Interaction logic for HotbarPreview.xaml
@@ -29,7 +29,7 @@ namespace MCDStorageChest.Controls
             InitializeComponent();
         }
 
-        public void InitUI()
+        public void RefreshUI()
         {
             if ((DataContext as Models.SaveModel).CurrentSaveFile == null) return;
             (DataContext as Models.SaveModel).CurrentSaveFile.UpdateEquiptmentSlots();

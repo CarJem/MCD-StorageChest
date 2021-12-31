@@ -40,7 +40,7 @@
     </UserControl.Resources>
     <Border BorderThickness="1" Margin="0,-1" BorderBrush="DarkGoldenrod" Background="Gold" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
         <StackPanel Orientation="Horizontal" IsEnabled="{Binding IsGilded}" Style="{StaticResource GildedPanel}" Margin="7,0,0,0">
-            <Image Source="{Binding NetheriteEnchant, Converter={StaticResource enchantToImage}, FallbackValue={x:Static local:ItemGildedPanel.DefaultEnchantment}}" Height="30" Width="30"  VerticalAlignment="Center" Margin="10,0,10,0"/>
+            <Image Source="{Binding NetheriteEnchant, Converter={StaticResource enchantToImage}}" Height="30" Width="30"  VerticalAlignment="Center" Margin="10,0,10,0"/>
             <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                 <TextBlock Foreground="Black" Margin="0,0,0,0" VerticalAlignment="Center">
                     <Run Text="{Binding NetheriteEnchant, Converter={StaticResource enchantToName}}"/>

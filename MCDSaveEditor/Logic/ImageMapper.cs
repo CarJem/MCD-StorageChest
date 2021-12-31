@@ -161,6 +161,14 @@ namespace MCDStorageChest.Json.Mapping
             }
         }
 
+        public ImageSource Inventory_SearchItemsButtonImage
+        {
+            get
+            {
+                return new BitmapImage(new Uri("pack://application:,,,/MCDStorageChest;component/Images/Search.png"));
+            }
+        }
+
         public ImageSource EnchantmentSet_Background
         {
             get

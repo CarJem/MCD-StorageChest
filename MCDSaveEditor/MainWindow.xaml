@@ -3,14 +3,43 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MCDStorageChest"
         mc:Ignorable="d"
         xmlns:v="clr-namespace:MCDStorageChest.Controls"
         xmlns:itempreview="clr-namespace:MCDStorageChest.Controls.ItemViews"
         xmlns:models="clr-namespace:MCDStorageChest.Models"
-        Title="MainWindow" MinWidth="1240" Width="1240" MinHeight="620" Height="620" x:Name="Window">
+        xmlns:properties="clr-namespace:MCDStorageChest.Properties"
+        d:DataContext="{d:DesignInstance Type=models:MainViewModel}"
+        Initialized="Window_Initialized"
+        Title="{x:Static local:Constants.APPLICATION_DISPLAY_NAME}" MinWidth="1240" Width="1240" MinHeight="620" Height="620" x:Name="Window">
     <Window.DataContext>
         <models:MainViewModel/>
     </Window.DataContext>
+
+    <Window.Resources>
+        <Style x:Key="RecentStorageList" TargetType="{x:Type MenuItem}">
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="{x:Type MenuItem}">
+                        <Setter Property="Header" Value="{Binding ., Mode=OneWay}"/>
+                        <Setter Property="Command" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=MenuItem}, Path=DataContext.LoadRecentStorageCommand}"/>
+                        <Setter Property="CommandParameter" Value="{Binding .}"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="RecentSaveGameList" TargetType="{x:Type MenuItem}">
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="{x:Type MenuItem}">
+                        <Setter Property="Header" Value="{Binding ., Mode=OneWay}"/>
+                        <Setter Property="Command" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=MenuItem}, Path=DataContext.LoadRecentSaveGameCommand}"/>
+                        <Setter Property="CommandParameter" Value="{Binding .}"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -21,57 +50,22 @@
                 <MenuItem Header="New..." IsEnabled="False" Name="NewMenuItem" Click="NewMenuItem_Click"/>
                 <Separator/>
                 <MenuItem Header="Load Savegame..." x:Name="LoadLeft" Click="LoadLeft_Click"/>
+                <MenuItem Header="Load Savegame from..." x:Name="RecentSaveGameDirectories" Style="{StaticResource RecentSaveGameList}" ItemsSource="{Binding RecentSaveGameDirectories, TargetNullValue={x:Static local:Constants.NO_RECENT_DIRECTORIES}, Mode=TwoWay}" DataContext="{Binding .}"/>
                 <MenuItem Header="Save Savegame..." x:Name="SaveLeft" Click="SaveLeft_Click"/>
                 <Separator/>
                 <MenuItem Header="Load Storage..." x:Name="LoadRight" Click="LoadRight_Click" />
+                <MenuItem Header="Load Storage from..." x:Name="RecentStorageDirectories" Style="{StaticResource RecentStorageList}" ItemsSource="{Binding RecentStorageDirectories, TargetNullValue={x:Static local:Constants.NO_RECENT_DIRECTORIES}, Mode=TwoWay}" DataContext="{Binding .}"/>
                 <MenuItem Header="Save Storage..." x:Name="SaveRight" Click="SaveRight_Click"/>
-                <Separator/>
-                <MenuItem Header="Load Game Data..." Name="LoadGameData" Click="LoadGameData_Click"/>
-                <MenuItem Header="Unload Game Data..." Name="UnloadGameDataMenuItem" Click="UnloadGameDataMenuItem_Click"></MenuItem>
                 <Separator/>
                 <MenuItem Header="Exit" Name="ExitMenuItem" Click="ExitMenuItem_Click"/>
             </MenuItem>
+            <MenuItem Header="Data">
+                <MenuItem Header="Load Game Data..." Name="LoadGameData" Click="LoadGameData_Click"/>
+                <MenuItem Header="Unload Game Data..." Name="UnloadGameDataMenuItem" Click="UnloadGameDataMenuItem_Click"></MenuItem>
+                <Separator/> 
+                <MenuItem Header="Auto Load Last Game Data" StaysOpenOnClick="True" IsCheckable="True" Click="SettingChanged" IsChecked="{Binding AutoLoadLastGameData}"/>
+            </MenuItem>
         </Menu>
-        <TabControl Grid.Row="1" >
-            <TabItem x:Name="SaveTab" Header="Save" IsTabStop="True">
-                <TabControl>
-                    <TabItem Header="Normal">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <v:HotbarPreview x:Name="HotbarLeft" Grid.Column="0" Grid.Row="0" DataContext="{Binding SaveModel}" />
-                            <v:InventoryPreview x:Name="InventoryLeft" Grid.Column="1" Grid.Row="0" DataContext="{Binding SaveModel}" />
-                            <v:ItemPreview Grid.Column="2" Grid.Row="0" DataContext="{Binding SaveModel.CurrentItem}"/>
-                        </Grid>
-                    </TabItem>
-                    <TabItem Header="JSON">
-                        <itempreview:RawJSONPreview DataContext="{Binding SaveModel.CurrentSaveFile.RawData}"/>
-                    </TabItem>
-                </TabControl>
-            </TabItem>
-            <TabItem x:Name="StorageTab" Header="Storage" IsTabStop="True">
-                <TabControl>
-                    <TabItem Header="Normal">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <v:HotbarPreview x:Name="HotbarRight" Grid.Column="0" Grid.Row="0" DataContext="{Binding StorageModel}" />
-                            <v:InventoryPreview x:Name="InventoryRight"  Grid.Column="1" Grid.Row="0" DataContext="{Binding StorageModel}" />
-                            <v:ItemPreview Grid.Column="2" Grid.Row="0" DataContext="{Binding StorageModel.CurrentItem}"/>
-                        </Grid>
-                    </TabItem>
-                    <TabItem Header="JSON">
-                        <itempreview:RawJSONPreview DataContext="{Binding StorageModel.CurrentSaveFile.RawData}"/>
-                    </TabItem>
-                </TabControl>
-
-            </TabItem>
-        </TabControl>
+        <v:SaveViewTabs x:Name="TabControl" Grid.Row="1" DataContext="{Binding .}"></v:SaveViewTabs>
     </Grid>
 </Window>

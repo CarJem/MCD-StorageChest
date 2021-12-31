@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace MCDStorageChest.Controls
+namespace MCDStorageChest.Controls.Misc
 {
     /// <summary>
     /// Interaction logic for NumericUpDown.xaml

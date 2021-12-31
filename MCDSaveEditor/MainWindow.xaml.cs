@@ -15,14 +15,14 @@ using System.Windows.Shapes;
 using MCDStorageChest.Models;
 using MCDStorageChest.Logic;
 using Microsoft.WindowsAPICodePack.Dialogs;
-
+using MCDStorageChest.Controls;
 
 namespace MCDStorageChest
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IMainWindow
     {
         private MainViewModel ViewModel
         {
@@ -32,78 +32,52 @@ namespace MCDStorageChest
             }
         }
 
+        public async Task RefreshUI()
+        {
+            await Dispatcher.InvokeAsync(() =>
+            {
+                foreach (var saveView in Extensions.Extensions.FindVisualChildren<SaveView>(TabControl))
+                    saveView.RefreshUI();
+            });
+        }
+
+
         public MainWindow()
         {
             InitializeComponent();
+            ViewModel.Init(this);
         }
-
-        private async void InitUILeft()
-        {
-            await Dispatcher.InvokeAsync(() =>
-            {
-                InventoryLeft.InitUI();
-                HotbarLeft.InitUI();
-                SaveTab.Header = string.Format("Save ({0})", System.IO.Path.GetFileName(ViewModel.SaveModel.CurrentSaveFilePath));
-            });
-
-        }
-
-        private async void InitUIRight()
-        {
-            await Dispatcher.InvokeAsync(() =>
-            {
-                InventoryRight.InitUI();
-                HotbarRight.InitUI();
-                StorageTab.Header = string.Format("Storage ({0})", System.IO.Path.GetFileName(ViewModel.StorageModel.CurrentSaveFilePath));
-            });
-        }
-
         private async void LoadLeft_Click(object sender, RoutedEventArgs e)
         {
-            await ViewModel.SaveModel.FileOpenAsync(false);
-            InitUILeft();
+            bool result = await ViewModel.FileOpenAsync(false);
+            if (result) await RefreshUI();
         }
 
         private async void LoadRight_Click(object sender, RoutedEventArgs e)
         {
-            await ViewModel.StorageModel.FileOpenAsync(true);
-            InitUIRight();
+            bool result = await ViewModel.FileOpenAsync(true);
+            if (result) await RefreshUI();
         }
 
         private async void SaveRight_Click(object sender, RoutedEventArgs e)
         {
-            await ViewModel.StorageModel.FileSaveAsync(ViewModel.StorageModel.CurrentSaveFilePath, ViewModel.StorageModel.CurrentSaveFile);
-
+            await ViewModel.FileSaveAsync();
         }
 
         private async void SaveLeft_Click(object sender, RoutedEventArgs e)
         {
-            await ViewModel.SaveModel.FileSaveAsync(ViewModel.SaveModel.CurrentSaveFilePath, ViewModel.SaveModel.CurrentSaveFile);
+            await ViewModel.FileSaveAsync();
         }
 
         private async void LoadGameData_Click(object sender, RoutedEventArgs e)
         {
-            CommonOpenFileDialog cofd = new CommonOpenFileDialog()
-            {
-                InitialDirectory = Properties.Settings.Default.PakFileLocation,
-                IsFolderPicker = true
-            };
-
-            if (cofd.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                Properties.Settings.Default.PakFileLocation = cofd.FileName;
-                Properties.Settings.Default.Save();
-                await AssetResolver.FileLoadGameContent(Properties.Settings.Default.PakFileLocation);
-            }
-
-            InitUILeft();
-            InitUIRight();
+            bool result = await ViewModel.LoadGameDataAsync();
+            if (result) await RefreshUI();
         }
-        private void UnloadGameDataMenuItem_Click(object sender, RoutedEventArgs e)
+        private async void UnloadGameDataMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            AssetResolver.FileUnloadGameContent();
-            InitUILeft();
-            InitUIRight();
+            bool result = ViewModel.UnloadGameData();
+            if (result) await RefreshUI();
         }
 
         private void NewMenuItem_Click(object sender, RoutedEventArgs e)
@@ -116,8 +90,15 @@ namespace MCDStorageChest
             Application.Current.Shutdown();
         }
 
+        private void SettingChanged(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.Save();
+        }
 
-
-
+        private async void Window_Initialized(object sender, EventArgs e)
+        {
+            ViewModel.SyncRecentDirectoryLists();
+            if (Properties.Settings.Default.AutoLoadLastGameData) await AssetResolver.FileLoadGameContent(Properties.Settings.Default.PakFileLocation);
+        }
     }
 }

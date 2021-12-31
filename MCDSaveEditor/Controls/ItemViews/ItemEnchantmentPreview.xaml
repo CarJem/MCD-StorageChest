@@ -32,7 +32,7 @@
             <Setter Property="ClipToBounds" Value="True"/>
         </Style>
     </UserControl.Resources>
-    <Button Style="{StaticResource ButtonStyle}" x:Name="enchantment3Button" DataContextChanged="enchantment3Button_DataContextChanged" DataContext="{Binding ., TargetNullValue={x:Static local:ItemEnchantmentPanel.DefaultEnchantment}}">
+    <Button Style="{StaticResource ButtonStyle}" x:Name="enchantment3Button" DataContextChanged="enchantment3Button_DataContextChanged" DataContext="{Binding ., TargetNullValue={x:Static local:ItemEnchantmentPreview.DefaultEnchantment}}">
         <Image x:Name="enchantmentImage" Source="{Binding Image}" Style="{StaticResource ImageView}">
             <Image.RenderTransform>
                 <TransformGroup>

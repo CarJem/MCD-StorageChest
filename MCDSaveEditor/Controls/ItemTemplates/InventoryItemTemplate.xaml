@@ -17,7 +17,7 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="VisibleIfTrueConverter" />
         <converters:RarityToColorConverter x:Key="rarityToColor" />
-        <converters2:InverseBooleanConverter x:Key="InverseBoolean"/>
+        <converters2:BooleanConverter x:Key="InverseBoolean" True="False" False="True"/>
         <converters:ItemToBackgroundConverter x:Key="ItemToBG" />
         <Style TargetType="{x:Type local:RuneIcon}" x:Key="RuneIcon">
             <Setter Property="Width" Value="16"/>

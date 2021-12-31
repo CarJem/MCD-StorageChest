@@ -66,10 +66,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Classes\RuneData.cs" />
-    <Compile Include="Controls\HotbarPreview.xaml.cs">
+    <Compile Include="Controls\SaveViews\HotbarPreview.xaml.cs">
       <DependentUpon>HotbarPreview.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\InventoryPreview.xaml.cs">
+    <Compile Include="Controls\SaveViews\InventoryPreview.xaml.cs">
       <DependentUpon>InventoryPreview.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ItemTemplates\BuiltInEnchantmentItemTemplate.xaml.cs">
@@ -96,22 +96,30 @@
     <Compile Include="Controls\ItemViews\ItemGildedPanel.xaml.cs">
       <DependentUpon>ItemGildedPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ItemViews\ItemDescriptionPanel.xaml.cs">
-      <DependentUpon>ItemDescriptionPanel.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\ItemViews\ItemHeader.xaml.cs">
       <DependentUpon>ItemHeader.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ItemViews\RawJSONPreview.xaml.cs">
       <DependentUpon>RawJSONPreview.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Stepper.xaml.cs">
+    <Compile Include="Controls\SaveViewTabs.xaml.cs">
+      <DependentUpon>SaveViewTabs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SaveView.xaml.cs">
+      <DependentUpon>SaveView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Misc\Stepper.xaml.cs">
       <DependentUpon>Stepper.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Converters\BooleanConverter.cs" />
+    <Compile Include="Converters\BooleanConverterBase.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\IsNotNullConverter.cs" />
     <Compile Include="Converters\MethodToValueConverter.cs" />
     <Compile Include="Extensions\CaseInSensitiveDictionary.cs" />
+    <Compile Include="Extensions\RelayCommand.cs" />
+    <Compile Include="Models\IMainViewModel.cs" />
+    <Compile Include="IMainWindow.cs" />
     <Compile Include="Models\ExtraDataLibrary.cs" />
     <Compile Include="Models\MainViewModel.cs" />
     <Compile Include="Models\SaveModel.cs" />
@@ -133,11 +141,11 @@
     <Compile Include="Json\Converters\RarityToColorConverter.cs" />
     <Compile Include="Json\DynamicJSON.cs" />
     <Compile Include="Logic\ImageMapper.cs" />
-    <Page Include="Controls\HotbarPreview.xaml">
+    <Page Include="Controls\SaveViews\HotbarPreview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\InventoryPreview.xaml">
+    <Page Include="Controls\SaveViews\InventoryPreview.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -161,7 +169,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ItemPreview.xaml">
+    <Page Include="Controls\SaveViews\ItemPreview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -181,10 +189,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ItemViews\ItemDescriptionPanel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Controls\ItemViews\ItemHeader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -193,7 +197,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Stepper.xaml">
+    <Page Include="Controls\SaveViewTabs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SaveView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Misc\Stepper.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -208,7 +220,7 @@
     <Compile Include="Controls\ItemTemplates\InventoryItemTemplate.xaml.cs">
       <DependentUpon>InventoryItemTemplate.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ItemPreview.xaml.cs">
+    <Compile Include="Controls\SaveViews\ItemPreview.xaml.cs">
       <DependentUpon>ItemPreview.xaml</DependentUpon>
     </Compile>
     <Compile Include="Extensions\Extensions.cs" />
@@ -270,6 +282,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Images\Search.png" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

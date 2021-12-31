@@ -58,5 +58,39 @@ namespace MCDStorageChest.Properties {
                 this["LastSaveGameDirectory"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoLoadLastGameData {
+            get {
+                return ((bool)(this["AutoLoadLastGameData"]));
+            }
+            set {
+                this["AutoLoadLastGameData"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection RecentStorageDirectories {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["RecentStorageDirectories"]));
+            }
+            set {
+                this["RecentStorageDirectories"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection RecentSaveGameDirectories {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["RecentSaveGameDirectories"]));
+            }
+            set {
+                this["RecentSaveGameDirectories"] = value;
+            }
+        }
     }
 }

@@ -13,16 +13,25 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MCDStorageChest.Controls.ItemViews
+namespace MCDStorageChest.Controls
 {
     /// <summary>
-    /// Interaction logic for ItemHeader.xaml
+    /// Interaction logic for SaveView.xaml
     /// </summary>
-    public partial class ItemDescriptionPanel : UserControl
+    public partial class SaveView : UserControl
     {
-        public ItemDescriptionPanel()
+        public SaveView()
         {
             InitializeComponent();
+        }
+
+        public async void RefreshUI()
+        {
+            await Dispatcher.InvokeAsync(() =>
+            {
+                InventoryLeft.RefreshUI();
+                HotbarLeft.RefreshUI();
+            });
         }
     }
 }

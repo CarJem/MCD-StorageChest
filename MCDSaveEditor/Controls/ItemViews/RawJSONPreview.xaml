@@ -43,7 +43,7 @@
         <DataTemplate DataType="{x:Type jlinq:JValue}">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Value: "/>
-                <TextBox Text="{Binding Path=Value, Mode=TwoWay}"/>
+                <TextBox Text="{Binding Path=Value, Mode=TwoWay}" IsReadOnly="True"/>
             </StackPanel>
         </DataTemplate>
     </UserControl.Resources>

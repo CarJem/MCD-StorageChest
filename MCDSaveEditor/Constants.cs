@@ -17,9 +17,11 @@ namespace MCDStorageChest
         public const string LATEST_RELEASE_GITHUB_URL = "https://github.com/CutFlame/MCDSaveEdit/releases/latest";
         public const string LATEST_RELEASE_MOD_URL_FORMAT = "https://www.nexusmods.com/minecraftdungeons/mods/{0}?tab=files";
 
-        // The application's name used for identification in the registry.
-        public const string APPLICATION_NAME = "MCDSaveEdit";
-        public const string PAK_FILE_LOCATION_REGISTRY_KEY = "PakFilesPath";
+        public const string APPLICATION_DISPLAY_NAME = "Minecraft Dungeons: Storage Chest";
+
+        public const string NO_RECENT_DIRECTORIES_TEXT = "No Recent Directories";
+        public static readonly List<string> NO_RECENT_DIRECTORIES = new List<string>() { NO_RECENT_DIRECTORIES_TEXT };
+
         public const int MAX_RECENT_FILES = 10;
 
         public const int MAXIMUM_INVENTORY_ITEM_COUNT = 300;
