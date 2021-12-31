@@ -214,6 +214,17 @@ namespace MCDStorageChest.Json.Classes
             }
         }
         [JsonIgnore, SafeForDependencyAnalysis]
+        public ulong EyesOfEnder
+        {
+            get => this.Currency.FirstOrDefault(c => c.Type == Constants.EYEOFENDER_CURRENCY_NAME)?.Count ?? 0;
+            set
+            {
+                Currency currency = this.Currency.FirstOrDefault(c => c.Type == Constants.EYEOFENDER_CURRENCY_NAME) ?? new Currency() { Type = Constants.EYEOFENDER_CURRENCY_NAME };
+                currency.Count = value;
+                this.Currency = (new[] { currency }).Concat(this.Currency.Where(c => c.Type != Constants.EYEOFENDER_CURRENCY_NAME)).OrderBy(c => c.Type).ToArray();
+            }
+        }
+        [JsonIgnore, SafeForDependencyAnalysis]
         public int Level
         {
             get => this.level();

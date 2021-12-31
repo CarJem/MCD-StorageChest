@@ -14,19 +14,28 @@
              d:DataContext="{d:DesignInstance Type=profile:Item}"
              d:DesignHeight="600" d:DesignWidth="800">
     <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="VisibleIfTrueConverter" />
         <converters2:NullVisibilityConverter x:Key="NullToVisibilityConverter"/>
     </UserControl.Resources>
     <Grid Visibility="{Binding ., FallbackValue=False, TargetNullValue=False, Converter={StaticResource NullToVisibilityConverter}}">
         <TabControl>
             <TabItem Header="Normal">
-                <ScrollViewer>
-                    <StackPanel>
-                        <itempreview:ItemHeader Height="100" DataContext="{Binding .}"></itempreview:ItemHeader>
-                        <itempreview:ItemGildedPanel MinHeight="40" DataContext="{Binding .}"></itempreview:ItemGildedPanel>
-                        <itempreview:ItemArmorPropertiesList MinHeight="40" DataContext="{Binding .}"></itempreview:ItemArmorPropertiesList>
-                        <itempreview:ItemEnchantmentPanel DataContext="{Binding .}"></itempreview:ItemEnchantmentPanel>
-                    </StackPanel>
-                </ScrollViewer>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="175"/>
+                    </Grid.RowDefinitions>
+                    <ScrollViewer>
+                        <StackPanel>
+                            <itempreview:ItemHeader Height="100" DataContext="{Binding .}"></itempreview:ItemHeader>
+                            <itempreview:ItemGildedPanel MinHeight="40" DataContext="{Binding .}"></itempreview:ItemGildedPanel>
+                            <itempreview:ItemArmorPropertiesList MinHeight="40" DataContext="{Binding .}"></itempreview:ItemArmorPropertiesList>
+                        </StackPanel>
+                    </ScrollViewer>
+                    <itempreview:ItemEnchantmentPanel Visibility="{Binding IsEnchantable, Converter={StaticResource VisibleIfTrueConverter}}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" DataContext="{Binding .}"></itempreview:ItemEnchantmentPanel>
+                </Grid>
+
             </TabItem>
             <TabItem Header="JSON">
                 <itempreview:RawJSONPreview DataContext="{Binding RawData}"/>

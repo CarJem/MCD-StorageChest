@@ -47,12 +47,14 @@
         </Grid.RowDefinitions>
         <Grid>
             <StackPanel DockPanel.Dock="Top"  Height="30" Margin="0" Orientation="Horizontal" VerticalAlignment="Top">
-                <Image x:Name="emeraldsLabelImage" Style="{StaticResource CurrencyImage}" Margin="8,4" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Hotbar_EmeraldImage}"/>
+                <Image x:Name="emeraldsLabelImage" Style="{StaticResource CurrencyImage}" Margin="8,0" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Hotbar_EmeraldImage}"/>
                 <TextBlock x:Name="emeraldsTextBox" Text="{Binding CurrentSaveFile.Emeralds}" FontSize="14"  Height="22" Margin="0,4" Background="{x:Null}" Visibility="Visible"/>
-                <Image x:Name="goldLabelImage" Style="{StaticResource CurrencyImage}" Margin="8,4" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Hotbar_GoldImage}"/>
+                <Image x:Name="goldLabelImage" Style="{StaticResource CurrencyImage}" Margin="8,0" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Hotbar_GoldImage}"/>
                 <TextBlock x:Name="goldTextBox" Text="{Binding CurrentSaveFile.Gold}" FontSize="14" Margin="0,4" Background="{x:Null}" Visibility="Visible"/>
-                <Image x:Name="remainingEnchantmentPointsLabelImage" Style="{StaticResource CurrencyImage}" Margin="8,4" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Hotbar_EnchantmentPointsImage}"/>
+                <Image x:Name="remainingEnchantmentPointsLabelImage" Style="{StaticResource CurrencyImage}" Margin="8,0" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Hotbar_EnchantmentPointsImage}"/>
                 <TextBlock x:Name="remainingEnchantmentPointsLabel" Text="{Binding CurrentSaveFile.AvaliableEnchantmentPoints}"  FontSize="14" Margin="0,4" Background="{x:Null}" Visibility="Visible" />
+                <Image x:Name="eoeLabelImage" Style="{StaticResource CurrencyImage}" Margin="8,0" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Hotbar_EyeOfEnderImage}"/>
+                <TextBlock x:Name="eoeTextBox" Text="{Binding CurrentSaveFile.EyesOfEnder}" FontSize="14" Margin="0,4" Background="{x:Null}" Visibility="Visible"/>
             </StackPanel>
         </Grid>
         <Grid Margin="0" Height="Auto" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">

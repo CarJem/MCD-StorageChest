@@ -17,6 +17,10 @@ namespace MCDStorageChest.Models
         public bool SearchByName_UseIDs { get; set; } = false;
 
 
+        public bool SearchByPowerLevel { get; set; } = false;
+        public int SearchByPowerLevel_Value { get; set; } = 0;
+        public bool[] SearchByPowerLevel_Mode { get; set; } = new bool[] { true, false, false };
+
         public bool LimitTo_Armor { get; set; } = true;
         public bool LimitTo_Ranged { get; set; } = true;
         public bool LimitTo_Melee { get; set; } = true;
@@ -48,9 +52,36 @@ namespace MCDStorageChest.Models
             if (SearchByName)
             {
                 if (SearchByName_UseIDs)
+                {
                     if (!item.Type.Contains(SearchByName_Text)) return false;
+                }
                 else
-                    if (!item.Name.Contains(SearchByName_Text)) return false;
+                {
+                    string name = StringLibrary.itemName(item.Type);
+                    if (!name.Contains(SearchByName_Text)) return false;
+                }
+
+            }
+
+            if (SearchByPowerLevel)
+            {
+                int val = SearchByPowerLevel_Value;
+                int mode = Array.IndexOf(SearchByPowerLevel_Mode, true);
+                switch (mode)
+                {
+                    case 0:
+                        bool isInRange0 = item.Level <= val;
+                        if (!isInRange0) return false;
+                        break;
+                    case 1:
+                        bool isInRange1 = item.Level >= val;
+                        if (!isInRange1) return false;
+                        break;
+                    case 2:
+                        bool isInRange2 = item.Level == val;
+                        if (!isInRange2) return false;
+                        break;
+                }
             }
 
             bool? Armor = TwoStateFilter(LimitTo_Armor, item.IsArmor);

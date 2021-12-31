@@ -6,7 +6,9 @@
              xmlns:local="clr-namespace:MCDStorageChest.Controls"
              xmlns:models="clr-namespace:MCDStorageChest.Models"
              xmlns:base="clr-namespace:MCDStorageChest"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             xmlns:num="clr-namespace:NumericUpDownLib;assembly=NumericUpDownLib"
              xmlns:templates="clr-namespace:MCDStorageChest.Controls.ItemTemplates"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:profile="clr-namespace:MCDStorageChest.Json.Classes"
@@ -137,7 +139,28 @@
             <Button Grid.Column="3" x:Name="armorItemsButton" Content="{StaticResource Armor_Content}" Padding="4" Margin="4" Click="allArmorItemsButton_Click" />
             <Button Grid.Column="4" x:Name="artifactItemsButton" Content="{StaticResource Artifacts_Content}" Padding="4" Margin="4" Click="allArtifactItemsButton_Click" />
             <Button Grid.Column="5" x:Name="enchantedItemsButton" Content="{StaticResource Enchanted_Content}" Padding="4" Margin="4" Click="allEnchantedItemsButton_Click" />
-            <Button Grid.Column="6" x:Name="searchItemsButton" Padding="4" Margin="4" Click="searchItemsButton_Click">
+            <Button Grid.Column="6" x:Name="searchItemsButton" Padding="4" Margin="4"
+                ContextMenuService.Placement="Left"
+                ContextMenuService.PlacementTarget="{Binding RelativeSource={RelativeSource Self}}" 
+                ContextMenuService.HorizontalOffset="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}" 
+                ContextMenuService.VerticalOffset="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Style.Triggers>
+                            <EventTrigger RoutedEvent="Click">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="ContextMenu.IsOpen">
+                                                <DiscreteBooleanKeyFrame KeyTime="0:0:0" Value="True"/>
+                                            </BooleanAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
                 <Button.Content>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -155,14 +178,25 @@
                     </Grid>
                 </Button.Content>
                 <Button.ContextMenu>
-                    <ContextMenu Name="CustomSearchOptions">
+                    <ContextMenu Name="CustomSearchOptions" >
                         <MenuItem Template="{StaticResource ContainerMenuItem}" StaysOpenOnClick="True">
                             <MenuItem.Header>
                                 <StackPanel>
                                     <StackPanel>
                                         <CheckBox IsChecked="{Binding SearchSettings.SearchByName}" Content="By Name:" Margin="0,0,0,5"></CheckBox>
-                                        <TextBox Text="{Binding SearchSettings.SearchByName_Text}" Width="120" IsEnabled="{Binding SearchSettings.SearchByName}" Margin="0,0,0,5"/>
+                                        <TextBox Text="{Binding SearchSettings.SearchByName_Text, Mode=TwoWay}" Width="120" IsEnabled="{Binding SearchSettings.SearchByName}" Margin="0,0,0,5"/>
                                         <CheckBox IsChecked="{Binding SearchSettings.SearchByName_UseIDs}" Content="Use Internal Names" IsEnabled="{Binding SearchSettings.SearchByName}" Margin="0,0,0,5"></CheckBox>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <CheckBox IsChecked="{Binding SearchSettings.SearchByPowerLevel}" Content="By Power:" Margin="0,0,0,5"></CheckBox>
+                                        <num:NumericUpDown IsMouseDragEnabled="False" IsDisplayLengthFixed="True" DisplayLength="10" IsLargeStepEnabled="False" MinValue="0" Value="{Binding SearchSettings.SearchByPowerLevel_Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="120" IsEnabled="{Binding SearchSettings.SearchByPowerLevel}" Margin="0,0,0,5"/>
+                                        <GroupBox Header="Mode" IsEnabled="{Binding SearchSettings.SearchByPowerLevel}">
+                                            <StackPanel>
+                                                <RadioButton Content="Less Than" GroupName="SearchByPowerLevel_Mode" IsChecked="{Binding SearchSettings.SearchByPowerLevel_Mode[0], Mode=TwoWay}"/>
+                                                <RadioButton Content="Greater Than" GroupName="SearchByPowerLevel_Mode" IsChecked="{Binding SearchSettings.SearchByPowerLevel_Mode[1], Mode=TwoWay}"/>
+                                                <RadioButton Content="Equal To" GroupName="SearchByPowerLevel_Mode" IsChecked="{Binding SearchSettings.SearchByPowerLevel_Mode[2], Mode=TwoWay}"/>
+                                            </StackPanel>
+                                        </GroupBox>
                                     </StackPanel>
                                     <TextBlock IsEnabled="False" Text="Limit to..." Focusable="False"/>
                                     <CheckBox IsChecked="{Binding SearchSettings.LimitTo_Armor}" Content="Armor" IsThreeState="False"></CheckBox>

@@ -24,5 +24,11 @@ namespace MCDStorageChest.Controls.ItemViews
         {
             InitializeComponent();
         }
+
+        private void enchantment3Button_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (DataContext == null) this.Opacity = 0.5;
+            else this.Opacity = 1;
+        }
     }
 }

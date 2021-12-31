@@ -341,12 +341,5 @@ namespace MCDStorageChest.Controls
                 (DataContext as Models.SaveModel).MoveToStorage((DataContext as Models.SaveModel).CurrentItem);
             }
         }
-
-        private void searchItemsButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (!(sender is UIElement)) return;
-            CustomSearchOptions.PlacementTarget = (sender as UIElement);
-            CustomSearchOptions.IsOpen = true;
-        }
     }
 }

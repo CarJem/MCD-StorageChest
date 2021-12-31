@@ -6,12 +6,14 @@
              xmlns:profile="clr-namespace:MCDStorageChest.Json.Classes"
              xmlns:local="clr-namespace:MCDStorageChest.Controls.ItemViews"
              xmlns:converters="clr-namespace:MCDStorageChest.Json.Converters"
+             xmlns:converters2="clr-namespace:MCDStorageChest.Converters"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              x:Name="UserControl"
              d:DataContext="{d:DesignInstance Type=profile:Enchantment}"
              d:DesignHeight="450" d:DesignWidth="450">
     <UserControl.Resources>
+        <converters2:NullVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <Style TargetType="{x:Type Image}" x:Key="ImageView">
             <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
             <Setter Property="VerticalAlignment" Value="Stretch"/>
@@ -30,7 +32,7 @@
             <Setter Property="ClipToBounds" Value="True"/>
         </Style>
     </UserControl.Resources>
-    <Button Style="{StaticResource ButtonStyle}" x:Name="enchantment3Button" DataContext="{Binding .}">
+    <Button Style="{StaticResource ButtonStyle}" x:Name="enchantment3Button" DataContextChanged="enchantment3Button_DataContextChanged" DataContext="{Binding ., TargetNullValue={x:Static local:ItemEnchantmentPanel.DefaultEnchantment}}">
         <Image x:Name="enchantmentImage" Source="{Binding Image}" Style="{StaticResource ImageView}">
             <Image.RenderTransform>
                 <TransformGroup>

@@ -15,6 +15,7 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="VisibleIfTrueConverter" />
         <converters2:LongToRomanNumeral x:Key="LongToRomanNumeral"/>
+        <converters2:NullVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <sys:Double x:Key="MainButtonSize">72</sys:Double>
         <sys:Double x:Key="ButtonSize">24</sys:Double>
         <Style TargetType="{x:Type TextBlock}" x:Key="ChosenSlot_Level">
@@ -22,14 +23,20 @@
             <Setter Property="IsHitTestVisible" Value="False"/>
             <Setter Property="Focusable" Value="False"/>
             <Setter Property="TextAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="10,0"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="10,9"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="Background" Value="#FFFF5555"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontFamily" Value="Times New Roman"/>
             <Setter Property="Panel.ZIndex" Value="5"/>
+            <Setter Property="Clip">
+                <Setter.Value>
+                    <PathGeometry Figures="M8,0 L24,16 48,16 64,0z"></PathGeometry>
+                </Setter.Value>
+            </Setter>
         </Style>
     </UserControl.Resources>
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -40,31 +47,39 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <local:ItemEnchantmentPreview Width="{StaticResource MainButtonSize}" Height="{StaticResource MainButtonSize}" DataContext="{Binding Path=Enchantments.ChosenSlot1, FallbackValue={x:Static local:ItemEnchantmentPanel.DefaultEnchantment}}"/>
+                <Grid Margin="0,0,0,10">
+                    <local:ItemEnchantmentPreview Width="{StaticResource MainButtonSize}" Height="{StaticResource MainButtonSize}" DataContext="{Binding Path=Enchantments.ChosenSlot1, FallbackValue={x:Static local:ItemGildedPanel.DefaultEnchantment}}"/>
+                    <TextBlock Text="{Binding Path=Enchantments.ChosenSlot1.Level, Converter={StaticResource LongToRomanNumeral}}" Style="{StaticResource ChosenSlot_Level}" Visibility="{Binding Enchantments.ChosenSlot1, Converter={StaticResource NullToVisibilityConverter}}"/>
+                </Grid>
+                
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <local:ItemEnchantmentPreview Width="{StaticResource ButtonSize}" Height="{StaticResource ButtonSize}" DataContext="{Binding Path=Enchantments.Slot1A, FallbackValue={x:Static local:ItemEnchantmentPanel.DefaultEnchantment}}"/>
                     <local:ItemEnchantmentPreview Width="{StaticResource ButtonSize}" Height="{StaticResource ButtonSize}" DataContext="{Binding Path=Enchantments.Slot1B, FallbackValue={x:Static local:ItemEnchantmentPanel.DefaultEnchantment}}"/>
                     <local:ItemEnchantmentPreview Width="{StaticResource ButtonSize}" Height="{StaticResource ButtonSize}" DataContext="{Binding Path=Enchantments.Slot1C, FallbackValue={x:Static local:ItemEnchantmentPanel.DefaultEnchantment}}"/>
                 </StackPanel>
-                <TextBlock Text="{Binding Path=Enchantments.ChosenSlot1.Level, Converter={StaticResource LongToRomanNumeral}}" Style="{StaticResource ChosenSlot_Level}"/>
             </StackPanel>
             <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <local:ItemEnchantmentPreview Width="{StaticResource MainButtonSize}" Height="{StaticResource MainButtonSize}" DataContext="{Binding Path=Enchantments.ChosenSlot2, FallbackValue={x:Static local:ItemEnchantmentPanel.DefaultEnchantment}}"/>
+                <Grid Margin="0,0,0,10">
+                    <local:ItemEnchantmentPreview Width="{StaticResource MainButtonSize}" Height="{StaticResource MainButtonSize}" DataContext="{Binding Path=Enchantments.ChosenSlot2, FallbackValue={x:Static local:ItemGildedPanel.DefaultEnchantment}}"/>
+                    <TextBlock Text="{Binding Path=Enchantments.ChosenSlot2.Level, Converter={StaticResource LongToRomanNumeral}}" Style="{StaticResource ChosenSlot_Level}" Visibility="{Binding Enchantments.ChosenSlot2, Converter={StaticResource NullToVisibilityConverter}}"/>
+                </Grid>
+                
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <local:ItemEnchantmentPreview Width="{StaticResource ButtonSize}" Height="{StaticResource ButtonSize}" DataContext="{Binding Path=Enchantments.Slot2A, FallbackValue={x:Static local:ItemEnchantmentPanel.DefaultEnchantment}}"/>
                     <local:ItemEnchantmentPreview Width="{StaticResource ButtonSize}" Height="{StaticResource ButtonSize}" DataContext="{Binding Path=Enchantments.Slot2B, FallbackValue={x:Static local:ItemEnchantmentPanel.DefaultEnchantment}}"/>
                     <local:ItemEnchantmentPreview Width="{StaticResource ButtonSize}" Height="{StaticResource ButtonSize}" DataContext="{Binding Path=Enchantments.Slot2C, FallbackValue={x:Static local:ItemEnchantmentPanel.DefaultEnchantment}}"/>
                 </StackPanel>
-                <TextBlock Text="{Binding Path=Enchantments.ChosenSlot2.Level, Converter={StaticResource LongToRomanNumeral}}" Style="{StaticResource ChosenSlot_Level}"/>
             </StackPanel>
             <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <local:ItemEnchantmentPreview Width="{StaticResource MainButtonSize}" Height="{StaticResource MainButtonSize}" DataContext="{Binding Path=Enchantments.ChosenSlot3, FallbackValue={x:Static local:ItemEnchantmentPanel.DefaultEnchantment}}"/>
+                <Grid Margin="0,0,0,10">
+                    <local:ItemEnchantmentPreview Width="{StaticResource MainButtonSize}" Height="{StaticResource MainButtonSize}" DataContext="{Binding Path=Enchantments.ChosenSlot3, FallbackValue={x:Static local:ItemGildedPanel.DefaultEnchantment}}"/>
+                    <TextBlock Text="{Binding Path=Enchantments.ChosenSlot3.Level, Converter={StaticResource LongToRomanNumeral}}" Style="{StaticResource ChosenSlot_Level}" Visibility="{Binding Enchantments.ChosenSlot3, Converter={StaticResource NullToVisibilityConverter}}"/>
+                </Grid>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <local:ItemEnchantmentPreview Width="{StaticResource ButtonSize}" Height="{StaticResource ButtonSize}" DataContext="{Binding Path=Enchantments.Slot3A, FallbackValue={x:Static local:ItemEnchantmentPanel.DefaultEnchantment}}"/>
                     <local:ItemEnchantmentPreview Width="{StaticResource ButtonSize}" Height="{StaticResource ButtonSize}" DataContext="{Binding Path=Enchantments.Slot3B, FallbackValue={x:Static local:ItemEnchantmentPanel.DefaultEnchantment}}"/>
                     <local:ItemEnchantmentPreview Width="{StaticResource ButtonSize}" Height="{StaticResource ButtonSize}" DataContext="{Binding Path=Enchantments.Slot3C, FallbackValue={x:Static local:ItemEnchantmentPanel.DefaultEnchantment}}"/>
                 </StackPanel>
-                <TextBlock Text="{Binding Path=Enchantments.ChosenSlot1.Level, Converter={StaticResource LongToRomanNumeral}}" Style="{StaticResource ChosenSlot_Level}"/>
             </StackPanel>
         </Grid>
     </Grid>

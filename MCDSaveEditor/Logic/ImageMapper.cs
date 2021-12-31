@@ -43,6 +43,7 @@ namespace MCDStorageChest.Json.Mapping
         private static string Hotbar_EnchantmentPointsImagePath = "/Dungeons/Content/UI/Materials/Inventory2/Enchantment/enchantscore_background";
         private static string Hotbar_LevelFrameImagePath = "/Dungeons/Content/UI/Materials/Character/STATS_LV_frame";
         private static string Hotbar_PowerLevelImagePath = "/Dungeons/Content/UI/Materials/Inventory2/Power/gearstrenght_icon";
+        private static string Hotbar_EyeOfEnderImagePath = "/Dungeons/Content/UI/Materials/Currency/T_EyeOfEnder_Currency";
         private static string Item_MarkedNewBackgroundPath = "/Dungeons/Content/UI/Materials/HotBar2/Icons/inventoryslot_newitem";
         private static string Item_GildedBackgroundPath = "/Dungeons/Content/Content_DLC4/UI/Materials/Inventory/Inventory_slot_gilded_plate";
         private static string Inventory_BackgroundPath = "/Dungeons/Content/Textures/InventoryNew/master_inventory_backdrop";
@@ -206,6 +207,17 @@ namespace MCDStorageChest.Json.Mapping
                 else return game;
             }
         }
+
+        public ImageSource Hotbar_EyeOfEnderImage
+        {
+            get
+            {
+                var game = Logic.AssetResolver.instance.imageSource(Hotbar_EyeOfEnderImagePath);
+                if (game == null) return Logic.AssetResolver.instance.imageSource("Unknown.png");
+                else return game;
+            }
+        }
+
         public ImageSource Hotbar_LevelFrameImage
         {
             get
@@ -246,6 +258,7 @@ namespace MCDStorageChest.Json.Mapping
 
             OnPropertyChanged(nameof(Hotbar_EmeraldImage));
             OnPropertyChanged(nameof(Hotbar_GoldImage));
+            OnPropertyChanged(nameof(Hotbar_EyeOfEnderImage));
             OnPropertyChanged(nameof(Hotbar_EnchantmentPointsImage));
             OnPropertyChanged(nameof(Hotbar_LevelFrameImage));
             OnPropertyChanged(nameof(Hotbar_PowerLevelImage));

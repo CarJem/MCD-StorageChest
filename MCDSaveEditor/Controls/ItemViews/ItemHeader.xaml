@@ -73,7 +73,7 @@
 
         <Image VerticalAlignment="Stretch" Margin="5" HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="1" Source="{Binding Image}">
             <Image.Effect>
-                <DropShadowEffect ShadowDepth="3" BlurRadius="1" Opacity="0.75"></DropShadowEffect>
+                <DropShadowEffect ShadowDepth="5" BlurRadius="1" Opacity="0.75"></DropShadowEffect>
             </Image.Effect>
         </Image>
     </Grid>
