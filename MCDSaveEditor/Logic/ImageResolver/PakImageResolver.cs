@@ -232,13 +232,11 @@ namespace MCDStorageChest.Logic.ImageResolver
         }
 
         public BitmapImage imageSourceForItem(string itemType) {
-            if (_equipment.TryGetValue(itemType, out string fullPath))
+
+            if (_equipment.ContainsKey(itemType))
             {
-                var image = imageSource(fullPath);
-                if (image != null)
-                {
-                    return image;
-                }
+                var image = imageSource(_equipment[itemType]);
+                if (image != null) return image;
             }
             EventLogger.logError($"Could not find full path for item {itemType}");
             return _backupResolver.imageSourceForItem(itemType);

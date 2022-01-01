@@ -86,14 +86,11 @@ namespace MCDStorageChest.Logic
 
 
         }
-
         private static Task<ProfileSaveFile> JsonFileOpen(string filePath)
         {
             using var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
             return TryParseFileStreamAsync(stream);
         }
-
-
         private static async Task<ProfileSaveFile> DatFileOpen(string filePath)
         {
             var file = new FileInfo(filePath);
@@ -114,7 +111,6 @@ namespace MCDStorageChest.Logic
             }
             return await TryParseFileStreamAsync(processed);
         }
-
         private static async Task<ProfileSaveFile> TryParseFileStreamAsync(Stream stream)
         {
             try
@@ -135,7 +131,6 @@ namespace MCDStorageChest.Logic
             }
             return null;
         }
-
         public static async Task FileSaveAsync(string filePath, ProfileSaveFile profile)
         {
             if (filePath == null) { return; }
@@ -149,13 +144,11 @@ namespace MCDStorageChest.Logic
 
 
         }
-
         private static async Task JsonFileSave(string filePath, ProfileSaveFile profile)
         {
             using var stream = await ProfileParser.Write(profile);
             await WriteStreamToFileAsync(stream, filePath);
         }
-
         private static async Task DatFileSave(string filePath, ProfileSaveFile profile)
         {
             using var inputStream = await ProfileParser.Write(profile);
@@ -169,7 +162,6 @@ namespace MCDStorageChest.Logic
             }
             await WriteStreamToFileAsync(processed, filePath);
         }
-
         private static async Task WriteStreamToFileAsync(Stream stream, string filePath)
         {
             if (!File.Exists(filePath))

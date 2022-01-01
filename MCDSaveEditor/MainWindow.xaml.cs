@@ -71,12 +71,12 @@ namespace MCDStorageChest
 
         private async void LoadGameData_Click(object sender, RoutedEventArgs e)
         {
-            bool result = await ViewModel.LoadGameDataAsync();
+            bool result = await ViewModel.FileLoadDataAsync();
             if (result) await RefreshUI();
         }
         private async void UnloadGameDataMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            bool result = ViewModel.UnloadGameData();
+            bool result = ViewModel.FileUnloadDataAsync();
             if (result) await RefreshUI();
         }
 
@@ -97,7 +97,7 @@ namespace MCDStorageChest
 
         private async void Window_Initialized(object sender, EventArgs e)
         {
-            ViewModel.SyncRecentDirectoryLists();
+            ViewModel.Refresh();
             if (Properties.Settings.Default.AutoLoadLastGameData) await AssetResolver.FileLoadGameContent(Properties.Settings.Default.PakFileLocation);
         }
     }

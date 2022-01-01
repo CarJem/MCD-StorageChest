@@ -30,7 +30,6 @@ namespace MCDStorageChest.Json.Classes
         }
 
 
-
         [JsonPropertyName("items")]
         public ObservableCollection<Item> Items
         {

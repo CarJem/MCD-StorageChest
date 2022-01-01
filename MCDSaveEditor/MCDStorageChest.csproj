@@ -113,11 +113,14 @@
     </Compile>
     <Compile Include="Converters\BooleanConverter.cs" />
     <Compile Include="Converters\BooleanConverterBase.cs" />
+    <Compile Include="Converters\BooleanToSelectionModeConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\IsNotNullConverter.cs" />
     <Compile Include="Converters\MethodToValueConverter.cs" />
     <Compile Include="Extensions\CaseInSensitiveDictionary.cs" />
+    <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\RelayCommand.cs" />
+    <Compile Include="Logic\SettingMapper.cs" />
     <Compile Include="Models\IMainViewModel.cs" />
     <Compile Include="IMainWindow.cs" />
     <Compile Include="Models\ExtraDataLibrary.cs" />
@@ -208,6 +211,18 @@
     <Page Include="Controls\Misc\Stepper.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Styles\ContainerMenuItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Styles\RightCheckbox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Styles\RuneCheckbox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -360,6 +375,9 @@
     </PackageReference>
     <PackageReference Include="System.Threading.Tasks.Extensions">
       <Version>4.5.4</Version>
+    </PackageReference>
+    <PackageReference Include="VirtualizingWrapPanel">
+      <Version>1.5.7</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

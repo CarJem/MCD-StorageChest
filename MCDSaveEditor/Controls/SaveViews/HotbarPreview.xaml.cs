@@ -73,7 +73,7 @@ namespace MCDStorageChest.Controls.SaveViews
                     e.Effects = DragDropEffects.Move;
 
                     (DataContext as Models.SaveModel).CurrentSaveFile.equiptItem(item, slot);
-                    (DataContext as Models.SaveModel).RequestListUpdate();
+                    (DataContext as Models.SaveModel).Update();
 
                 }
             }

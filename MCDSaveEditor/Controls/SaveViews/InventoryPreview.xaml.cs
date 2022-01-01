@@ -15,12 +15,15 @@ using System.Windows.Shapes;
 using MCDStorageChest.Json.Enums;
 using MCDStorageChest.Extensions;
 using System.Collections.ObjectModel;
+using PostSharp.Patterns.Model;
 
 namespace MCDStorageChest.Controls.SaveViews
 {
     /// <summary>
     /// Interaction logic for InventoryPreview.xaml
     /// </summary>
+
+    [NotifyPropertyChanged]
     public partial class InventoryPreview : UserControl
     {
         private Point startPoint;
@@ -30,12 +33,7 @@ namespace MCDStorageChest.Controls.SaveViews
             InitializeComponent();
         }
 
-        public bool ShowCheckboxes { get; set; } = false;
-
-        private void Items_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
+        public bool MultiselectMode { get; set; } = false;
 
         private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
@@ -45,92 +43,92 @@ namespace MCDStorageChest.Controls.SaveViews
             }
         }
 
-        private void EditButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
 
         #region Filters
 
-        private void allItemsButton_Click(object sender, RoutedEventArgs e)
+        private async void allItemsButton_Click(object sender, RoutedEventArgs e)
         {
-            UpdateFilter(ItemFilterEnum.All);
+            await UpdateFilter(ItemFilterEnum.All);
         }
 
-        private void allMeleeItemsButton_Click(object sender, RoutedEventArgs e)
+        private async void allMeleeItemsButton_Click(object sender, RoutedEventArgs e)
         {
-            UpdateFilter(ItemFilterEnum.MeleeWeapons);
+            await UpdateFilter(ItemFilterEnum.MeleeWeapons);
         }
 
-        private void allRangedItemsButton_Click(object sender, RoutedEventArgs e)
+        private async void allRangedItemsButton_Click(object sender, RoutedEventArgs e)
         {
-            UpdateFilter(ItemFilterEnum.RangedWeapons);
+            await UpdateFilter(ItemFilterEnum.RangedWeapons);
         }
 
-        private void allArmorItemsButton_Click(object sender, RoutedEventArgs e)
+        private async void allArmorItemsButton_Click(object sender, RoutedEventArgs e)
         {
-            UpdateFilter(ItemFilterEnum.Armor);
+            await UpdateFilter(ItemFilterEnum.Armor);
         }
 
-        private void allArtifactItemsButton_Click(object sender, RoutedEventArgs e)
+        private async void allArtifactItemsButton_Click(object sender, RoutedEventArgs e)
         {
-            UpdateFilter(ItemFilterEnum.Artifacts);
+            await UpdateFilter(ItemFilterEnum.Artifacts);
         }
 
-        private void allEnchantedItemsButton_Click(object sender, RoutedEventArgs e)
+        private async void allEnchantedItemsButton_Click(object sender, RoutedEventArgs e)
         {
-            UpdateFilter(ItemFilterEnum.Enchanted);
+            await UpdateFilter(ItemFilterEnum.Enchanted);
         }
 
-        private void searchButton_Click(object sender, RoutedEventArgs e)
+        private async void searchButton_Click(object sender, RoutedEventArgs e)
         {
-            UpdateFilter(ItemFilterEnum.Custom);
+            await UpdateFilter(ItemFilterEnum.Custom);
         }
 
-        private void UpdateList()
+        private async void UpdateList()
         {
-            if (Items.ItemsSource == null) return;
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(Items.ItemsSource);
-            if (view == null) return;
-            view.Refresh();
-        }
-
-        private void UpdateFilter(Json.Enums.ItemFilterEnum filter)
-        {
-            if (DataContext is Models.SaveModel)
+            await Dispatcher.InvokeAsync(() =>
             {
-                (DataContext as Models.SaveModel).CurrentFilter = filter;
-            }
+                if (Items.ItemsSource == null) return;
+                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(Items.ItemsSource);
+                if (view == null) return;
+                view.Refresh();
+            });
+        }
 
-            if (Items.ItemsSource == null) return;
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(Items.ItemsSource);
-            if (view == null) return;
-
-            switch (filter)
+        private async Task UpdateFilter(Json.Enums.ItemFilterEnum filter)
+        {
+            await Dispatcher.InvokeAsync(() =>
             {
-                case ItemFilterEnum.All:
-                    view.Filter = allItemsFilter;
-                    break;
-                case ItemFilterEnum.RangedWeapons:
-                    view.Filter = allRangedItemsFilter;
-                    break;
-                case ItemFilterEnum.MeleeWeapons:
-                    view.Filter = allMeleeItemsFilter;
-                    break;
-                case ItemFilterEnum.Artifacts:
-                    view.Filter = allArtifactItemsFilter;
-                    break;
-                case ItemFilterEnum.Armor:
-                    view.Filter = allArmorItemsFilter;
-                    break;
-                case ItemFilterEnum.Enchanted:
-                    view.Filter = allEnchantedItemsFilter;
-                    break;
-                default:
-                    view.Filter = searchItemsFilter;
-                    break;
-            }
+                if (DataContext is Models.SaveModel)
+                    (DataContext as Models.SaveModel).CurrentFilter = filter;
+
+                if (Items.ItemsSource == null) return;
+                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(Items.ItemsSource);
+                if (view == null) return;
+
+                switch (filter)
+                {
+                    case ItemFilterEnum.All:
+                        view.Filter = allItemsFilter;
+                        break;
+                    case ItemFilterEnum.RangedWeapons:
+                        view.Filter = allRangedItemsFilter;
+                        break;
+                    case ItemFilterEnum.MeleeWeapons:
+                        view.Filter = allMeleeItemsFilter;
+                        break;
+                    case ItemFilterEnum.Artifacts:
+                        view.Filter = allArtifactItemsFilter;
+                        break;
+                    case ItemFilterEnum.Armor:
+                        view.Filter = allArmorItemsFilter;
+                        break;
+                    case ItemFilterEnum.Enchanted:
+                        view.Filter = allEnchantedItemsFilter;
+                        break;
+                    default:
+                        view.Filter = searchItemsFilter;
+                        break;
+                }
+            });
+
         }
 
         private bool allItemsFilter(object item)
@@ -209,14 +207,9 @@ namespace MCDStorageChest.Controls.SaveViews
 
         #region UI Icons
 
-        public void RefreshUI()
+        public async void RefreshUI()
         {
-            UpdateFilter(ItemFilterEnum.All);
-        }
-
-        public void UpdateFilter()
-        {
-            if (DataContext is Models.SaveModel) UpdateFilter((DataContext as Models.SaveModel).CurrentFilter);
+            await UpdateFilter(ItemFilterEnum.All);
         }
 
         #endregion

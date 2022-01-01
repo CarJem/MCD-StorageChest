@@ -1,0 +1,76 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:templates="clr-namespace:MCDStorageChest.Controls.ItemTemplates"
+                    xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="FocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <SolidColorBrush x:Key="RuneCheckbox.Static.Background" Color="#FFDDDDDD"/>
+    <SolidColorBrush x:Key="RuneCheckbox.Static.Border" Color="#FF707070"/>
+    <SolidColorBrush x:Key="RuneCheckbox.MouseOver.Background" Color="#FFBEE6FD"/>
+    <SolidColorBrush x:Key="RuneCheckbox.MouseOver.Border" Color="#FF3C7FB1"/>
+    <SolidColorBrush x:Key="RuneCheckbox.Pressed.Background" Color="#FFC4E5F6"/>
+    <SolidColorBrush x:Key="RuneCheckbox.Pressed.Border" Color="#FF2C628B"/>
+    <SolidColorBrush x:Key="RuneCheckbox.Disabled.Background" Color="#FFF4F4F4"/>
+    <SolidColorBrush x:Key="RuneCheckbox.Disabled.Border" Color="#FFADB2B5"/>
+    <SolidColorBrush x:Key="RuneCheckbox.Disabled.Foreground" Color="#FF838383"/>
+    <SolidColorBrush x:Key="RuneCheckbox.Overlay.Null" Color="#7FFFFFFF"/>
+    <SolidColorBrush x:Key="RuneCheckbox.Overlay.True" Color="#7F000000"/>
+    <SolidColorBrush x:Key="RuneCheckbox.Overlay.False"/>
+    <Style x:Key="RuneCheckbox" TargetType="{x:Type ToggleButton}">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+        <Setter Property="Background" Value="{StaticResource RuneCheckbox.Static.Background}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource RuneCheckbox.Static.Border}"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="IsThreeState" Value="True"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                        <Grid>
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <Border x:Name="overlay" Focusable="False" Width="{Binding ElementName=contentPresenter, Path=ActualWidth}" Height="{Binding ElementName=contentPresenter, Path=ActualHeight}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Button.IsDefaulted" Value="true">
+                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" TargetName="border" Value="{StaticResource RuneCheckbox.MouseOver.Background}"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource RuneCheckbox.MouseOver.Border}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Background" TargetName="border" Value="{StaticResource RuneCheckbox.Pressed.Background}"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource RuneCheckbox.Pressed.Border}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Background" TargetName="border" Value="{StaticResource RuneCheckbox.Disabled.Background}"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource RuneCheckbox.Disabled.Border}"/>
+                            <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource RuneCheckbox.Disabled.Foreground}"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="{x:Null}">
+                            <Setter Property="Background" TargetName="overlay" Value="{StaticResource RuneCheckbox.Overlay.Null}"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter Property="Background" TargetName="overlay" Value="{StaticResource RuneCheckbox.Overlay.False}"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Background" TargetName="overlay" Value="{StaticResource RuneCheckbox.Overlay.True}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

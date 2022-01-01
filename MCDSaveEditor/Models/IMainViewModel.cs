@@ -10,12 +10,18 @@ namespace MCDStorageChest
 {
     public interface IMainViewModel
     {
-        void Command_FileClose(SaveModel saveModel);
-        bool Command_FileClose_isAllowed(SaveModel saveModel);
-        int GetIndexOfSave(SaveModel saveModel);
-        List<SaveModel> GetOtherStorages(SaveModel saveModel);
-        void AddItemToSave(int index, Item item);
-        int GetSaveCount();
-        void SyncRecentDirectoryLists();
+
+
+
+        void FileClose(SaveModel saveModel);
+
+        int IndexOf(SaveModel saveModel);
+        int Count();
+        void Refresh();
+
+        List<SaveModel> OtherSaves(SaveModel saveModel);
+
+        void Transfer(SaveModel source, int index, Item item);
+
     }
 }

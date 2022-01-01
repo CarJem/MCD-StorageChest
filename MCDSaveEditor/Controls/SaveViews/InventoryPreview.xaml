@@ -6,153 +6,74 @@
              xmlns:local="clr-namespace:MCDStorageChest.Controls.SaveViews"
              xmlns:models="clr-namespace:MCDStorageChest.Models"
              xmlns:base="clr-namespace:MCDStorageChest"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:num="clr-namespace:NumericUpDownLib;assembly=NumericUpDownLib"
+             xmlns:vwp="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
              xmlns:templates="clr-namespace:MCDStorageChest.Controls.ItemTemplates"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:profile="clr-namespace:MCDStorageChest.Json.Classes"
              xmlns:mappings="clr-namespace:MCDStorageChest.Json.Mapping"
              mc:Ignorable="d" 
+             x:Name="UserControl"
              DataContextChanged="UserControl_DataContextChanged"
              xmlns:converters="clr-namespace:MCDStorageChest.Converters"
              d:DataContext="{d:DesignInstance Type=models:SaveModel}"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="AllItems_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_AllItemsButtonImage}"/>
-        <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="Melee_Content"  Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_MeleeItemsButtonImage}"/>
-        <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="Ranged_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_RangedItemsButtonImage}"/>
-        <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="Armor_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_ArmorItemsButtonImage}"/>
-        <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="Artifacts_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_ArtifactItemsButtonImage}"/>
-        <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="Enchanted_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_EnchantedItemsButtonImage}"/>
-        <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="Search_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_SearchItemsButtonImage}"/>
-        <converters:NullVisibilityConverter x:Key="NullToVis"/>
-        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" True="Visible" False="Collapsed"/>
-        <converters:BooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" True="Collapsed" False="Visible"/>
-        <converters:IsNotNullConverter x:Key="isNotNullConverter"/>
-        <converters:BooleanConverter x:Key="InverseBooleanConverter" True="False" False="True"/>
-        <Style x:Key="FilterButton" TargetType="{x:Type Button}">
-
-        </Style>
-
-
-        <CollectionViewSource x:Key="ItemsList" Source="{Binding CurrentSaveFile.Items}" IsLiveSortingRequested="True">
-            <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="InventoryIndex" Direction="Ascending"></scm:SortDescription>
-            </CollectionViewSource.SortDescriptions>
-        </CollectionViewSource>
-        <DataTemplate x:Key="ItemTemplate">
-            <Grid>
-                <CheckBox Content="" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:InventoryPreview}}, Path=ShowCheckboxes, Converter={StaticResource BooleanToVisibilityConverter}}" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" />
-                <templates:InventoryItemTemplate/>
-            </Grid>
-        </DataTemplate>
-        <Style x:Key="FocusVisual">
-            <Setter Property="Control.Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        
-        <SolidColorBrush x:Key="RuneCheckbox.Static.Background" Color="#FFDDDDDD"/>
-        <SolidColorBrush x:Key="RuneCheckbox.Static.Border" Color="#FF707070"/>
-        <SolidColorBrush x:Key="RuneCheckbox.MouseOver.Background" Color="#FFBEE6FD"/>
-        <SolidColorBrush x:Key="RuneCheckbox.MouseOver.Border" Color="#FF3C7FB1"/>
-        <SolidColorBrush x:Key="RuneCheckbox.Pressed.Background" Color="#FFC4E5F6"/>
-        <SolidColorBrush x:Key="RuneCheckbox.Pressed.Border" Color="#FF2C628B"/>
-        <SolidColorBrush x:Key="RuneCheckbox.Disabled.Background" Color="#FFF4F4F4"/>
-        <SolidColorBrush x:Key="RuneCheckbox.Disabled.Border" Color="#FFADB2B5"/>
-        <SolidColorBrush x:Key="RuneCheckbox.Disabled.Foreground" Color="#FF838383"/>
-
-        <SolidColorBrush x:Key="RuneCheckbox.Overlay.Null" Color="#7FFFFFFF"/>
-        <SolidColorBrush x:Key="RuneCheckbox.Overlay.True" Color="#7F000000"/>
-        <SolidColorBrush x:Key="RuneCheckbox.Overlay.False"/>
-
-        <Style x:Key="RuneCheckbox" TargetType="{x:Type ToggleButton}">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-            <Setter Property="Background" Value="{StaticResource RuneCheckbox.Static.Background}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource RuneCheckbox.Static.Border}"/>
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="IsThreeState" Value="True"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="1"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ToggleButton}">
-                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
-                            <Grid>
-                                <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                <Border x:Name="overlay" Focusable="False" Width="{Binding ElementName=contentPresenter, Path=ActualWidth}" Height="{Binding ElementName=contentPresenter, Path=ActualHeight}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-
-                            </Grid>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="Button.IsDefaulted" Value="true">
-                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource RuneCheckbox.MouseOver.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource RuneCheckbox.MouseOver.Border}"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource RuneCheckbox.Pressed.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource RuneCheckbox.Pressed.Border}"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource RuneCheckbox.Disabled.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource RuneCheckbox.Disabled.Border}"/>
-                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource RuneCheckbox.Disabled.Foreground}"/>
-                            </Trigger>
-                            <Trigger Property="IsChecked" Value="{x:Null}">
-                                <Setter Property="Background" TargetName="overlay" Value="{StaticResource RuneCheckbox.Overlay.Null}"/>
-                            </Trigger>
-                            <Trigger Property="IsChecked" Value="False">
-                                <Setter Property="Background" TargetName="overlay" Value="{StaticResource RuneCheckbox.Overlay.False}"/>
-                            </Trigger>
-                            <Trigger Property="IsChecked" Value="True">
-                                <Setter Property="Background" TargetName="overlay" Value="{StaticResource RuneCheckbox.Overlay.True}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <ControlTemplate x:Key="ContainerMenuItem" TargetType="{x:Type MenuItem}">
-            <Grid Margin="35,5,35,5" Background="{TemplateBinding Background}">
-                <ContentPresenter Content="{TemplateBinding Header}" />
-            </Grid>
-        </ControlTemplate>
-    </UserControl.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition Height="25"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid DockPanel.Dock="Top" Height="45">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" x:Name="allItemsButton" Content="{StaticResource AllItems_Content}" Style="{StaticResource FilterButton}"  Padding="4" Margin="4" Click="allItemsButton_Click" />
-            <Button Grid.Column="1" x:Name="meleeItemsButton" Content="{StaticResource Melee_Content}" Style="{StaticResource FilterButton}"  Padding="4" Margin="4" Click="allMeleeItemsButton_Click" />
-            <Button Grid.Column="2" x:Name="rangedItemsButton" Content="{StaticResource Ranged_Content}" Style="{StaticResource FilterButton}"  Padding="4" Margin="4" Click="allRangedItemsButton_Click" />
-            <Button Grid.Column="3" x:Name="armorItemsButton" Content="{StaticResource Armor_Content}" Style="{StaticResource FilterButton}"  Padding="4" Margin="4" Click="allArmorItemsButton_Click" />
-            <Button Grid.Column="4" x:Name="artifactItemsButton" Content="{StaticResource Artifacts_Content}" Style="{StaticResource FilterButton}"  Padding="4" Margin="4" Click="allArtifactItemsButton_Click" />
-            <Button Grid.Column="5" x:Name="enchantedItemsButton" Content="{StaticResource Enchanted_Content}" Style="{StaticResource FilterButton}"  Padding="4" Margin="4" Click="allEnchantedItemsButton_Click" />
-            <Button Grid.Column="6" x:Name="searchItemsButton" Content="{StaticResource Search_Content}" Style="{StaticResource FilterButton}"  Padding="4" Margin="4" MouseRightButtonUp="searchItemsButton_MouseRightButtonUp" Click="searchItemsButton_Click">
-                <Button.ContextMenu>
-                    <ContextMenu Name="CustomSearchOptions" >
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/MCDStorageChest;component/Controls/Styles/RuneCheckbox.xaml" />
+                <ResourceDictionary Source="/MCDStorageChest;component/Controls/Styles/ContainerMenuItem.xaml"/>
+                <ResourceDictionary Source="/MCDStorageChest;component/Controls/Styles/RightCheckbox.xaml"/>
+                <ResourceDictionary>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="AllItems_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_AllItemsButtonImage}"/>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="Melee_Content"  Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_MeleeItemsButtonImage}"/>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="Ranged_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_RangedItemsButtonImage}"/>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="Armor_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_ArmorItemsButtonImage}"/>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="Artifacts_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_ArtifactItemsButtonImage}"/>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="Enchanted_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_EnchantedItemsButtonImage}"/>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="Search_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_SearchItemsButtonImage}"/>
+                    <converters:NullVisibilityConverter x:Key="NullToVis"/>
+                    <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" True="Visible" False="Collapsed"/>
+                    <converters:BooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" True="Collapsed" False="Visible"/>
+                    <converters:BooleanToSelectionModeConverter x:Key="BooleanToSelectionModeConverter" True="Extended" False="Single"/>
+                    <converters:IsNotNullConverter x:Key="isNotNullConverter"/>
+                    <converters:BooleanConverter x:Key="InverseBooleanConverter" True="False" False="True"/>
+                    <Style x:Key="FilterButton" TargetType="{x:Type Button}">
+                        <Setter Property="Padding" Value="4"/>
+                        <Setter Property="Margin" Value="4"/>
+                    </Style>
+                    <Style x:Key="ItemsListbox" TargetType="{x:Type ListBox}">
+                        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+                        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Visible"/>
+                        <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling"/>
+                        <Setter Property="AllowDrop" Value="True"/>
+                    </Style>
+                    <CollectionViewSource x:Key="ItemsList" Source="{Binding CurrentSaveFile.Items}" IsLiveSortingRequested="True">
+                        <CollectionViewSource.SortDescriptions>
+                            <scm:SortDescription PropertyName="InventoryIndex" Direction="Ascending"></scm:SortDescription>
+                        </CollectionViewSource.SortDescriptions>
+                    </CollectionViewSource>
+                    <ContextMenu x:Key="ItemsListboxContextMenu">
+                        <MenuItem x:Name="DeleteItem" Header="Delete"/>
+                        <MenuItem x:Name="MoveTo" Header="Move to..." ItemsSource="{Binding OtherSaves}">
+                            <MenuItem.ItemContainerStyle>
+                                <Style TargetType="{x:Type MenuItem}">
+                                    <Setter Property="Header" Value="{Binding TabTitle, Mode=OneWay}"/>
+                                    <Setter Property="Command" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=MenuItem}, Path=DataContext.MoveToCommand}"/>
+                                    <Setter Property="CommandParameter" Value="{Binding}"/>
+                                </Style>
+                            </MenuItem.ItemContainerStyle>
+                        </MenuItem>
+                    </ContextMenu>
+                    <ItemsPanelTemplate x:Key="ItemsListPanel">
+                        <vwp:VirtualizingWrapPanel ItemSize="110,110" Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                    <DataTemplate x:Key="ItemTemplate">
+                        <Grid>
+                            <CheckBox Panel.ZIndex="10" Content="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Right" Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:InventoryPreview}}, Path=MultiselectMode, Converter={StaticResource BooleanToVisibilityConverter}}" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" />
+                            <templates:InventoryItemTemplate/>
+                        </Grid>
+                    </DataTemplate>
+                    <ContextMenu x:Key="CustomSearchOptions">
                         <MenuItem Template="{StaticResource ContainerMenuItem}" StaysOpenOnClick="True">
                             <MenuItem.Header>
                                 <StackPanel>
@@ -230,51 +151,67 @@
                         <Separator></Separator>
                         <MenuItem x:Name="searchButton" Header="Search..." Click="searchButton_Click"></MenuItem>
                     </ContextMenu>
-                </Button.ContextMenu>
-            </Button>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid DockPanel.Dock="Top" Height="45">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" x:Name="allItemsButton" Content="{StaticResource AllItems_Content}" Style="{StaticResource FilterButton}" Click="allItemsButton_Click" />
+            <Button Grid.Column="1" x:Name="meleeItemsButton" Content="{StaticResource Melee_Content}" Style="{StaticResource FilterButton}" Click="allMeleeItemsButton_Click" />
+            <Button Grid.Column="2" x:Name="rangedItemsButton" Content="{StaticResource Ranged_Content}" Style="{StaticResource FilterButton}" Click="allRangedItemsButton_Click" />
+            <Button Grid.Column="3" x:Name="armorItemsButton" Content="{StaticResource Armor_Content}" Style="{StaticResource FilterButton}" Click="allArmorItemsButton_Click" />
+            <Button Grid.Column="4" x:Name="artifactItemsButton" Content="{StaticResource Artifacts_Content}" Style="{StaticResource FilterButton}" Click="allArtifactItemsButton_Click" />
+            <Button Grid.Column="5" x:Name="enchantedItemsButton" Content="{StaticResource Enchanted_Content}" Style="{StaticResource FilterButton}" Click="allEnchantedItemsButton_Click" />
+            <Button Grid.Column="6" x:Name="searchItemsButton" Content="{StaticResource Search_Content}" Style="{StaticResource FilterButton}" MouseRightButtonUp="searchItemsButton_MouseRightButtonUp" Click="searchItemsButton_Click" ContextMenu="{StaticResource CustomSearchOptions}"/>
         </Grid>
         <Grid Grid.Row="1">
-            <ListBox SelectedItem="{Binding CurrentItem}"
-                     ItemsSource="{Binding Source={StaticResource ItemsList}}"
-                  ScrollViewer.VerticalScrollBarVisibility="Visible" 
-                  x:Name="Items" 
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                  VerticalContentAlignment="Stretch" 
-                  HorizontalContentAlignment="Stretch"
-                  ItemTemplate="{StaticResource ItemTemplate}" 
-                  SelectionChanged="Items_SelectionChanged"
-                  ContextMenuService.IsEnabled="{Binding CurrentItem, Converter={StaticResource isNotNullConverter}}"
-                  MouseMove="Items_MouseMove" PreviewMouseLeftButtonDown="Items_PreviewMouseLeftButtonDown" Drop="Items_Drop" AllowDrop="True">
-                <ListBox.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem x:Name="DeleteItem" Header="Delete"/>
-                        <MenuItem x:Name="MoveTo" Header="Move to..." ItemsSource="{Binding OtherStorages}">
-                            <MenuItem.ItemContainerStyle>
-                                <Style TargetType="{x:Type MenuItem}">
-                                    <Setter Property="Header" Value="{Binding TabTitle, Mode=OneWay}"/>
-                                    <Setter Property="Command" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=MenuItem}, Path=DataContext.MoveToCommand}"/>
-                                    <Setter Property="CommandParameter" Value="{Binding}"/>
-                                </Style>
-                            </MenuItem.ItemContainerStyle>
-                        </MenuItem>
-                    </ContextMenu>
-                </ListBox.ContextMenu>
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Columns="3" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
+            <ListBox SelectedItem="{Binding CurrentItem}" 
+                     ItemsSource="{Binding Source={StaticResource ItemsList}}" 
+                     Style="{StaticResource ItemsListbox}"
+                     ContextMenu="{StaticResource ItemsListboxContextMenu}"
+                     ItemsPanel="{StaticResource ItemsListPanel}"
+                     ItemTemplate="{StaticResource ItemTemplate}"
+                     SelectionMode="{Binding ElementName=UserControl, Path=MultiselectMode, Converter={StaticResource BooleanToSelectionModeConverter}}"
+                     MouseMove="Items_MouseMove"
+                     PreviewMouseLeftButtonDown="Items_PreviewMouseLeftButtonDown"
+                     Drop="Items_Drop"
+                     x:Name="Items">
             </ListBox>
         </Grid>
-        <TextBlock x:Name="ItemsCount" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding IsStorage, Mode=OneWay, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
-            <Run Text="Items:"/>
-            <Run Text="{Binding CurrentSaveFile.Items.Count, Mode=OneWay, FallbackValue=0, TargetNullValue=0}"/>
-            <Run Text="/"/>
-            <Run Text="{x:Static base:Constants.MAXIMUM_INVENTORY_ITEM_COUNT_STRING}"/>
-        </TextBlock>
-        <TextBlock x:Name="ItemsCount_Storage" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"  Visibility="{Binding IsStorage, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <Run Text="Items:"/>
-            <Run Text="{Binding CurrentSaveFile.Items.Count, Mode=OneWay, FallbackValue=0, TargetNullValue=0}"/>
-        </TextBlock>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock x:Name="ItemsCount">
+                <Run Text="Items:"/>
+                <Run Text="{Binding CurrentSaveFile.Items.Count, Mode=OneWay, FallbackValue=0, TargetNullValue=0}"/>
+                <Run/>
+                </TextBlock>
+                <TextBlock x:Name="ItemsLimit" Visibility="{Binding IsStorage, Mode=OneWay, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                <Run Text="/"/>
+                <Run Text="{x:Static base:Constants.MAXIMUM_INVENTORY_ITEM_COUNT_STRING}"/>
+                </TextBlock>
+            </StackPanel>
+            <CheckBox Grid.Column="2" HorizontalAlignment="Right" Style="{StaticResource RightCheckbox}" IsChecked="{Binding ElementName=UserControl, Path=MultiselectMode}" Content="Multiselect Mode" VerticalAlignment="Center"/>
+        </Grid>
     </Grid>
 </UserControl>

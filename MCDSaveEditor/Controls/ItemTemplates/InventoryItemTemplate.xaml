@@ -11,7 +11,6 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="150"
-             VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
              d:DataContext="{d:DesignInstance Type=profile:Item}" Width="100" Height="100"
              Foreground="{StaticResource UI_ForegroundColor}">
     <UserControl.Resources>
@@ -44,6 +43,7 @@
         </Style>
 
     </UserControl.Resources>
+
     <Grid Background="{Binding Images_BG}" Width="100" Height="100">
         <UniformGrid Style="{StaticResource RuneGrid}">
             <local:RuneIcon CurrentArchetype="A" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_A, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
@@ -84,6 +84,5 @@
                 <DropShadowEffect ShadowDepth="1" BlurRadius="1" Opacity="1"></DropShadowEffect>
             </TextBlock.Effect>
         </TextBlock>
-        
     </Grid>
 </UserControl>

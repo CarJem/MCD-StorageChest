@@ -19,7 +19,7 @@ using System.Collections.Specialized;
 namespace MCDStorageChest.Models
 {
     [NotifyPropertyChanged]
-    public class SaveModel : INotifyPropertyChanged
+    public class SaveModel : INotifyPropertyChanging
     {
 
         #region Commands
@@ -35,8 +35,8 @@ namespace MCDStorageChest.Models
                 if (_closeCommand == null)
                 {
                     _closeCommand = new RelayCommand(
-                        param => this.ParentModel.Command_FileClose(this),
-                        param => this.ParentModel.Command_FileClose_isAllowed(this)
+                        param => this.ParentModel.FileClose(this),
+                        param => true
                     );
                 }
                 return _closeCommand;
@@ -51,51 +51,56 @@ namespace MCDStorageChest.Models
                 if (_moveToCommand == null)
                 {
                     _moveToCommand = new RelayCommand(
-                        param => this.Command_MoveTo(param),
-                        param => this.Command_MoveTo_isAllowed(this)
+                        param => this.MoveItem(param),
+                        param => this.MoveItemCheck(this)
                     );
                 }
                 return _moveToCommand;
             }
         }
-        public bool Command_MoveTo_isAllowed(object param)
+        public bool MoveItemCheck(object param)
         {
             if (ParentModel != null && param != null && (param is SaveModel)) return true;
             else return false;
         }
-        public void Command_MoveTo(object param)
+        public void MoveItem(object param)
         {
-            var moveToIndex = ParentModel.GetIndexOfSave((param as SaveModel));
-            MoveItem(moveToIndex, CurrentItem);
+            var moveToIndex = ParentModel.IndexOf((param as SaveModel));
+            Transfer(moveToIndex, CurrentItem);
         }
 
         #endregion
 
         #region Event Handlers
-        public event PropertyChangedEventHandler PropertyChanged;
-        public event EventHandler ListUpdated;
 
-        private void OnListUpdated()
+        public event EventHandler ListUpdated;
+        public event PropertyChangingEventHandler PropertyChanging;
+        protected void OnPropertyChanging(string propertyName)
         {
-            ListUpdated?.Invoke(this, EventArgs.Empty);
+            this.PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
         }
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+
         #endregion
 
-        #region Connectors
+        #region Connector
+
         private IMainViewModel ParentModel { get; set; }
-        private bool isParentModelLoaded = false;
         public void Init(IMainViewModel _ModelRef)
         {
-            if (!isParentModelLoaded)
-            {
-                ParentModel = _ModelRef;
-                isParentModelLoaded = true;
-            }
+            if (ParentModel == null) ParentModel = _ModelRef;
         }
+
+        #endregion
+
+        #region Properties
+
+        public ProfileSaveFile CurrentSaveFile { get; set; }
+        public SearchModel SearchSettings { get; set; } = new SearchModel();
+        public Item CurrentItem { get; set; }
+        public Json.Enums.ItemFilterEnum CurrentFilter { get; set; } = Json.Enums.ItemFilterEnum.All;
+        public string CurrentSaveFilePath { get; set; } = string.Empty;
+        public bool IsStorage { get; set; } = false;
+
         #endregion
 
         #region Read Only Properties
@@ -104,6 +109,8 @@ namespace MCDStorageChest.Models
         {
             get
             {
+                Depends.On(IsStorage);
+                Depends.On(CurrentSaveFile);
                 string fileType = IsStorage ? "Storage" : "Save";
                 string fileName = Path.GetFileName(CurrentSaveFilePath);
                 return string.Format("{0} ({1})", fileType, fileName);
@@ -111,98 +118,13 @@ namespace MCDStorageChest.Models
         }
 
         [SafeForDependencyAnalysis]
-        public List<SaveModel> OtherStorages
-        {
-            get
-            {
-                if (ParentModel != null) return ParentModel.GetOtherStorages(this);
-                else return new List<SaveModel>();
-            }
-        }
+        public List<SaveModel> OtherSaves => ParentModel == null ? ParentModel.OtherSaves(this) : new List<SaveModel>();
 
         #endregion
 
-        #region Properties
+        #region IO Methods
 
-        private ProfileSaveFile _CurrentSaveFile;
-        private Item _CurrentItem;
-        private Json.Enums.ItemFilterEnum _CurrentFiler = Json.Enums.ItemFilterEnum.All;
-        private string _CurrentSaveFilePath = string.Empty;
-        public bool _isStorage = false;
-        private Models.SearchModel _SearchSettings = new SearchModel();
-
-
-        public ProfileSaveFile CurrentSaveFile
-        {
-            get { return _CurrentSaveFile; }
-            private set { _CurrentSaveFile = value; OnPropertyChanged(nameof(CurrentSaveFile)); }
-        }
-
-        public Models.SearchModel SearchSettings
-        {
-            get { return _SearchSettings; }
-            set { _SearchSettings = value; OnPropertyChanged(nameof(SearchSettings)); }
-        }
-
-        public Item CurrentItem
-        {
-            get { return _CurrentItem; }
-            set { _CurrentItem = value; OnPropertyChanged(nameof(CurrentItem)); }
-        }
-        public Json.Enums.ItemFilterEnum CurrentFilter
-        {
-            get { return _CurrentFiler; }
-            set { _CurrentFiler = value; OnPropertyChanged(nameof(CurrentFilter)); }
-        }
-        public string CurrentSaveFilePath
-        {
-            get { return _CurrentSaveFilePath; }
-            private set { _CurrentSaveFilePath = value; OnPropertyChanged(nameof(CurrentSaveFilePath)); OnPropertyChanged(nameof(TabTitle)); }
-        }
-        public bool IsStorage
-        {
-            get { return _isStorage; }
-            set { _isStorage = value; OnPropertyChanged(nameof(IsStorage)); OnPropertyChanged(nameof(TabTitle)); }
-        }
-
-        #endregion
-
-        #region Methods
-
-        private void UpdateRecentDirectoriesLists(string newPath, bool isStorage)
-        {
-            if (isStorage)
-            {
-                Settings.Default.LastStorageDirectory = newPath;
-
-                if (Settings.Default.RecentStorageDirectories == null)
-                    Settings.Default.RecentStorageDirectories = new StringCollection();
-
-                while (Settings.Default.RecentStorageDirectories.Contains(newPath)) Settings.Default.RecentStorageDirectories.Remove(newPath);
-                Settings.Default.RecentStorageDirectories.Add(newPath);
-
-                if (Settings.Default.RecentStorageDirectories.Count > Constants.MAX_RECENT_FILES)
-                    Settings.Default.RecentStorageDirectories.RemoveAt(0);
-            }
-            else
-            {
-                Settings.Default.LastSaveGameDirectory = newPath;
-
-                if (Settings.Default.RecentSaveGameDirectories == null)
-                    Settings.Default.RecentSaveGameDirectories = new StringCollection();
-
-                while (Settings.Default.RecentSaveGameDirectories.Contains(newPath)) Settings.Default.RecentSaveGameDirectories.Remove(newPath);
-                Settings.Default.RecentSaveGameDirectories.Add(newPath);
-
-                if (Settings.Default.RecentSaveGameDirectories.Count > Constants.MAX_RECENT_FILES)
-                    Settings.Default.RecentSaveGameDirectories.RemoveAt(0);
-            }
-
-            ParentModel.SyncRecentDirectoryLists();
-
-            Settings.Default.Save();
-        }
-        public async Task<bool> FileOpenAsync(string path, bool isStorage)
+        public async Task<bool> OpenAsync(string path, bool isStorage)
         {
             OpenFileDialog ofd = new OpenFileDialog()
             {
@@ -213,40 +135,39 @@ namespace MCDStorageChest.Models
             };
             if (ofd.ShowDialog().Value)
             {
-                UpdateRecentDirectoriesLists(Path.GetDirectoryName(ofd.FileName), isStorage);
+                Logic.SettingMapper.UpdateRecentDirectoriesLists(ParentModel, Path.GetDirectoryName(ofd.FileName), isStorage);
                 IsStorage = isStorage;
 
                 CurrentSaveFile = await Logic.FileLoader.FileOpenAsync(ofd.FileName);
                 CurrentSaveFilePath = ofd.FileName;
-                OnPropertyChanged(nameof(CurrentSaveFile));
                 return true;
             }
             else return false;
         }
-        public async Task<bool> FileOpenAsync(bool isStorage)
+        public async Task<bool> OpenAsync(bool isStorage)
         {
             string path = isStorage ? Settings.Default.LastStorageDirectory : Settings.Default.LastSaveGameDirectory;
-            return await FileOpenAsync(path, isStorage);
+            return await OpenAsync(path, isStorage);
         }
-        public async Task FileSaveAsync(string filePath, ProfileSaveFile profile)
+        public async Task SaveAsync(string filePath, ProfileSaveFile profile)
         {
             var result = MessageBox.Show("Would you like to make a backup", "Saving...", MessageBoxButton.YesNoCancel);
             if (result == MessageBoxResult.Cancel || result == MessageBoxResult.None) return;
             if (result == MessageBoxResult.Yes) File.Copy(filePath, Path.ChangeExtension(filePath, Path.GetExtension(filePath) + ".bak"));
             await Logic.FileLoader.FileSaveAsync(filePath, profile);
         }
-        public void RequestListUpdate()
+
+        #endregion
+
+        #region Action Methods
+        public void Update()
         {
-            OnListUpdated();
+            ListUpdated?.Invoke(this, EventArgs.Empty);
         }
-        public void MoveItem(int index, Item item)
+        public void Transfer(int index, Item item)
         {
             if (item.IsEquiped || item.IsEnchanted) return;
-            if (ParentModel.GetSaveCount() > index && index > -1)
-            {
-                ParentModel.AddItemToSave(index, item.Clone() as Item);
-                CurrentSaveFile.Items.Remove(item);
-            }
+            ParentModel.Transfer(this, index, item.Clone() as Item);
         }
 
         #endregion
