@@ -86,8 +86,6 @@ namespace MCDStorageChest.Models
                 _mission = new CaseInSensitiveDictionary<string, string>(missionDict.ToDictionary(pair => pair.Key.Trim(), pair => pair.Value));
             }
             isStringsLoaded = true;
-
-            Export();
         }
 
         public static string itemName(string type)
@@ -188,7 +186,7 @@ namespace MCDStorageChest.Models
             return null;
         }
 
-        public static void Export()
+        public static void Debug_Export()
         {
             string fileName = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "MCDStorageChestStrings.json");
 

@@ -69,7 +69,7 @@ namespace MCDStorageChest.Models
             var index = ParentModel.IndexOf((param as SaveModel));
             foreach (var item in this.SelectedItems.ToList())
             {
-                if (item.IsEquiped || item.IsEnchanted) return;
+                if (item.IsEquiped || item.IsEnchanted) continue;
                 ParentModel.InsertItem(this, index, item.Clone() as Item);
                 this.CurrentSaveFile.Items.Remove(item);
             }
