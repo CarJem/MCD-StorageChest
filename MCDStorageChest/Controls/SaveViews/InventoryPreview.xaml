@@ -1,0 +1,222 @@
+﻿<UserControl x:Class="MCDStorageChest.Controls.SaveViews.InventoryPreview"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MCDStorageChest.Controls.SaveViews"
+             xmlns:models="clr-namespace:MCDStorageChest.Models"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:misc="clr-namespace:MCDStorageChest.Controls.Misc"
+             xmlns:base="clr-namespace:MCDStorageChest"
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             xmlns:num="clr-namespace:NumericUpDownLib;assembly=NumericUpDownLib"
+             xmlns:vwp="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
+             xmlns:templates="clr-namespace:MCDStorageChest.Controls.ItemTemplates"
+             xmlns:mappings="clr-namespace:MCDStorageChest.Json.Mapping"
+             mc:Ignorable="d" 
+             x:Name="UserControl"
+             DataContextChanged="UserControl_DataContextChanged"
+             Initialized="UserControl_Initialized"
+             xmlns:converters="clr-namespace:MCDStorageChest.Converters"
+             d:DataContext="{d:DesignInstance Type=models:SaveModel}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/MCDStorageChest;component/Controls/Styles/RuneCheckbox.xaml" />
+                <ResourceDictionary Source="/MCDStorageChest;component/Controls/Styles/ContainerMenuItem.xaml"/>
+                <ResourceDictionary Source="/MCDStorageChest;component/Controls/Styles/RightCheckbox.xaml"/>
+                <ResourceDictionary>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="AllItems_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_AllItemsButtonImage}"/>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="Melee_Content"  Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_MeleeItemsButtonImage}"/>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="Ranged_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_RangedItemsButtonImage}"/>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="Armor_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_ArmorItemsButtonImage}"/>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="Artifacts_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_ArtifactItemsButtonImage}"/>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="Enchanted_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_EnchantedItemsButtonImage}"/>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="Search_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_SearchItemsButtonImage}"/>
+                    <converters:MultiValueConverter x:Key="MultiValueConverter"/>
+                    <converters:NullVisibilityConverter x:Key="NullToVis"/>
+                    <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" True="Visible" False="Collapsed"/>
+                    <converters:BooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" True="Collapsed" False="Visible"/>
+                    <converters:BooleanToSelectionModeConverter x:Key="BooleanToSelectionModeConverter" True="Extended" False="Single"/>
+                    <converters:IsNotNullConverter x:Key="isNotNullConverter"/>
+                    <converters:BooleanConverter x:Key="InverseBooleanConverter" True="False" False="True"/>
+                    <Style x:Key="FilterButton" TargetType="{x:Type Button}">
+                        <Setter Property="Padding" Value="4"/>
+                        <Setter Property="Margin" Value="4"/>
+                    </Style>
+                    <Style x:Key="ItemsListbox" TargetType="{x:Type ListBox}">
+                        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+                        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Visible"/>
+                        <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling"/>
+                        <Setter Property="AllowDrop" Value="True"/>
+                    </Style>
+                    <CollectionViewSource x:Key="ItemsList" Source="{Binding CurrentSaveFile.Items}" IsLiveSortingRequested="True">
+                        <CollectionViewSource.SortDescriptions>
+                            <scm:SortDescription PropertyName="InventoryIndex" Direction="Ascending"></scm:SortDescription>
+                        </CollectionViewSource.SortDescriptions>
+                    </CollectionViewSource>
+                    <ContextMenu x:Key="ItemsListboxContextMenu">
+                        <MenuItem x:Name="DeleteItem" Header="Delete"/>
+                        <MenuItem x:Name="MoveTo" Header="Move to..." ItemsSource="{Binding OtherSaves}">
+                            <MenuItem.ItemContainerStyle>
+                                <Style TargetType="{x:Type MenuItem}">
+                                    <Setter Property="Header" Value="{Binding TabTitle, Mode=OneWay}"/>
+                                    <Setter Property="Command" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=MenuItem}, Path=DataContext.MoveToCommand}"/>
+                                    <Setter Property="CommandParameter" Value="{Binding }"/>
+                                </Style>
+                            </MenuItem.ItemContainerStyle>
+                        </MenuItem>
+                    </ContextMenu>
+                    <ItemsPanelTemplate x:Key="ItemsListPanel">
+                        <vwp:VirtualizingWrapPanel ItemSize="110,110" Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                    <DataTemplate x:Key="ItemTemplate">
+                        <Grid>
+                            <CheckBox Panel.ZIndex="10" Content="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Right" Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:InventoryPreview}}, Path=MultiselectMode, Converter={StaticResource BooleanToVisibilityConverter}}" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" />
+                            <templates:InventoryItemTemplate/>
+                        </Grid>
+                    </DataTemplate>
+                    <ContextMenu x:Key="CustomSearchOptions">
+                        <MenuItem Template="{StaticResource ContainerMenuItem}" StaysOpenOnClick="True">
+                            <MenuItem.Header>
+                                <StackPanel>
+                                    <StackPanel>
+                                        <CheckBox IsChecked="{Binding SearchSettings.SearchByName}" Content="By Name:" Margin="0,0,0,5"></CheckBox>
+                                        <TextBox Text="{Binding SearchSettings.SearchByName_Text, Mode=TwoWay}" Width="120" IsEnabled="{Binding SearchSettings.SearchByName}" Margin="0,0,0,5"/>
+                                        <CheckBox IsChecked="{Binding SearchSettings.SearchByName_UseIDs}" Content="Use Internal Names" IsEnabled="{Binding SearchSettings.SearchByName}" Margin="0,0,0,5"></CheckBox>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <CheckBox IsChecked="{Binding SearchSettings.SearchByPowerLevel}" Content="By Power:" Margin="0,0,0,5"></CheckBox>
+                                        <num:NumericUpDown IsMouseDragEnabled="False" IsDisplayLengthFixed="True" DisplayLength="10" IsLargeStepEnabled="False" MinValue="0" Value="{Binding SearchSettings.SearchByPowerLevel_Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="120" IsEnabled="{Binding SearchSettings.SearchByPowerLevel}" Margin="0,0,0,5"/>
+                                        <GroupBox Header="Mode" IsEnabled="{Binding SearchSettings.SearchByPowerLevel}">
+                                            <StackPanel>
+                                                <RadioButton Content="Less Than" GroupName="SearchByPowerLevel_Mode" IsChecked="{Binding SearchSettings.SearchByPowerLevel_Mode[0], Mode=TwoWay}"/>
+                                                <RadioButton Content="Greater Than" GroupName="SearchByPowerLevel_Mode" IsChecked="{Binding SearchSettings.SearchByPowerLevel_Mode[1], Mode=TwoWay}"/>
+                                                <RadioButton Content="Equal To" GroupName="SearchByPowerLevel_Mode" IsChecked="{Binding SearchSettings.SearchByPowerLevel_Mode[2], Mode=TwoWay}"/>
+                                            </StackPanel>
+                                        </GroupBox>
+                                    </StackPanel>
+                                    <TextBlock IsEnabled="False" Text="Limit to..." Focusable="False"/>
+                                    <CheckBox IsChecked="{Binding SearchSettings.LimitTo_Armor}" Content="Armor" IsThreeState="False"></CheckBox>
+                                    <CheckBox IsChecked="{Binding SearchSettings.LimitTo_Melee}" Content="Melee" IsThreeState="False"></CheckBox>
+                                    <CheckBox IsChecked="{Binding SearchSettings.LimitTo_Ranged}" Content="Ranged" IsThreeState="False"></CheckBox>
+                                    <CheckBox IsChecked="{Binding SearchSettings.LimitTo_Artifact}" Content="Artifact" IsThreeState="False"></CheckBox>
+                                    <Grid Height="10"/>
+                                    <CheckBox IsChecked="{Binding SearchSettings.LimitTo_Common}" Content="Common" IsThreeState="False"></CheckBox>
+                                    <CheckBox IsChecked="{Binding SearchSettings.LimitTo_Rare}" Content="Rare" IsThreeState="False"></CheckBox>
+                                    <CheckBox IsChecked="{Binding SearchSettings.LimitTo_Unique}" Content="Unique" IsThreeState="False"></CheckBox>
+                                    <TextBlock IsEnabled="False" Text="Filter by..." Focusable="False" Margin="0,10,0,0"/>
+                                    <CheckBox IsChecked="{Binding SearchSettings.FilterBy_Enchanted}" Content="Enchanted" IsThreeState="True"></CheckBox>
+                                    <CheckBox IsChecked="{Binding SearchSettings.FilterBy_Gilded}" Content="Gilded" IsThreeState="True"></CheckBox>
+                                    <Grid VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1,10,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel>
+                                            <ToggleButton Style="{StaticResource RuneCheckbox}" IsChecked="{Binding SearchSettings.FilterBy_RuneA}">
+                                                <templates:RuneIcon CurrentArchetype="A" Height="25" Width="25"/>
+                                            </ToggleButton>
+                                            <ToggleButton Style="{StaticResource RuneCheckbox}" IsChecked="{Binding SearchSettings.FilterBy_RuneC}">
+                                                <templates:RuneIcon CurrentArchetype="C" Height="25" Width="25"/>
+                                            </ToggleButton>
+                                            <ToggleButton Style="{StaticResource RuneCheckbox}" IsChecked="{Binding SearchSettings.FilterBy_RuneI}">
+                                                <templates:RuneIcon CurrentArchetype="I" Height="25" Width="25"/>
+                                            </ToggleButton>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1">
+                                            <ToggleButton Style="{StaticResource RuneCheckbox}" IsChecked="{Binding SearchSettings.FilterBy_RuneO}">
+                                                <templates:RuneIcon CurrentArchetype="O" Height="25" Width="25"/>
+                                            </ToggleButton>
+                                            <ToggleButton Style="{StaticResource RuneCheckbox}" IsChecked="{Binding SearchSettings.FilterBy_RuneP}">
+                                                <templates:RuneIcon CurrentArchetype="P" Height="25" Width="25"/>
+                                            </ToggleButton>
+                                            <ToggleButton Style="{StaticResource RuneCheckbox}" IsChecked="{Binding SearchSettings.FilterBy_RuneR}">
+                                                <templates:RuneIcon CurrentArchetype="R" Height="25" Width="25"/>
+                                            </ToggleButton>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="2">
+                                            <ToggleButton Style="{StaticResource RuneCheckbox}" IsChecked="{Binding SearchSettings.FilterBy_RuneS}">
+                                                <templates:RuneIcon CurrentArchetype="S" Height="25" Width="25"/>
+                                            </ToggleButton>
+                                            <ToggleButton Style="{StaticResource RuneCheckbox}" IsChecked="{Binding SearchSettings.FilterBy_RuneT}">
+                                                <templates:RuneIcon CurrentArchetype="T" Height="25" Width="25"/>
+                                            </ToggleButton>
+                                            <ToggleButton Style="{StaticResource RuneCheckbox}" IsChecked="{Binding SearchSettings.FilterBy_RuneU}">
+                                                <templates:RuneIcon CurrentArchetype="U" Height="25" Width="25"/>
+                                            </ToggleButton>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </MenuItem.Header>
+                        </MenuItem>
+                        <Separator></Separator>
+                        <MenuItem x:Name="searchButton" Header="Search..." Click="searchButton_Click"></MenuItem>
+                    </ContextMenu>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid DockPanel.Dock="Top" Height="45">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" x:Name="allItemsButton" Content="{StaticResource AllItems_Content}" Style="{StaticResource FilterButton}" Click="allItemsButton_Click" />
+            <Button Grid.Column="1" x:Name="meleeItemsButton" Content="{StaticResource Melee_Content}" Style="{StaticResource FilterButton}" Click="allMeleeItemsButton_Click" />
+            <Button Grid.Column="2" x:Name="rangedItemsButton" Content="{StaticResource Ranged_Content}" Style="{StaticResource FilterButton}" Click="allRangedItemsButton_Click" />
+            <Button Grid.Column="3" x:Name="armorItemsButton" Content="{StaticResource Armor_Content}" Style="{StaticResource FilterButton}" Click="allArmorItemsButton_Click" />
+            <Button Grid.Column="4" x:Name="artifactItemsButton" Content="{StaticResource Artifacts_Content}" Style="{StaticResource FilterButton}" Click="allArtifactItemsButton_Click" />
+            <Button Grid.Column="5" x:Name="enchantedItemsButton" Content="{StaticResource Enchanted_Content}" Style="{StaticResource FilterButton}" Click="allEnchantedItemsButton_Click" />
+            <Button Grid.Column="6" x:Name="searchItemsButton" Content="{StaticResource Search_Content}" Style="{StaticResource FilterButton}" MouseRightButtonUp="searchItemsButton_MouseRightButtonUp" Click="searchItemsButton_Click" ContextMenu="{StaticResource CustomSearchOptions}"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <ListBox SelectedItem="{Binding CurrentItem}" 
+                     misc:ListBoxDataGridEx.SelectedItems="{Binding SelectedItems}"
+                     ItemsSource="{Binding Source={StaticResource ItemsList}}" 
+                     Style="{StaticResource ItemsListbox}"
+                     ContextMenu="{StaticResource ItemsListboxContextMenu}"
+                     ItemsPanel="{StaticResource ItemsListPanel}"
+                     ItemTemplate="{StaticResource ItemTemplate}"
+                     SelectionMode="{Binding ElementName=UserControl, Path=MultiselectMode, Converter={StaticResource BooleanToSelectionModeConverter}}"
+                     MouseMove="Items_MouseMove"
+                     PreviewMouseLeftButtonDown="Items_PreviewMouseLeftButtonDown"
+                     Drop="Items_Drop"
+                     x:Name="Items">
+            </ListBox>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock x:Name="ItemsCount">
+                <Run Text="Items:"/>
+                <Run Text="{Binding CurrentSaveFile.Items.Count, Mode=OneWay, FallbackValue=0, TargetNullValue=0}"/>
+                <Run/>
+                </TextBlock>
+                <TextBlock x:Name="ItemsLimit" Visibility="{Binding IsStorage, Mode=OneWay, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                <Run Text="/"/>
+                <Run Text="{x:Static base:Constants.MAXIMUM_INVENTORY_ITEM_COUNT_STRING}"/>
+                </TextBlock>
+            </StackPanel>
+            <CheckBox Grid.Column="2" HorizontalAlignment="Right" Style="{StaticResource RightCheckbox}" IsChecked="{Binding ElementName=UserControl, Path=MultiselectMode}" Content="Multiselect Mode" VerticalAlignment="Center"/>
+        </Grid>
+    </Grid>
+</UserControl>
