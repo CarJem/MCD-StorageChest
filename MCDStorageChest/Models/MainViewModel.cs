@@ -12,6 +12,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using MCDStorageChest.Logic;
 using MCDStorageChest.Json.Classes;
 using MCDStorageChest.Properties;
+#nullable enable
 
 namespace MCDStorageChest.Models
 {

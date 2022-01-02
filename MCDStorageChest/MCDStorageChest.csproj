@@ -38,6 +38,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <NoWarn>CS8625; CS8618; CS8603; CS8602; CS8600;</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
     <Nullable>enable</Nullable>
