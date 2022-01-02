@@ -21,18 +21,36 @@ namespace MCDStorageChest.Models
 
         static ExtraDataLibrary()
         {
-            using (var reader = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "RuneTable.csv")))
-            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            Init();
+        }
+
+        private static void Init()
+        {
+            string fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "ItemTable.csv");
+            if (File.Exists(fileName))
             {
-                foreach (var entry in csv.GetRecords<ExtraDataEntry>())
+                try
                 {
-                    if (!String.IsNullOrEmpty(entry.ITEM_FILENAME))
+                    using (var reader = new StreamReader(fileName))
+                    using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
                     {
-                        if (!_itemArchetypes.ContainsKey(entry.ITEM_FILENAME)) _itemArchetypes.Add(entry.ITEM_FILENAME, new RuneData(entry));
-                        if (!_builtInEnchants.ContainsKey(entry.ITEM_FILENAME)) _builtInEnchants.Add(entry.ITEM_FILENAME, InitEnchants(entry.ENCHANTMENTS_FILENAME));
+                        foreach (var entry in csv.GetRecords<ExtraDataEntry>())
+                        {
+                            if (!String.IsNullOrEmpty(entry.ITEM_FILENAME))
+                            {
+                                if (!_itemArchetypes.ContainsKey(entry.ITEM_FILENAME)) _itemArchetypes.Add(entry.ITEM_FILENAME, new RuneData(entry));
+                                if (!_builtInEnchants.ContainsKey(entry.ITEM_FILENAME)) _builtInEnchants.Add(entry.ITEM_FILENAME, InitEnchants(entry.ENCHANTMENTS_FILENAME));
+                            }
+                        }
                     }
                 }
+                catch
+                {
+
+                }
+
             }
+
 
             Enchantment[] InitEnchants(string input)
             {

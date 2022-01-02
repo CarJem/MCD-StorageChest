@@ -23,6 +23,7 @@ namespace MCDStorageChest.Models
 
         public ObservableCollection<SaveModel> SaveModelsList { get; set; } = new ObservableCollection<SaveModel>();
         public int CurrentIndex { get; set; } = 0;
+        public ObservableCollection<Item> ItemClipboard { get; set; } = new ObservableCollection<Item>();
         public ObservableCollection<string> RecentStorageDirectories { get; set; } = null;
         public ObservableCollection<string> RecentSaveGameDirectories { get; set; } = null;
 
@@ -173,6 +174,21 @@ namespace MCDStorageChest.Models
             var storages = SaveModelsList.ToList();
             storages.Remove(saveModel);
             return storages;
+        }
+
+        #endregion
+
+        #region Clipboard Methods
+
+        public List<Item> GetClipboard()
+        {
+            return ItemClipboard.ToList();
+        }
+
+        public void SetClipboard(List<Item> contents)
+        {
+            ItemClipboard.Clear();
+            foreach (var item in contents) ItemClipboard.Add(item);
         }
 
         #endregion

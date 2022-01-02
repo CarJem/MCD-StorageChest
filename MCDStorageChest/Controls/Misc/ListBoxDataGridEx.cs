@@ -80,10 +80,19 @@ namespace MCDStorageChest.Controls.Misc
             var listBox = selector as ListBox;
             if (listBox != null)
             {
-                if (obs.Count > 0 && listBox.SelectionMode != SelectionMode.Single)
+                if (obs.Count > 0)
                 {
-                    listBox.SelectedItems.Clear();
-                    foreach (var ob in obs) { listBox.SelectedItems.Add(ob); }
+                    if (listBox.SelectionMode == SelectionMode.Single)
+                    {
+                        listBox.SelectedItem = null;
+                        listBox.SelectedItem = obs[0];
+                    }
+                    else
+                    {
+                        listBox.SelectedItems.Clear();
+                        foreach (var ob in obs) { listBox.SelectedItems.Add(ob); }
+                    }
+                    
                 }
                 else
                 {

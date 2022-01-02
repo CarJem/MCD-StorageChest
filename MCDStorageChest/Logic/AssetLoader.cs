@@ -36,6 +36,7 @@ namespace MCDStorageChest.Logic
         {
             try
             {
+                Secrets.LoadAESKeys();
                 var pakIndex = await loadPakIndex(paksFolderPath);
                 if (pakIndex == null)
                 {

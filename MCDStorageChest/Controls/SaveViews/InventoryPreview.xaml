@@ -57,8 +57,12 @@
                         </CollectionViewSource.SortDescriptions>
                     </CollectionViewSource>
                     <ContextMenu x:Key="ItemsListboxContextMenu">
-                        <MenuItem x:Name="DeleteItem" Header="Delete"/>
-                        <MenuItem x:Name="MoveTo" Header="Move to..." ItemsSource="{Binding OtherSaves}">
+                        <MenuItem x:Name="CopyItem" Header="Copy" Command="{Binding CopyItemCommand}"/>
+                        <MenuItem x:Name="PasteItem" Header="Paste" Command="{Binding PasteItemCommand}"/>
+                        <MenuItem x:Name="DeleteItem" Header="Delete" Command="{Binding DeleteItemCommand}"/>
+                        <Separator/>
+                        <MenuItem x:Name="SortItems" Header="Sort by..." IsEnabled="False"/>
+                        <MenuItem x:Name="MoveTo" Header="Move to..." ItemsSource="{Binding OtherSaves}" Visibility="{Binding OtherSavesExist, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <MenuItem.ItemContainerStyle>
                                 <Style TargetType="{x:Type MenuItem}">
                                     <Setter Property="Header" Value="{Binding TabTitle, Mode=OneWay}"/>

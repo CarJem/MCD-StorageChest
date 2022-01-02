@@ -20,6 +20,8 @@ namespace MCDStorageChest
         void Refresh();
 
         List<SaveModel> OtherSaves(SaveModel saveModel);
+        List<Item> GetClipboard();
+        void SetClipboard(List<Item> contents);
 
         void InsertItem(SaveModel source, int index, Item item);
 

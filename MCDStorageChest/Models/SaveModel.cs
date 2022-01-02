@@ -25,40 +25,40 @@ namespace MCDStorageChest.Models
 
         #region Commands
 
-        private ICommand _closeCommand;
-        private ICommand _moveToCommand;
 
         [SafeForDependencyAnalysis]
-        public ICommand CloseCommand
+        public ICommand CloseSaveCommand
         {
             get
             {
-                if (_closeCommand == null)
+                if (_closeSaveCommand == null)
                 {
-                    _closeCommand = new RelayCommand(
+                    _closeSaveCommand = new RelayCommand(
                         param => this.ParentModel.FileClose(this),
                         param => true
                     );
                 }
-                return _closeCommand;
+                return _closeSaveCommand;
             }
         }
+        private ICommand _closeSaveCommand;
 
         [SafeForDependencyAnalysis]
-        public ICommand MoveToCommand
+        public ICommand MoveItemCommand
         {
             get
             {
-                if (_moveToCommand == null)
+                if (_moveItemCommand == null)
                 {
-                    _moveToCommand = new RelayCommand(
+                    _moveItemCommand = new RelayCommand(
                         param => this.MoveItem(param),
                         param => this.MoveItemCheck(this)
                     );
                 }
-                return _moveToCommand;
+                return _moveItemCommand;
             }
         }
+        private ICommand _moveItemCommand;
         public bool MoveItemCheck(object param)
         {
             if (ParentModel != null && param != null && (param is SaveModel)) return true;
@@ -66,9 +66,97 @@ namespace MCDStorageChest.Models
         }
         public void MoveItem(object param)
         {
-            var moveToIndex = ParentModel.IndexOf((param as SaveModel));
-            Transfer(moveToIndex, SelectedItems);
+            var index = ParentModel.IndexOf((param as SaveModel));
+            foreach (var item in this.SelectedItems.ToList())
+            {
+                if (item.IsEquiped || item.IsEnchanted) return;
+                ParentModel.InsertItem(this, index, item.Clone() as Item);
+                this.CurrentSaveFile.Items.Remove(item);
+            }
         }
+
+        [SafeForDependencyAnalysis]
+        public ICommand DeleteItemCommand
+        {
+            get
+            {
+                if (_deleteItemCommand == null)
+                {
+                    _deleteItemCommand = new RelayCommand(
+                        param => this.DeleteItem(),
+                        param => this.DeleteItemCheck()
+                    );
+                }
+                return _deleteItemCommand;
+            }
+        }
+        private ICommand _deleteItemCommand;
+        public bool DeleteItemCheck()
+        {
+            Depends.On(SelectedItems);
+            return this.SelectedItems.Count > 0;
+        }
+        public void DeleteItem()
+        {
+            foreach (var item in this.SelectedItems.ToList()) this.CurrentSaveFile.Items.Remove(item);
+        }
+
+        [SafeForDependencyAnalysis]
+        public ICommand CopyItemCommand
+        {
+            get
+            {
+                if (_copyItemCommand == null)
+                {
+                    _copyItemCommand = new RelayCommand(
+                        param => this.CopyItem(),
+                        param => this.CopyItemCheck()
+                    );
+                }
+                return _copyItemCommand;
+            }
+        }
+        private ICommand _copyItemCommand;
+        public bool CopyItemCheck()
+        {
+            Depends.On(SelectedItems);
+            return this.SelectedItems.Count > 0;
+        }
+        public void CopyItem()
+        {
+            ParentModel.SetClipboard(SelectedItems.ToList());
+            SelectedItems.Clear();
+        }
+
+        [SafeForDependencyAnalysis]
+        public ICommand PasteItemCommand
+        {
+            get
+            {
+                if (_pasteItemCommand == null)
+                {
+                    _pasteItemCommand = new RelayCommand(
+                        param => this.PasteItem(),
+                        param => this.PasteItemCheck()
+                    );
+                }
+                return _pasteItemCommand;
+            }
+        }
+        private ICommand _pasteItemCommand;
+        public bool PasteItemCheck()
+        {
+            Depends.On(ParentModel);
+            var clipboard = ParentModel.GetClipboard();
+            return clipboard.Count > 0;
+        }
+        public void PasteItem()
+        {
+            var itemsToPaste = ParentModel.GetClipboard();
+            foreach (var item in itemsToPaste) this.CurrentSaveFile.Items.Add(item);
+            ParentModel.SetClipboard(new List<Item>());
+        }
+
 
         #endregion
 
@@ -118,9 +206,22 @@ namespace MCDStorageChest.Models
                 return string.Format("{0} ({1})", fileType, fileName);
             }
         }
-
-        [SafeForDependencyAnalysis]
-        public List<SaveModel> OtherSaves => ParentModel != null ? ParentModel.OtherSaves(this) : new List<SaveModel>();
+        public bool OtherSavesExist
+        {
+            get
+            {
+                Depends.On(ParentModel);
+                return ParentModel != null ? ParentModel.OtherSaves(this).Count > 1 : false;
+            }
+        }
+        public List<SaveModel> OtherSaves
+        {
+            get
+            {
+                Depends.On(ParentModel);
+                return ParentModel != null ? ParentModel.OtherSaves(this) : new List<SaveModel>();
+            }
+        }
 
         #endregion
 
@@ -208,16 +309,6 @@ namespace MCDStorageChest.Models
         public void Update()
         {
             ListUpdated?.Invoke(this, EventArgs.Empty);
-        }
-        public void Transfer(int index, ObservableCollection<Item> items)
-        {
-            foreach (var item in items.ToList())
-            {
-                if (item.IsEquiped || item.IsEnchanted) return;
-                ParentModel.InsertItem(this, index, item.Clone() as Item);
-                this.CurrentSaveFile.Items.Remove(item);
-            }
-
         }
 
         #endregion
