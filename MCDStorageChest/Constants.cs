@@ -13,11 +13,11 @@ namespace MCDStorageChest
     #region Constants
     public static partial class Constants
     {
-        public const string CURRENT_VERSION_NUMBER = "0.1";
+        public const string CURRENT_VERSION_NUMBER = "0.1.1";
         public const string LATEST_RELEASE_GITHUB_URL = "https://github.com/CarJem/MCD-StorageChest";
         public const string LATEST_RELEASE_MOD_URL_FORMAT = "";
 
-        public const string APPLICATION_DISPLAY_NAME = "Minecraft Dungeons: Storage Chest";
+        public const string APPLICATION_DISPLAY_NAME = "Minecraft Dungeons: Storage Chest (" + CURRENT_VERSION_NUMBER + ")";
 
         public const string NO_RECENT_DIRECTORIES_TEXT = "No Recent Directories";
         public static readonly List<string> NO_RECENT_DIRECTORIES = new List<string>() { NO_RECENT_DIRECTORIES_TEXT };
