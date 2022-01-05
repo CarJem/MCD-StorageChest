@@ -1,17 +1,18 @@
 ﻿using MCDStorageChest.Json.Mapping;
 using PostSharp.Patterns.Model;
 using System;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 using MCDStorageChest.Json;
+#nullable enable
 
 namespace MCDStorageChest.Json.Classes
 {
     [Serializable, NotifyPropertyChanged]
     public class Currency : DynamicJSON
     {
-        [JsonPropertyName("count")]
+        [JsonProperty(PropertyName = "count")]
         public ulong Count { get; set; } = default;
-        [JsonPropertyName("type")]
-        public string Type { get; set; } = default;
+        [JsonProperty(PropertyName = "type")]
+        public string? Type { get; set; } = default;
     }
 }

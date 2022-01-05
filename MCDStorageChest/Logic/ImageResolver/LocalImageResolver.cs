@@ -5,6 +5,8 @@ using System.IO;
 using System.Net.Cache;
 using System.Windows.Media.Imaging;
 using MCDStorageChest.Extensions;
+using MCDStorageChest.Libraries;
+#nullable enable
 
 namespace MCDStorageChest.Logic.ImageResolver
 {
@@ -16,13 +18,13 @@ namespace MCDStorageChest.Logic.ImageResolver
 
         public string path { get { return null!; } }
 
-        public BitmapImage imageSource(string path)
+        public BitmapImage? imageSource(string path)
         {
             if (path.StartsWith("/Dungeons/Content/")) return null;
             else return tryBitmapImageForUri(GetImageURI(path));
         }
 
-        private BitmapImage tryBitmapImageForUri(Uri uri)
+        private BitmapImage? tryBitmapImageForUri(Uri uri)
         {
             try
             {
@@ -47,7 +49,7 @@ namespace MCDStorageChest.Logic.ImageResolver
             return null!;
         }
 
-        public BitmapImage imageSourceForItem(string itemType)
+        public BitmapImage? imageSourceForItem(string itemType)
         {
             var itemTypeStr = folderNameForItemType(itemType);
             return tryBitmapImageForUri(GetImageURI(string.Format("{0}.png", itemTypeStr)));
@@ -55,19 +57,19 @@ namespace MCDStorageChest.Logic.ImageResolver
 
         private string folderNameForItemType(string type)
         {
-            if (Models.TypeLibrary.Items_Artifacts.Contains(type))
+            if (TypeLibrary.Items_Artifacts.Contains(type))
             {
                 return "Artifacts";
             }
-            if (Models.TypeLibrary.Items_Armor.Contains(type))
+            if (TypeLibrary.Items_Armor.Contains(type))
             {
                 return "Armor";
             }
-            if (Models.TypeLibrary.Items_MeleeWeapons.Contains(type))
+            if (TypeLibrary.Items_MeleeWeapons.Contains(type))
             {
                 return "MeleeWeapons";
             }
-            if (Models.TypeLibrary.Items_RangedWeapons.Contains(type))
+            if (TypeLibrary.Items_RangedWeapons.Contains(type))
             {
                 return "RangedWeapons";
             }
@@ -111,12 +113,12 @@ namespace MCDStorageChest.Logic.ImageResolver
 
         #region Enchantments
 
-        public BitmapImage imageSourceForEnchantment(Enchantment enchantment)
+        public BitmapImage? imageSourceForEnchantment(Enchantment enchantment)
         {
             return imageSourceForEnchantment(enchantment.Id);
         }
 
-        public BitmapImage imageSourceForEnchantment(string enchantment)
+        public BitmapImage? imageSourceForEnchantment(string enchantment)
         {
             var enchantmentId = enchantment;
             if (enchantmentId == Constants.DEFAULT_ENCHANTMENT_ID)

@@ -24,16 +24,16 @@ namespace MCDStorageChest.Json.Converters
             switch (currentRarity)
             {
                 case RarityEnum.Common:
-                    image = Logic.AssetResolver.instance.imageSource("/Dungeons/Content/UI/Materials/Inventory2/Inspector/regular_bullit");
+                    image = Logic.AssetLoader.instance.imageSource("/Dungeons/Content/UI/Materials/Inventory2/Inspector/regular_bullit");
                     break;
                 case RarityEnum.Rare:
-                    image = Logic.AssetResolver.instance.imageSource("/Dungeons/Content/UI/Materials/Inventory2/Inspector/rare_bullit");
+                    image = Logic.AssetLoader.instance.imageSource("/Dungeons/Content/UI/Materials/Inventory2/Inspector/rare_bullit");
                     break;
                 case RarityEnum.Unique:
-                    image = Logic.AssetResolver.instance.imageSource("/Dungeons/Content/UI/Materials/Inventory2/Inspector/unique_bullit");
+                    image = Logic.AssetLoader.instance.imageSource("/Dungeons/Content/UI/Materials/Inventory2/Inspector/unique_bullit");
                     break;
                 default:
-                    image = Logic.AssetResolver.instance.imageSource("/Dungeons/Content/UI/Materials/Inventory2/Inspector/regular_bullit");
+                    image = Logic.AssetLoader.instance.imageSource("/Dungeons/Content/UI/Materials/Inventory2/Inspector/regular_bullit");
                     break;
             }
 

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MCDStorageChest.Controls.SaveViews"
+             xmlns:parent="clr-namespace:MCDStorageChest.Controls"
              xmlns:models="clr-namespace:MCDStorageChest.Models"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:misc="clr-namespace:MCDStorageChest.Controls.Misc"
@@ -27,13 +28,13 @@
                 <ResourceDictionary Source="/MCDStorageChest;component/Controls/Styles/ContainerMenuItem.xaml"/>
                 <ResourceDictionary Source="/MCDStorageChest;component/Controls/Styles/RightCheckbox.xaml"/>
                 <ResourceDictionary>
-                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="AllItems_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_AllItemsButtonImage}"/>
-                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="Melee_Content"  Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_MeleeItemsButtonImage}"/>
-                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="Ranged_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_RangedItemsButtonImage}"/>
-                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="Armor_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_ArmorItemsButtonImage}"/>
-                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="Artifacts_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_ArtifactItemsButtonImage}"/>
-                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="Enchanted_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_EnchantedItemsButtonImage}"/>
-                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Stretch="Uniform" x:Key="Search_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_SearchItemsButtonImage}"/>
+                    <Image Stretch="Uniform" x:Key="AllItems_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_AllItemsButtonImage}"/>
+                    <Image Stretch="Uniform" x:Key="Melee_Content"  Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_MeleeItemsButtonImage}"/>
+                    <Image Stretch="Uniform" x:Key="Ranged_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_RangedItemsButtonImage}"/>
+                    <Image Stretch="Uniform" x:Key="Armor_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_ArmorItemsButtonImage}"/>
+                    <Image Stretch="Uniform" x:Key="Artifacts_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_ArtifactItemsButtonImage}"/>
+                    <Image Stretch="Uniform" x:Key="Enchanted_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_EnchantedItemsButtonImage}"/>
+                    <Image Stretch="Uniform" x:Key="Search_Content" Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Inventory_SearchItemsButtonImage}"/>
                     <converters:MultiValueConverter x:Key="MultiValueConverter"/>
                     <converters:NullVisibilityConverter x:Key="NullToVis"/>
                     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" True="Visible" False="Collapsed"/>
@@ -42,8 +43,10 @@
                     <converters:IsNotNullConverter x:Key="isNotNullConverter"/>
                     <converters:BooleanConverter x:Key="InverseBooleanConverter" True="False" False="True"/>
                     <Style x:Key="FilterButton" TargetType="{x:Type Button}">
-                        <Setter Property="Padding" Value="4"/>
-                        <Setter Property="Margin" Value="4"/>
+                        <Setter Property="Padding" Value="8"/>
+                        <Setter Property="Margin" Value="0,4"/>
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="BorderThickness" Value="0"/>
                     </Style>
                     <Style x:Key="ItemsListbox" TargetType="{x:Type ListBox}">
                         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
@@ -62,11 +65,12 @@
                         <MenuItem x:Name="DeleteItem" Header="Delete" Command="{Binding DeleteItemCommand}"/>
                         <Separator/>
                         <MenuItem x:Name="SortItems" Header="Sort by..." IsEnabled="False"/>
-                        <MenuItem x:Name="MoveTo" Header="Move to..." ItemsSource="{Binding OtherSaves}" Visibility="{Binding OtherSavesExist, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <MenuItem x:Name="MoveTo" Header="Move to..." ItemsSource="{Binding ParentModel.SaveModelsList}" IsEnabled="{Binding RelativeSource={RelativeSource Mode=Self}, Path=HasItems}">
                             <MenuItem.ItemContainerStyle>
                                 <Style TargetType="{x:Type MenuItem}">
+                                    <Setter Property="IsEnabled" Value="{Binding IsTabSelected, Converter={StaticResource InverseBooleanConverter}}"/>
                                     <Setter Property="Header" Value="{Binding TabTitle, Mode=OneWay}"/>
-                                    <Setter Property="Command" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=MenuItem}, Path=DataContext.MoveToCommand}"/>
+                                    <Setter Property="Command" Value="{Binding DataContext.MoveItemCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=MenuItem}}"/>
                                     <Setter Property="CommandParameter" Value="{Binding }"/>
                                 </Style>
                             </MenuItem.ItemContainerStyle>

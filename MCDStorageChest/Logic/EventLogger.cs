@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+#nullable enable
 
 namespace MCDStorageChest.Logic
 {
@@ -17,7 +18,7 @@ namespace MCDStorageChest.Logic
 
         }
 
-        public static void logEvent(string eventId, IDictionary<string, object> fields = null)
+        public static void logEvent(string eventId, IDictionary<string, object>? fields = null)
         {
 
         }

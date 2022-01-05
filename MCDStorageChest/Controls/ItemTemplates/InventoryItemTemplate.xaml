@@ -10,9 +10,8 @@
              xmlns:profile="clr-namespace:MCDStorageChest.Json.Classes"             
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DesignHeight="150" d:DesignWidth="150"
-             d:DataContext="{d:DesignInstance Type=profile:Item}" Width="100" Height="100"
-             Foreground="{StaticResource UI_ForegroundColor}">
+             d:DesignHeight="150" d:DesignWidth="150" Foreground="White"
+             d:DataContext="{d:DesignInstance Type=profile:Item}" Width="100" Height="100">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="VisibleIfTrueConverter" />
         <converters:RarityToColorConverter x:Key="rarityToColor" />
@@ -44,7 +43,7 @@
 
     </UserControl.Resources>
 
-    <Grid Background="{Binding Images_BG}" Width="100" Height="100">
+    <Grid Background="{Binding Background, Converter={StaticResource ItemToBG}}" Width="100" Height="100">
         <UniformGrid Style="{StaticResource RuneGrid}">
             <local:RuneIcon CurrentArchetype="A" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_A, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
             <local:RuneIcon CurrentArchetype="C" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_C, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
@@ -56,9 +55,9 @@
             <local:RuneIcon CurrentArchetype="T" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_T, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
             <local:RuneIcon CurrentArchetype="U" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_U, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
         </UniformGrid>
-        <Grid Background="{Binding Images_StatusNew}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="30" Height="30" Visibility="{Binding MarkedNew, Converter={StaticResource VisibleIfTrueConverter}}"/>
-        <StackPanel Margin="5" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Top" Visibility="{Binding HasEnchantmentPoints, Converter={StaticResource VisibleIfTrueConverter}}">
-            <Image Source="{Binding Images_EnchantIcon}" Height="16" Width="16">
+        <Grid Background="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Item_MarkedNewBackground}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="30" Height="30" Visibility="{Binding MarkedNew, FallbackValue={x:Static Visibility.Hidden}, Converter={StaticResource VisibleIfTrueConverter}}"/>
+        <StackPanel Margin="5" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Top" Visibility="{Binding HasEnchantmentPoints, FallbackValue={x:Static Visibility.Hidden}, Converter={StaticResource VisibleIfTrueConverter}}">
+            <Image Source="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=EnchantCommonIcon}" Height="16" Width="16">
                 <Image.Effect>
                     <DropShadowEffect ShadowDepth="1" BlurRadius="1" Opacity="1"></DropShadowEffect>
                 </Image.Effect>

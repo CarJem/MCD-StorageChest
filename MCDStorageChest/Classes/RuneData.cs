@@ -1,4 +1,4 @@
-﻿using MCDStorageChest.Csv;
+﻿using MCDStorageChest.Libraries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ namespace MCDStorageChest.Classes
     {
         public RuneData() { }
 
-        public RuneData(ExtraDataEntry entry)
+        public RuneData(ItemTableEntry entry)
         {
             this.HasRune_U = entry.HasRune_U;
             this.HasRune_C = entry.HasRune_C;

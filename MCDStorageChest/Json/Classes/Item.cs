@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text.Json.Serialization;
 using MCDStorageChest.Json.Enums;
 using MCDStorageChest.Extensions;
 using MCDStorageChest.Models;
@@ -12,11 +11,15 @@ using System.Windows.Media;
 using MCDStorageChest.Json.Mapping;
 using PostSharp.Patterns.Model;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using MCDStorageChest.Json;
-using System.Text.Json;
 using MCDStorageChest.Json.Converters;
 using MCDStorageChest.Classes;
 using MCDStorageChest.Controls.ItemTemplates;
+using Xceed.Wpf.Toolkit.PropertyGrid.Editors;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+using MCDStorageChest.Libraries;
+#nullable enable
 
 namespace MCDStorageChest.Json.Classes
 {
@@ -25,44 +28,44 @@ namespace MCDStorageChest.Json.Classes
     {
         #region JSON
 
-        [JsonPropertyName("armorproperties")] //TODO: See if changing this from an Array changes anything significantly
-        public ObservableCollection<Armorproperty> Armorproperties { get; set; } = null;
+        [JsonProperty(PropertyName = "armorproperties")] //TODO: See if changing this from an Array changes anything significantly
+        public ObservableCollection<Armorproperty> Armorproperties { get; set; } = default!;
 
-        [JsonPropertyName("enchantments")] //TODO: See if changing this from an Array changes anything significantly
-        public EnchantmentCollection Enchantments { get; set; } = null;
+        [JsonProperty(PropertyName = "enchantments")] //TODO: See if changing this from an Array changes anything significantly
+        public EnchantmentCollection Enchantments { get; set; } = default!;
 
-        [JsonPropertyName("equipmentSlot")]
-        public string EquipmentSlot { get; set; } = null;
+        [JsonProperty(PropertyName = "equipmentSlot")]
+        public string EquipmentSlot { get; set; } = null!;
 
-        [JsonPropertyName("gifted")]
+        [JsonProperty(PropertyName = "gifted")]
         public bool Gifted { get; set; } = default;
 
-        [JsonPropertyName("inventoryIndex")]
+        [JsonProperty(PropertyName = "inventoryIndex")]
         public long InventoryIndex { get; set; } = default;
 
-        [JsonPropertyName("markedNew")]
+        [JsonProperty(PropertyName = "markedNew")]
         public bool MarkedNew { get; set; } = default;
 
-        [JsonPropertyName("netheriteEnchant")]
-        public Enchantment NetheriteEnchant { get; set; } = null;
+        [JsonProperty(PropertyName = "netheriteEnchant"), ExpandableObject]
+        public Enchantment NetheriteEnchant { get; set; } = null!;
 
-        [JsonPropertyName("power")]
-        public double Power { get; set; } = default;
+        [JsonProperty(PropertyName = "power")]
+        public decimal Power { get; set; } = default;
 
-        [JsonPropertyName("rarity")]
+        [JsonProperty(PropertyName = "rarity")]
         public RarityEnum Rarity { get; set; } = default;
 
-        [JsonPropertyName("type")]
-        public string Type { get; set; } = null;
+        [JsonProperty(PropertyName = "type")]
+        public string Type { get; set; } = string.Empty;
 
-        [JsonPropertyName("upgraded")]
+        [JsonProperty(PropertyName = "upgraded")]
         public bool Upgraded { get; set; } = default;
 
         #endregion
 
         #region Extensions
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         void OnPropertyChanged(string propertyName)
         {
@@ -103,48 +106,45 @@ namespace MCDStorageChest.Json.Classes
 
             OnPropertyChanged(nameof(Image));
             OnPropertyChanged(nameof(DisplayText));
-            OnPropertyChanged(nameof(Images_BG));
-            OnPropertyChanged(nameof(Images_EnchantIcon));
-            OnPropertyChanged(nameof(Images_StatusNew));
         }
 
-        [JsonIgnore, SafeForDependencyAnalysis]
-        public List<Enchantment> BuiltInEnchantments => ExtraDataLibrary.getBuiltInEnchantments(this.Type).ToList();
+        [JsonIgnore, SafeForDependencyAnalysis, Browsable(false)]
+        public List<Enchantment> BuiltInEnchantments => ItemDataLibrary.getBuiltInEnchantments(this.Type).ToList();
 
-        [JsonIgnore, SafeForDependencyAnalysis]
-        public int Level => GameCalculator.levelFromPower(Power);
+        [JsonIgnore, SafeForDependencyAnalysis, Browsable(false)]
+        public int Level => GameCalculator.levelFromPower((double)Power);
 
-        [JsonIgnore, SafeForDependencyAnalysis]
+        [JsonIgnore, SafeForDependencyAnalysis, Browsable(false)]
         public bool HasEnchantmentPoints => this.EnchantmentPoints != 0;
 
-        [JsonIgnore, SafeForDependencyAnalysis]
+        [JsonIgnore, SafeForDependencyAnalysis, Browsable(false)]
         public string Description => StringLibrary.itemDesc(Type);
 
-        [JsonIgnore, SafeForDependencyAnalysis]
+        [JsonIgnore, SafeForDependencyAnalysis, Browsable(false)]
         public string Name => StringLibrary.itemName(this.Type);
 
-        [JsonIgnore, SafeForDependencyAnalysis]
+        [JsonIgnore, SafeForDependencyAnalysis, Browsable(false)]
         public bool IsArmor => TypeLibrary.Items_Armor.Contains(this.Type);
 
-        [JsonIgnore, SafeForDependencyAnalysis]
+        [JsonIgnore, SafeForDependencyAnalysis, Browsable(false)]
         public bool IsArtifact => TypeLibrary.Items_Artifacts.Contains(this.Type);
 
-        [JsonIgnore, SafeForDependencyAnalysis]
+        [JsonIgnore, SafeForDependencyAnalysis, Browsable(false)]
         public bool IsMeleeWeapon => TypeLibrary.Items_MeleeWeapons.Contains(this.Type);
 
-        [JsonIgnore, SafeForDependencyAnalysis]
+        [JsonIgnore, SafeForDependencyAnalysis, Browsable(false)]
         public bool IsRangedWeapon => TypeLibrary.Items_RangedWeapons.Contains(this.Type);
 
-        [JsonIgnore, SafeForDependencyAnalysis]
+        [JsonIgnore, SafeForDependencyAnalysis, Browsable(false)]
         public bool IsEquiped => this.EquipmentSlot != null;
 
-        [JsonIgnore, SafeForDependencyAnalysis]
+        [JsonIgnore, SafeForDependencyAnalysis, Browsable(false)]
         public bool IsEnchanted => this.EnchantmentPoints != 0;
 
-        [JsonIgnore, SafeForDependencyAnalysis]
+        [JsonIgnore, SafeForDependencyAnalysis, Browsable(false)]
         public bool IsEnchantable => !this.IsArtifact;
 
-        [JsonIgnore, SafeForDependencyAnalysis]
+        [JsonIgnore, SafeForDependencyAnalysis, Browsable(false)]
         public int EnchantmentPoints
         {
             get
@@ -166,31 +166,64 @@ namespace MCDStorageChest.Json.Classes
             }
         }
 
-        [JsonIgnore]
+        [JsonIgnore, SafeForDependencyAnalysis, Browsable(false)]
+        public ItemBGEnum Background
+        {
+            get
+            {
+                Depends.On(IsGilded);
+                Depends.On(Rarity);
+
+                if (IsGilded) return ItemBGEnum.Gilded;
+                else
+                {
+                    switch (Rarity)
+                    {
+                        case RarityEnum.Common:
+                            return ItemBGEnum.Common;
+                        case RarityEnum.Rare:
+                            return ItemBGEnum.Rare;
+                        case RarityEnum.Unique:
+                            return ItemBGEnum.Unique;
+                        default:
+                            return ItemBGEnum.Common;
+                    }
+                }
+            }
+        }
+
+        [JsonIgnore, Browsable(false)]
         public bool IsGilded
         {
             get => NetheriteEnchant != null;
             set
             {
                 if (value) NetheriteEnchant = new Enchantment();
-                else NetheriteEnchant = null;
+                else NetheriteEnchant = null!;
             }
         }
 
-        [JsonIgnore, SafeForDependencyAnalysis]
-        public RuneData Runes => ExtraDataLibrary.getItemRunes(this.Type);
+        [JsonIgnore, SafeForDependencyAnalysis, Browsable(false)]
+        public RuneData Runes
+        {
+            get
+            {
+                Depends.On(this.Type);
+                return ItemDataLibrary.getItemRunes(this.Type);
+            }
+        }
 
+        [JsonIgnore, SafeForDependencyAnalysis, Browsable(false)]
+        public ImageSource? Image
+        {
+            get
+            {
+                Depends.On(this.Type);
+                return AssetLoader.instance.imageSourceForItem(this.Type);
+            }
+        }
 
-
-        [JsonIgnore, SafeForDependencyAnalysis]
-        public JObject RawData => JObject.Parse(JsonSerializer.Serialize(this));
-
-        #region Image Data
-
-        [JsonIgnore, SafeForDependencyAnalysis]
-        public ImageSource Image => AssetResolver.instance.imageSourceForItem(this);
-
-        [JsonIgnore, SafeForDependencyAnalysis]
+        [JsonIgnore, SafeForDependencyAnalysis, Browsable(false)]
         public string DisplayText
         {
             get
@@ -199,17 +232,6 @@ namespace MCDStorageChest.Json.Classes
                 else return string.Empty;
             }
         }
-
-        [JsonIgnore, SafeForDependencyAnalysis]
-        public object Images_BG => ItemToBackgroundConverter.ConvertBase(this);
-
-        [JsonIgnore, SafeForDependencyAnalysis]
-        public Brush Images_StatusNew => ImageMappings.Instance.Item_MarkedNewBackground;
-
-        [JsonIgnore, SafeForDependencyAnalysis]
-        public ImageSource Images_EnchantIcon => ImageMappings.Instance.EnchantCommonIcon;
-
-        #endregion
 
         #endregion
     }

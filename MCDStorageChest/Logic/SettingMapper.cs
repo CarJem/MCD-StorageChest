@@ -1,4 +1,5 @@
-﻿using MCDStorageChest.Properties;
+﻿using MCDStorageChest.Models;
+using MCDStorageChest.Properties;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -10,7 +11,7 @@ namespace MCDStorageChest.Logic
 {
     public static class SettingMapper
     {
-        public static void UpdateRecentDirectoriesLists(IMainViewModel ParentModel, string newPath, bool isStorage)
+        public static void UpdateRecentDirectoriesLists(MainViewModel ParentModel, string newPath, bool isStorage)
         {
             if (isStorage)
             {

@@ -1,11 +1,11 @@
 ﻿using MCDStorageChest.Json;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace MCDStorageChest.Json.Classes
 {
     public partial class UiHintsExpired : DynamicJSON
     {
-        [JsonPropertyName("hintType")]
+        [JsonProperty(PropertyName = "hintType")]
         public string HintType { get; set; } = null!;
     }
 }

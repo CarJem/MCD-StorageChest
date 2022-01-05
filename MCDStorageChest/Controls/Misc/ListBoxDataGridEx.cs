@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+#nullable enable
 
 namespace MCDStorageChest.Controls.Misc
 {
@@ -49,22 +50,26 @@ namespace MCDStorageChest.Controls.Misc
                     SetIsSubscribedToSelectionChanged(selector, false);
                 }
             }
-            var newList = (IList)e.NewValue;
-            if (newList != null)
+            if (e.NewValue != null)
             {
-                var obs = newList as INotifyCollectionChanged;
-                if (obs != null)
+                var newList = (IList)e.NewValue;
+                if (newList != null)
                 {
-                    obs.CollectionChanged += OnCollectionChanged;
-                }
-                PushCollectionDataToSelectedItems(newList, selector);
-                var isSubscribed = GetIsSubscribedToSelectionChanged(selector);
-                if (!isSubscribed)
-                {
-                    selector.SelectionChanged += OnSelectorSelectionChanged;
-                    SetIsSubscribedToSelectionChanged(selector, true);
+                    var obs = newList as INotifyCollectionChanged;
+                    if (obs != null)
+                    {
+                        obs.CollectionChanged += OnCollectionChanged;
+                    }
+                    PushCollectionDataToSelectedItems(newList, selector);
+                    var isSubscribed = GetIsSubscribedToSelectionChanged(selector);
+                    if (!isSubscribed)
+                    {
+                        selector.SelectionChanged += OnSelectorSelectionChanged;
+                        SetIsSubscribedToSelectionChanged(selector, true);
+                    }
                 }
             }
+
         }
 
         /// <summary>

@@ -1,0 +1,49 @@
+{
+  "itemNames": {
+    "corruptedSeeds": "CorruptedSeeds_Unique1",
+    "pickaxe_Steel": "Pickaxe",
+    "pickaxe_Unique1_Steel": "Pickaxe_Unique1",
+    "sword_Steel": "Sword",
+    "emeraldArmor_Unique1": "Emerald_Armor_Unique1",
+    "emeraldArmor_Unique2": "Emerald_Armor_Unique2"
+  },
+  "itemDescriptionNames": {
+    "climbingGear_Unique1": "ClimbingGearSolid",
+    "corruptedSeeds": "CorruptedSeeds_Unique1",
+    "pickaxe_Steel": "Pickaxe",
+    "pickaxe_Unique1_Steel": "Pickaxe_Unique1",
+    "sword_Steel": "Sword",
+    "emeraldArmor_Unique1": "Emerald_Armor_Unique1",
+    "emeraldArmor_Unique2": "Emerald_Armor_Unique2"
+  },
+  "itemImageNames": {
+    "sword_Steel": "Sword",
+    "pickaxe_Steel": "Pickaxe",
+    "pickaxe_Unique1_Steel": "Pickaxe_Unique1"
+  },
+  "enchantmentNames": {
+    "accelerating": "Accelerate",
+    "animaConduitMelee": "Anima",
+    "animaConduitRanged": "Anima",
+    "shockwave": "Shock",
+    "soulSiphon": "Soul",
+    "tempoTheft": "Tempo",
+    "criticalHit": "Critical",
+    "poisonedMelee": "Poisoned",
+    "poisonedRanged": "Poisoned",
+    "junglePoisonRanged": "JunglePoison",
+    "celerity": "Cool Down",
+    "deflecting": "Deflect",
+    "enigmaResonatorMelee": "EnigmaMelee",
+    "enigmaResonatorRanged": "EnigmaRanged",
+    "voidTouchedMelee": "VoidStrikeMelee",
+    "voidTouchedRanged": "VoidStrikeRanged",
+    "fireAspect": "Fire",
+    "multiShot": "Multi"
+  },
+  "armorPropertyNames": {
+    "itemCooldownDecrease": "ArtifactCooldownDecrease",
+    "itemDamageBoost": "ArtifactDamageBoost",
+    "slowResistance": "FreezingResistance"
+  }
+}

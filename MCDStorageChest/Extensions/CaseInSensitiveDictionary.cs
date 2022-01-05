@@ -37,7 +37,23 @@ namespace MCDStorageChest.Extensions
 
         public new bool TryGetValue(string key, out TValue value)
         {
-            return base.TryGetValue(key, out value);
+            bool result;
+            if (ContainsKey(key))
+            {
+                result = true;
+                value = this[key];
+            }
+            else
+            {
+                result = false;
+                value = default(TValue);
+            }
+            return result;
+        }
+
+        private static void MergeDictonary(ref CaseInSensitiveDictionary<string, string> dictionaryFrom, CaseInSensitiveDictionary<string, string> dictionaryTo)
+        {
+            dictionaryFrom.ToList().ForEach(x => dictionaryTo.Add(x.Key, x.Value));
         }
 
     }

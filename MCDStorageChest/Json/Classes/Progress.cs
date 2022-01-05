@@ -1,18 +1,19 @@
 ﻿using MCDStorageChest.Json.Enums;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 using MCDStorageChest.Json;
+#nullable enable
 
 namespace MCDStorageChest.Json.Classes
 {
     public partial class Progress : DynamicJSON
     {
-        [JsonPropertyName("completedDifficulty")]
-        public string CompletedDifficulty { get; set; } = null;
+        [JsonProperty(PropertyName = "completedDifficulty")]
+        public string? CompletedDifficulty { get; set; } = null;
 
-        [JsonPropertyName("completedEndlessStruggle")]
+        [JsonProperty(PropertyName = "completedEndlessStruggle")]
         public int CompletedEndlessStruggle { get; set; } = default;
 
-        [JsonPropertyName("completedThreatLevel")]
-        public string CompletedThreatLevel { get; set; } = null;
+        [JsonProperty(PropertyName = "completedThreatLevel")]
+        public string? CompletedThreatLevel { get; set; } = null;
     }
 }

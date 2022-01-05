@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+#nullable enable
 
 namespace MCDStorageChest.Converters
 {
@@ -12,7 +13,7 @@ namespace MCDStorageChest.Converters
 
     public sealed class MethodToValueConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var methodName = parameter as string;
             if (value == null || methodName == null)

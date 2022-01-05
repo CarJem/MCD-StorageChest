@@ -77,7 +77,7 @@
                                     </Border>
                                     <StackPanel Orientation="Horizontal">
                                         <ContentPresenter x:Name="contentPresenter" ContentSource="Header" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                        <Button x:Name="button_close" Content="X" Visibility="Collapsed" Style="{StaticResource CloseTabStyle}" Command="{Binding CloseCommand}"></Button>
+                                        <Button x:Name="button_close" Content="X" Visibility="Collapsed" Style="{StaticResource CloseTabStyle}" Command="{Binding CloseSaveCommand}"></Button>
                                     </StackPanel>
                                 </Grid>
                                 <ControlTemplate.Triggers>

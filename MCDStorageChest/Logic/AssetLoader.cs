@@ -18,16 +18,17 @@ using MCDStorageChest.Json;
 using MCDStorageChest.Logic;
 using MCDStorageChest.Logic.ImageResolver;
 using System.Windows;
+#nullable enable
 
 namespace MCDStorageChest.Logic
 {
-    public static class AssetResolver
+    public static class AssetLoader
     {
         public static IImageResolver instance = new LocalImageResolver();
 
         public static bool gameContentLoaded { get; private set; } = false;
 
-        static AssetResolver()
+        static AssetLoader()
         {
             Globals.Game = new FGame(EGame.MinecraftDungeons, EPakVersion.FNAME_BASED_COMPRESSION_METHOD);
         }

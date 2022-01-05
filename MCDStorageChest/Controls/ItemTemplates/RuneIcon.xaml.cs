@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+#nullable enable
 
 namespace MCDStorageChest.Controls.ItemTemplates
 {
@@ -65,11 +66,15 @@ namespace MCDStorageChest.Controls.ItemTemplates
         public static readonly DependencyProperty CurrentArchetypeProperty = DependencyProperty.Register("CurrentArchetype", typeof(Archetype), typeof(RuneIcon), new PropertyMetadata(Archetype.A, OnArchetypeCallbackChanged));
         private static void OnArchetypeCallbackChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            RuneIcon c = sender as RuneIcon;
-            if (c != null)
+            if (sender != null && sender is RuneIcon)
             {
-                c.OnArchetypeChanged();
+                RuneIcon c = (RuneIcon)sender;
+                if (c != null)
+                {
+                    c.OnArchetypeChanged();
+                }
             }
+
         }
 
         #endregion

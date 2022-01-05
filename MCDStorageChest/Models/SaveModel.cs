@@ -173,8 +173,8 @@ namespace MCDStorageChest.Models
 
         #region Connector
 
-        private IMainViewModel ParentModel { get; set; }
-        public void Init(IMainViewModel _ModelRef)
+        public MainViewModel ParentModel { get; set; }
+        public void Init(MainViewModel _ModelRef)
         {
             if (ParentModel == null) ParentModel = _ModelRef;
         }
@@ -190,6 +190,7 @@ namespace MCDStorageChest.Models
         public Json.Enums.ItemFilterEnum CurrentFilter { get; set; } = Json.Enums.ItemFilterEnum.All;
         public string CurrentSaveFilePath { get; set; } = string.Empty;
         public bool IsStorage { get; set; } = false;
+        public bool IsTabSelected { get; set; } = false;
 
         #endregion
 
@@ -206,22 +207,9 @@ namespace MCDStorageChest.Models
                 return string.Format("{0} ({1})", fileType, fileName);
             }
         }
-        public bool OtherSavesExist
-        {
-            get
-            {
-                Depends.On(ParentModel);
-                return ParentModel != null ? ParentModel.OtherSaves(this).Count > 1 : false;
-            }
-        }
-        public List<SaveModel> OtherSaves
-        {
-            get
-            {
-                Depends.On(ParentModel);
-                return ParentModel != null ? ParentModel.OtherSaves(this) : new List<SaveModel>();
-            }
-        }
+
+        
+
 
         #endregion
 
@@ -239,10 +227,11 @@ namespace MCDStorageChest.Models
             if (ofd.ShowDialog().Value)
             {
                 Logic.SettingMapper.UpdateRecentDirectoriesLists(ParentModel, Path.GetDirectoryName(ofd.FileName), isStorage);
+
+                CurrentSaveFile = await Logic.FileLoader.FileOpenAsyncV2(ofd.FileName);
+                CurrentSaveFilePath = ofd.FileName;
                 IsStorage = isStorage;
 
-                CurrentSaveFile = await Logic.FileLoader.FileOpenAsync(ofd.FileName);
-                CurrentSaveFilePath = ofd.FileName;
                 return true;
             }
             else return false;
@@ -250,7 +239,7 @@ namespace MCDStorageChest.Models
         public async Task SaveAsync()
         {
             if (!PromptForBackup(CurrentSaveFilePath)) return;
-            await Logic.FileLoader.FileSaveAsync(CurrentSaveFilePath, CurrentSaveFile);
+            await Logic.FileLoader.FileSaveAsyncV2(CurrentSaveFilePath, CurrentSaveFile);
         }
         public async Task<bool> SaveAsAsync()
         {
@@ -258,7 +247,6 @@ namespace MCDStorageChest.Models
             {
                 InitialDirectory = CurrentSaveFilePath,
                 Filter = "dat files (*.dat)|*.dat|json files (*.json)|*.json|All files (*.*)|*.*",
-                CheckFileExists = true,
                 OverwritePrompt = true
             };
             
@@ -272,7 +260,7 @@ namespace MCDStorageChest.Models
                     IsStorage = result == MessageBoxResult.Yes;
                     Logic.SettingMapper.UpdateRecentDirectoriesLists(ParentModel, Path.GetDirectoryName(sfd.FileName), IsStorage);
 
-                    await Logic.FileLoader.FileSaveAsync(sfd.FileName, CurrentSaveFile);
+                    await Logic.FileLoader.FileSaveAsyncV2(sfd.FileName, CurrentSaveFile);
                     CurrentSaveFilePath = sfd.FileName;
                     return true;
                 }

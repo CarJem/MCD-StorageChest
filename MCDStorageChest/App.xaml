@@ -2,9 +2,15 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:MCDStorageChest"
+             xmlns:xceed="http://schemas.xceed.com/wpf/xaml/toolkit"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <SolidColorBrush x:Key="UI_BackgroundColor" Color="Black"/>
-        <SolidColorBrush x:Key="UI_ForegroundColor" Color="White"/>
+        <Style TargetType="{x:Type xceed:PropertyGrid}">
+            <Setter Property="ShowTitle" Value="False"/>
+            <Setter Property="ShowSortOptions" Value="True"/>
+            <Setter Property="ShowSearchBox" Value="True"/>
+            <Setter Property="ShowSummary" Value="False"/>
+            <Setter Property="HideInheritedProperties" Value="False"/>
+        </Style>
     </Application.Resources>
 </Application>

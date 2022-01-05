@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 using MCDStorageChest.Json.Enums;
 using MCDStorageChest.Models;
 using MCDStorageChest.Extensions;
@@ -8,7 +8,9 @@ using MCDStorageChest.Logic;
 using System.Windows.Media;
 using MCDStorageChest.Json.Mapping;
 using PostSharp.Patterns.Model;
+using MCDStorageChest.Libraries;
 using MCDStorageChest.Json;
+#nullable enable
 
 namespace MCDStorageChest.Json.Classes
 {
@@ -17,27 +19,27 @@ namespace MCDStorageChest.Json.Classes
     {
         #region JSON
 
-        [JsonPropertyName("id")]
+        [JsonProperty(PropertyName = "id")]
         public string Id { get; set; } = default!;
 
-        [JsonPropertyName("level")]
+        [JsonProperty(PropertyName = "level")]
         public long Level { get; set; } = default!;
 
         #endregion
 
         #region Extensions
 
-        [JsonIgnore, IgnoreAutoChangeNotification]
-        public ImageSource Image => AssetResolver.instance.imageSourceForEnchantment(this);
-        [JsonIgnore, IgnoreAutoChangeNotification]
+        [JsonIgnore, IgnoreAutoChangeNotification, Browsable(false)]
+        public ImageSource Image => AssetLoader.instance.imageSourceForEnchantment(this.Id)!;
+        [JsonIgnore, IgnoreAutoChangeNotification, Browsable(false)]
         public string Name => StringLibrary.enchantmentName(this.Id);
-        [JsonIgnore, IgnoreAutoChangeNotification]
+        [JsonIgnore, IgnoreAutoChangeNotification, Browsable(false)]
         public string Description => StringLibrary.enchantmentDescription(this.Id);
-        [JsonIgnore, IgnoreAutoChangeNotification]
+        [JsonIgnore, IgnoreAutoChangeNotification, Browsable(false)]
         public string Effect => StringLibrary.enchantmentEffect(this.Id);
-        [JsonIgnore, IgnoreAutoChangeNotification]
+        [JsonIgnore, IgnoreAutoChangeNotification, Browsable(false)]
         public bool isPowerful => TypeLibrary.PowerfulEnchantments.Contains(this.Id);
-        [JsonIgnore, IgnoreAutoChangeNotification]
+        [JsonIgnore, IgnoreAutoChangeNotification, Browsable(false)]
         public int pointsCost
         {
             get
@@ -56,7 +58,7 @@ namespace MCDStorageChest.Json.Classes
             }
 
         }
-        [JsonIgnore, IgnoreAutoChangeNotification]
+        [JsonIgnore, IgnoreAutoChangeNotification, Browsable(false)]
         public int gildedPointsCost
         {
             get

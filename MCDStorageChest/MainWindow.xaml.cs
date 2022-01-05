@@ -28,7 +28,7 @@ namespace MCDStorageChest
         {
             get
             {
-                return (DataContext as MainViewModel);
+                return (MainViewModel)DataContext;
             }
         }
 
@@ -103,7 +103,12 @@ namespace MCDStorageChest
         private async void Window_Initialized(object sender, EventArgs e)
         {
             ViewModel.Refresh();
-            if (Properties.Settings.Default.AutoLoadLastGameData) await AssetResolver.FileLoadGameContent(Properties.Settings.Default.PakFileLocation);
+            if (Properties.Settings.Default.AutoLoadLastGameData) await AssetLoader.FileLoadGameContent(Properties.Settings.Default.PakFileLocation);
+        }
+
+        private async void ConvertFileMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            await ViewModel.ToolsConvertFile();
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+#nullable enable
 
 namespace MCDStorageChest.Converters
 {
@@ -20,7 +21,7 @@ namespace MCDStorageChest.Converters
         public T True { get; set; }
         public T False { get; set; }
 
-        public virtual object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public virtual object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return value is bool && ((bool)value) ? True : False;
         }

@@ -1,24 +1,24 @@
 ﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 using MCDStorageChest.Json;
 
 namespace MCDStorageChest.Json.Classes
 {
     public partial class MapUiState : DynamicJSON
     {
-        [JsonPropertyName("panPosition")]
+        [JsonProperty(PropertyName = "panPosition")]
         public Dictionary<string, string> PanPosition { get; set; } = null!;
 
-        [JsonPropertyName("selectedDifficulty")]
+        [JsonProperty(PropertyName = "selectedDifficulty")]
         public string SelectedDifficulty { get; set; } = null!;
 
-        [JsonPropertyName("selectedMission")]
+        [JsonProperty(PropertyName = "selectedMission")]
         public string SelectedMission { get; set; } = null!;
 
-        [JsonPropertyName("selectedRealm")]
+        [JsonProperty(PropertyName = "selectedRealm")]
         public string SelectedRealm { get; set; } = null!;
 
-        [JsonPropertyName("selectedThreatLevel")]
+        [JsonProperty(PropertyName = "selectedThreatLevel")]
         public string SelectedThreatLevel { get; set; } = null!;
     }
 }

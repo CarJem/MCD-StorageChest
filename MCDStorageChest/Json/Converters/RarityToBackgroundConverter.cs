@@ -17,7 +17,7 @@ namespace MCDStorageChest.Json.Converters
         {
             if (!(value is RarityEnum)) return Brushes.Black;
             var currentRarity = (RarityEnum)value;
-            var image = Logic.AssetResolver.instance.imageSourceForRarity(currentRarity);
+            var image = Logic.AssetLoader.instance.imageSourceForRarity(currentRarity);
             if (image != null) return new ImageBrush(image);
 
             switch (currentRarity)

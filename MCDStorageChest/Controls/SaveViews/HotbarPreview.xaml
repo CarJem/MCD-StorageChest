@@ -39,6 +39,16 @@
                 <scm:SortDescription PropertyName="InventoryIndex" Direction="Ascending"></scm:SortDescription>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
+        <Style x:Key="HotbarHost" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{x:Static SystemColors.ActiveBorderBrush}"/>
+            <Setter Property="AllowDrop" Value="True"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="ContentTemplate" Value="{StaticResource ItemTemplate}"/>
+            <Setter Property="Width" Value="110"/>
+            <Setter Property="Height" Value="110"/>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -70,9 +80,9 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <ListViewItem Background="Transparent" BorderBrush="DarkGray" AllowDrop="True" Drop="Gear_Drop" PreviewMouseLeftButtonDown="Gear_PreviewMouseLeftButtonDown" MouseMove="Gear_MouseMove" MouseDoubleClick="EquiptedItemButton_MouseDoubleClick" x:Name="MeleeGearButton" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" MouseUp="GearItem_MouseUp" Content="{Binding CurrentSaveFile.MeleeGearItem}" ContentTemplate="{DynamicResource ItemTemplate}"/>
-                <ListViewItem Background="Transparent" BorderBrush="DarkGray" AllowDrop="True" Drop="Gear_Drop" PreviewMouseLeftButtonDown="Gear_PreviewMouseLeftButtonDown" MouseMove="Gear_MouseMove" MouseDoubleClick="EquiptedItemButton_MouseDoubleClick" x:Name="ArmorGearButton" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" MouseUp="GearItem_MouseUp" Content="{Binding CurrentSaveFile.ArmorGearItem}" ContentTemplate="{DynamicResource ItemTemplate}"/>
-                <ListViewItem Background="Transparent" BorderBrush="DarkGray" AllowDrop="True" Drop="Gear_Drop" PreviewMouseLeftButtonDown="Gear_PreviewMouseLeftButtonDown" MouseMove="Gear_MouseMove" MouseDoubleClick="EquiptedItemButton_MouseDoubleClick" x:Name="RangedGearButton" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" MouseUp="GearItem_MouseUp" Content="{Binding CurrentSaveFile.RangedGearItem}" ContentTemplate="{DynamicResource ItemTemplate}"/>
+                <ListViewItem Drop="Gear_Drop" PreviewMouseLeftButtonDown="Gear_PreviewMouseLeftButtonDown" MouseMove="Gear_MouseMove" MouseDoubleClick="EquiptedItemButton_MouseDoubleClick" x:Name="MeleeGearButton"  Grid.Column="0" Style="{StaticResource HotbarHost}" MouseUp="GearItem_MouseUp" Content="{Binding CurrentSaveFile.MeleeGearItem}" />
+                <ListViewItem Drop="Gear_Drop" PreviewMouseLeftButtonDown="Gear_PreviewMouseLeftButtonDown" MouseMove="Gear_MouseMove" MouseDoubleClick="EquiptedItemButton_MouseDoubleClick" x:Name="ArmorGearButton"  Grid.Column="1" Style="{StaticResource HotbarHost}" MouseUp="GearItem_MouseUp" Content="{Binding CurrentSaveFile.ArmorGearItem}" />
+                <ListViewItem Drop="Gear_Drop" PreviewMouseLeftButtonDown="Gear_PreviewMouseLeftButtonDown" MouseMove="Gear_MouseMove" MouseDoubleClick="EquiptedItemButton_MouseDoubleClick" x:Name="RangedGearButton" Grid.Column="2" Style="{StaticResource HotbarHost}" MouseUp="GearItem_MouseUp" Content="{Binding CurrentSaveFile.RangedGearItem}" />
             </Grid>
 
             <Grid Grid.Row="1">
@@ -113,9 +123,9 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <ListViewItem Background="Transparent" BorderBrush="DarkGray" AllowDrop="True" Drop="Gear_Drop" PreviewMouseLeftButtonDown="Gear_PreviewMouseLeftButtonDown" MouseDoubleClick="EquiptedItemButton_MouseDoubleClick" MouseMove="Gear_MouseMove" x:Name="HotbarSlot1Button" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" MouseUp="GearItem_MouseUp" Content="{Binding CurrentSaveFile.HotbarSlot1Item}" ContentTemplate="{DynamicResource ItemTemplate}"/>
-                <ListViewItem Background="Transparent" BorderBrush="DarkGray" AllowDrop="True" Drop="Gear_Drop" PreviewMouseLeftButtonDown="Gear_PreviewMouseLeftButtonDown" MouseDoubleClick="EquiptedItemButton_MouseDoubleClick" MouseMove="Gear_MouseMove" x:Name="HotbarSlot2Button" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" MouseUp="GearItem_MouseUp" Content="{Binding CurrentSaveFile.HotbarSlot2Item}" ContentTemplate="{DynamicResource ItemTemplate}"/>
-                <ListViewItem Background="Transparent" BorderBrush="DarkGray" AllowDrop="True" Drop="Gear_Drop" PreviewMouseLeftButtonDown="Gear_PreviewMouseLeftButtonDown" MouseDoubleClick="EquiptedItemButton_MouseDoubleClick" MouseMove="Gear_MouseMove" x:Name="HotbarSlot3Button" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" MouseUp="GearItem_MouseUp" Content="{Binding CurrentSaveFile.HotbarSlot3Item}" ContentTemplate="{DynamicResource ItemTemplate}"/>
+                <ListViewItem Style="{StaticResource HotbarHost}" Drop="Gear_Drop" PreviewMouseLeftButtonDown="Gear_PreviewMouseLeftButtonDown" MouseDoubleClick="EquiptedItemButton_MouseDoubleClick" MouseMove="Gear_MouseMove" x:Name="HotbarSlot1Button" Grid.Column="0" MouseUp="GearItem_MouseUp" Content="{Binding CurrentSaveFile.HotbarSlot1Item}" />
+                <ListViewItem Style="{StaticResource HotbarHost}" Drop="Gear_Drop" PreviewMouseLeftButtonDown="Gear_PreviewMouseLeftButtonDown" MouseDoubleClick="EquiptedItemButton_MouseDoubleClick" MouseMove="Gear_MouseMove" x:Name="HotbarSlot2Button" Grid.Column="1" MouseUp="GearItem_MouseUp" Content="{Binding CurrentSaveFile.HotbarSlot2Item}" />
+                <ListViewItem Style="{StaticResource HotbarHost}" Drop="Gear_Drop" PreviewMouseLeftButtonDown="Gear_PreviewMouseLeftButtonDown" MouseDoubleClick="EquiptedItemButton_MouseDoubleClick" MouseMove="Gear_MouseMove" x:Name="HotbarSlot3Button" Grid.Column="2" MouseUp="GearItem_MouseUp" Content="{Binding CurrentSaveFile.HotbarSlot3Item}" />
             </Grid>
         </Grid>
     </Grid>

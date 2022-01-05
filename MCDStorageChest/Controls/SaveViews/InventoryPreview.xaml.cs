@@ -16,6 +16,7 @@ using MCDStorageChest.Json.Enums;
 using MCDStorageChest.Extensions;
 using System.Collections.ObjectModel;
 using PostSharp.Patterns.Model;
+#nullable enable
 
 namespace MCDStorageChest.Controls.SaveViews
 {
@@ -39,7 +40,7 @@ namespace MCDStorageChest.Controls.SaveViews
         {
             if (DataContext is Models.SaveModel)
             {
-                (DataContext as Models.SaveModel).ListUpdated += (sender2, args) => UpdateList();
+                ((Models.SaveModel)DataContext).ListUpdated += (sender2, args) => UpdateList();
             }
         }
 
@@ -97,7 +98,7 @@ namespace MCDStorageChest.Controls.SaveViews
             await Dispatcher.InvokeAsync(() =>
             {
                 if (DataContext is Models.SaveModel)
-                    (DataContext as Models.SaveModel).CurrentFilter = filter;
+                    ((Models.SaveModel)DataContext).CurrentFilter = filter;
 
                 if (Items.ItemsSource == null) return;
                 CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(Items.ItemsSource);
@@ -135,7 +136,7 @@ namespace MCDStorageChest.Controls.SaveViews
         {
             if (item is Json.Classes.Item)
             {
-                var item1 = item as Json.Classes.Item;
+                var item1 = (Json.Classes.Item)item;
                 return !item1.IsEquiped;
             }
             else return false;
@@ -145,7 +146,7 @@ namespace MCDStorageChest.Controls.SaveViews
         {
             if (item is Json.Classes.Item)
             {
-                var item1 = item as Json.Classes.Item;
+                var item1 = (Json.Classes.Item)item;
                 return item1.IsMeleeWeapon && !item1.IsEquiped;
             }
             else return false;
@@ -155,7 +156,7 @@ namespace MCDStorageChest.Controls.SaveViews
         {
             if (item is Json.Classes.Item)
             {
-                var item1 = item as Json.Classes.Item;
+                var item1 = (Json.Classes.Item)item;
                 return item1.IsRangedWeapon && !item1.IsEquiped;
             }
             else return false;
@@ -165,7 +166,7 @@ namespace MCDStorageChest.Controls.SaveViews
         {
             if (item is Json.Classes.Item)
             {
-                var item1 = item as Json.Classes.Item;
+                var item1 = (Json.Classes.Item)item;
                 return item1.IsArmor && !item1.IsEquiped;
             }
             else return false;
@@ -175,7 +176,7 @@ namespace MCDStorageChest.Controls.SaveViews
         {
             if (item is Json.Classes.Item)
             {
-                var item1 = item as Json.Classes.Item;
+                var item1 = (Json.Classes.Item)item;
                 return item1.IsArtifact && !item1.IsEquiped;
             }
             else return false;
@@ -185,7 +186,7 @@ namespace MCDStorageChest.Controls.SaveViews
         {
             if (item is Json.Classes.Item)
             {
-                var item1 = item as Json.Classes.Item;
+                var item1 = (Json.Classes.Item)item;
                 return item1.EnchantmentPoints != 0 && !item1.IsEquiped;
             }
             else return false;
@@ -193,10 +194,11 @@ namespace MCDStorageChest.Controls.SaveViews
 
         public bool searchItemsFilter(object item)
         {
-            if (item == null) return false;
-            if (item is Json.Classes.Item && DataContext is Models.SaveModel)
+            if (item == null || !(item is Json.Classes.Item)) return false;
+            var realItem = item as Json.Classes.Item;
+            if (realItem != null && DataContext is Models.SaveModel)
             {
-                return (DataContext as Models.SaveModel).SearchSettings.Filter(item as Json.Classes.Item);
+                return ((Models.SaveModel)DataContext).SearchSettings.Filter(realItem);
             }
             else return false;
         }
@@ -211,20 +213,22 @@ namespace MCDStorageChest.Controls.SaveViews
         {
 
             if (DataContext is Models.SaveModel)
-            {            
+            {
                 int index = -1;
                 int droppedIndex = -1;
                 if (e.Data.GetDataPresent("MCDSaveEditor.Save.Profiles.Item"))
                 {
                     Json.Classes.Item droppedItem = (Json.Classes.Item)e.Data.GetData("MCDSaveEditor.Save.Profiles.Item");
-                    if (!(DataContext as Models.SaveModel).CurrentSaveFile.Items.Contains(droppedItem))
+                    if (!((Models.SaveModel)DataContext).CurrentSaveFile.Items.Contains(droppedItem))
                     {
                         e.Effects = DragDropEffects.None;
                         return;
                     }
 
-                    ListBox listView = sender as ListBox;
-                    ListBoxItem listViewItem = FindAnchestor<ListBoxItem>((DependencyObject)e.OriginalSource);
+                    if ((sender as ListBox) == null) return;
+                    ListBox listView = (ListBox)sender;
+                    DependencyObject? depencyObj = e.OriginalSource as DependencyObject;
+                    var listViewItem = FindAnchestor<ListBoxItem>(depencyObj);
                     if (listViewItem == null)
                     {
                         e.Effects = DragDropEffects.None;
@@ -245,8 +249,8 @@ namespace MCDStorageChest.Controls.SaveViews
                         if (wasEquipped)
                         {
                             var slot = droppedItem.EquipmentSlot;
-                            (DataContext as Models.SaveModel).CurrentSaveFile.unequiptItem(droppedItem);
-                            (DataContext as Models.SaveModel).CurrentSaveFile.equiptItem(item, (EquipmentSlotEnum)Enum.Parse(typeof(EquipmentSlotEnum), slot));
+                            ((Models.SaveModel)DataContext).CurrentSaveFile.unequiptItem(droppedItem);
+                            ((Models.SaveModel)DataContext).CurrentSaveFile.equiptItem(item, (EquipmentSlotEnum)Enum.Parse(typeof(EquipmentSlotEnum), slot));
                         }
 
                         droppedItem.InventoryIndex = index;
@@ -270,7 +274,7 @@ namespace MCDStorageChest.Controls.SaveViews
         }
 
         // Helper to search up the VisualTree
-        private static T FindAnchestor<T>(DependencyObject current)
+        private static T? FindAnchestor<T>(DependencyObject? current)
             where T : DependencyObject
         {
             do
@@ -287,7 +291,7 @@ namespace MCDStorageChest.Controls.SaveViews
 
         private void Items_MouseMove(object sender, MouseEventArgs e)
         {
-            if (DataContext is Models.SaveModel)
+            if (DataContext is Models.SaveModel && sender != null)
             {
                 // Get the current mouse position
                 Point mousePos = e.GetPosition(null);
@@ -298,9 +302,11 @@ namespace MCDStorageChest.Controls.SaveViews
                            Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance))
                 {
                     // Get the dragged ListViewItem
-                    ListBox listView = sender as ListBox;
-                    ListBoxItem listViewItem = FindAnchestor<ListBoxItem>((DependencyObject)e.OriginalSource);
-                    if (listViewItem == null) return; 
+                    ListBox listView = (ListBox)sender;
+                    if (listView == null) return;
+                    DependencyObject? depencyObj = e.OriginalSource as DependencyObject;
+                    var listViewItem = FindAnchestor<ListBoxItem>(depencyObj);
+                    if (listViewItem == null) return;
 
                     Json.Classes.Item item = (Json.Classes.Item)listView.ItemContainerGenerator.ItemFromContainer(listViewItem);
                     if (item == null) return;

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -13,12 +12,6 @@ namespace MCDStorageChest.Extensions
 {
     public static class Extensions
     {
-        public static string prettyJson(string unPrettyJson)
-        {
-            var options = new JsonSerializerOptions() { WriteIndented = true };
-            var jsonElement = JsonSerializer.Deserialize<JsonElement>(unPrettyJson);
-            return JsonSerializer.Serialize(jsonElement, options);
-        }
 
         public static IEnumerable<T> dropLast<T>(this IEnumerable<T> enumerable, int numberToDropFromEnd)
         {

@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MCDStorageChest.Json.Enums;
 using MCDStorageChest.Extensions;
+#nullable enable
 
 namespace MCDStorageChest.Controls.SaveViews
 {
@@ -31,8 +32,8 @@ namespace MCDStorageChest.Controls.SaveViews
 
         public void RefreshUI()
         {
-            if ((DataContext as Models.SaveModel).CurrentSaveFile == null) return;
-            (DataContext as Models.SaveModel).CurrentSaveFile.UpdateEquiptmentSlots();
+            if (((Models.SaveModel)DataContext).CurrentSaveFile == null) return;
+            ((Models.SaveModel)DataContext).CurrentSaveFile.UpdateEquiptmentSlots();
         }
 
 
@@ -45,7 +46,7 @@ namespace MCDStorageChest.Controls.SaveViews
             if (e.LeftButton != MouseButtonState.Released) return;
             if (DataContext != null && DataContext is Models.SaveModel && sender is ListViewItem)
             {
-                (DataContext as Models.SaveModel).CurrentItem = (Json.Classes.Item)(sender as ListViewItem).Content;
+                ((Models.SaveModel)DataContext).CurrentItem = (Json.Classes.Item)((ListViewItem)sender).Content;
             }
         }
 
@@ -72,8 +73,8 @@ namespace MCDStorageChest.Controls.SaveViews
                     }
                     e.Effects = DragDropEffects.Move;
 
-                    (DataContext as Models.SaveModel).CurrentSaveFile.equiptItem(item, slot);
-                    (DataContext as Models.SaveModel).Update();
+                    ((Models.SaveModel)DataContext).CurrentSaveFile.equiptItem(item, slot);
+                    ((Models.SaveModel)DataContext).Update();
 
                 }
             }
@@ -89,7 +90,7 @@ namespace MCDStorageChest.Controls.SaveViews
 
         private void Gear_MouseMove(object sender, MouseEventArgs e)
         {
-            if (DataContext is Models.SaveModel)
+            if (DataContext is Models.SaveModel && sender != null)
             {
                 // Get the current mouse position
                 Point mousePos = e.GetPosition(null);
@@ -100,7 +101,7 @@ namespace MCDStorageChest.Controls.SaveViews
                            Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance))
                 {
                     // Get the dragged ListViewItem
-                    ListViewItem button = sender as ListViewItem;
+                    ListViewItem button = (ListViewItem)sender;
                     if (button == null) return;
                     Json.Classes.Item item = (Json.Classes.Item)button.Content;
                     if (item == null) return;
@@ -115,14 +116,14 @@ namespace MCDStorageChest.Controls.SaveViews
             var item = GetItem(sender);
             if (item != null)
             {
-                (DataContext as Models.SaveModel).CurrentSaveFile.unequiptItem(item);
-                (DataContext as Models.SaveModel).Update();
+                ((Models.SaveModel)DataContext).CurrentSaveFile.unequiptItem(item);
+                ((Models.SaveModel)DataContext).Update();
             }
 
-            Json.Classes.Item GetItem(object sender)
+            Json.Classes.Item? GetItem(object sender)
             {
                 if (DataContext != null && DataContext is Models.SaveModel && sender is ListViewItem)
-                    return (Json.Classes.Item)(sender as ListViewItem).Content;
+                    return (Json.Classes.Item)((ListViewItem)sender).Content;
                 else return null;
             }
         }

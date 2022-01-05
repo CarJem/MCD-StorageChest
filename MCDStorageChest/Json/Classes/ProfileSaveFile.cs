@@ -7,18 +7,19 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text.Json.Serialization;
 using PostSharp.Patterns.Model;
 using System;
-using System.Text.Json;
+using Newtonsoft.Json;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+#nullable enable
 
 namespace MCDStorageChest.Json.Classes
 {
     [Serializable, NotifyPropertyChanged]
     public partial class ProfileSaveFile : DynamicJSON, INotifyPropertyChanged
     {
-        private ObservableCollection<Item> _items;
-        public event PropertyChangedEventHandler PropertyChanged;
+        [field: NonSerialized]
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         void OnPropertyChanged(string propertyName)
         {
@@ -30,115 +31,106 @@ namespace MCDStorageChest.Json.Classes
         }
 
 
-        [JsonPropertyName("items")]
-        public ObservableCollection<Item> Items
-        {
-            get { return _items; }
-            set
-            {
-                _items = value;
-                OnPropertyChanged(nameof(Items));
-            }
-        }
+        [JsonProperty(PropertyName = "items")]
+        public ItemCollection Items { get; set; } = new ItemCollection();
 
-        [JsonPropertyName("bonus_prerequisites")]
-        public string[] BonusPrerequisites { get; set; }
+        [JsonProperty(PropertyName = "bonus_prerequisites")]
+        public string[] BonusPrerequisites { get; set; } = default!;
 
-        [JsonPropertyName("clone")]
+        [JsonProperty(PropertyName = "clone")]
         public bool Clone { get; set; }
 
+        [JsonProperty(PropertyName = "cosmetics")]
+        public Cosmetic[] Cosmetics { get; set; } = default!;
 
-        [JsonPropertyName("cosmetics")]
-        public Cosmetic[] Cosmetics { get; set; }
+        [JsonProperty(PropertyName = "cosmeticsEverEquipped")]
+        public string[] CosmeticsEverEquipped { get; set; } = default!;
 
-        [JsonPropertyName("cosmeticsEverEquipped")]
-        public string[] CosmeticsEverEquipped { get; set; }
+        [JsonProperty(PropertyName = "creationDate")]
+        public string CreationDate { get; set; } = default!;
 
-        [JsonPropertyName("creationDate")]
-        public string CreationDate { get; set; }
+        [JsonProperty(PropertyName = "currenciesFound")]
+        public string[] CurrenciesFound { get; set; } = default!;
 
-        [JsonPropertyName("currenciesFound")]
-        public string[] CurrenciesFound { get; set; }
+        [JsonProperty(PropertyName = "currency")]
+        public Currency[] Currency { get; set; } = default!;
 
-        [JsonPropertyName("currency")]
-        public Currency[] Currency { get; set; }
-
-        [JsonPropertyName("customized")]
+        [JsonProperty(PropertyName = "customized")]
         public bool Customized { get; set; }
 
-        [JsonPropertyName("difficulties")]
-        public Difficulties Difficulties { get; set; }
+        [JsonProperty(PropertyName = "difficulties"), ExpandableObject]
+        public Difficulties Difficulties { get; set; } = default!;
 
-        [JsonPropertyName("endGameContentProgress")]
-        public object EndGameContentProgress { get; set; }
+        [JsonProperty(PropertyName = "endGameContentProgress"), ExpandableObject]
+        public object EndGameContentProgress { get; set; } = default!;
 
-        [JsonPropertyName("finishedObjectiveTags")]
-        public Dictionary<string, long> FinishedObjectiveTags { get; set; }
+        [JsonProperty(PropertyName = "finishedObjectiveTags")]
+        public Dictionary<string, long> FinishedObjectiveTags { get; set; } = default!;
 
-        [JsonPropertyName("itemsFound")]
-        public string[] ItemsFound { get; set; }
+        [JsonProperty(PropertyName = "itemsFound")]
+        public string[] ItemsFound { get; set; } = new string[0];
 
-        [JsonPropertyName("legendaryStatus")]
-        public double? LegendaryStatus { get; set; }
+        [JsonProperty(PropertyName = "legendaryStatus")]
+        public decimal LegendaryStatus { get; set; } = default;
 
-        [JsonPropertyName("lobbychest_progress")]
-        public Dictionary<string, LobbychestProgress> LobbychestProgress { get; set; }
+        [JsonProperty(PropertyName = "lobbychest_progress")]
+        public Dictionary<string, LobbychestProgress> LobbychestProgress { get; set; } = default!;
 
-        [JsonPropertyName("mapUIState")]
-        public object MapUiState { get; set; }
+        [JsonProperty(PropertyName = "mapUIState"), ExpandableObject]
+        public object MapUiState { get; set; } = default!;
 
-        [JsonPropertyName("merchantData")]
-        public Dictionary<string, MerchantDef> MerchantData { get; set; }
+        [JsonProperty(PropertyName = "merchantData")]
+        public Dictionary<string, MerchantDef> MerchantData { get; set; } = default!;
 
-        [JsonPropertyName("missionStatesMap")]
-        public object MissionStatesMap { get; set; }
+        [JsonProperty(PropertyName = "missionStatesMap"), ExpandableObject]
+        public object MissionStatesMap { get; set; } = default!;
 
-        [JsonPropertyName("mob_kills")]
-        public Dictionary<string, long> MobKills { get; set; }
+        [JsonProperty(PropertyName = "mob_kills")]
+        public Dictionary<string, long> MobKills { get; set; } = default!;
 
-        [JsonPropertyName("name")]
-        public string Name { get; set; }
+        [JsonProperty(PropertyName = "name")]
+        public string Name { get; set; } = default!;
 
-        [JsonPropertyName("pendingRewardItem")]
-        public object PendingRewardItem { get; set; }
-        
-        [JsonPropertyName("pendingRewardItems")]
-        public object PendingRewardItems { get; set; }
+        [JsonProperty(PropertyName = "pendingRewardItem"), ExpandableObject]
+        public object PendingRewardItem { get; set; } = default!;
 
-        [JsonPropertyName("playerId")]
-        public string PlayerId { get; set; }
+        [JsonProperty(PropertyName = "pendingRewardItems"), ExpandableObject]
+        public object PendingRewardItems { get; set; } = default!;
 
-        [JsonPropertyName("progress")]
-        public Dictionary<string, Progress> Progress { get; set; }
+        [JsonProperty(PropertyName = "playerId")]
+        public string PlayerId { get; set; } = default!;
 
-        [JsonPropertyName("progressStatCounters")]
-        public Dictionary<string, long> ProgressStatCounters { get; set; }
+        [JsonProperty(PropertyName = "progress")]
+        public Dictionary<string, Progress> Progress { get; set; } = default!;
 
-        [JsonPropertyName("progressionKeys")]
-        public string[] ProgressionKeys { get; set; }
+        [JsonProperty(PropertyName = "progressStatCounters")]
+        public Dictionary<string, long> ProgressStatCounters { get; set; } = default!;
 
-        [JsonPropertyName("skin")]
-        public string Skin { get; set; }
+        [JsonProperty(PropertyName = "progressionKeys")]
+        public string[] ProgressionKeys { get; set; } = default!;
 
-        [JsonPropertyName("threatLevels")]
-        public ThreatLevels ThreatLevels { get; set; }
+        [JsonProperty(PropertyName = "skin")]
+        public string Skin { get; set; } = default!;
 
-        [JsonPropertyName("timestamp")]
+        [JsonProperty(PropertyName = "threatLevels"), ExpandableObject]
+        public ThreatLevels ThreatLevels { get; set; } = default!;
+
+        [JsonProperty(PropertyName = "timestamp")]
         public long Timestamp { get; set; }
 
-        [JsonPropertyName("totalGearPower")]
+        [JsonProperty(PropertyName = "totalGearPower")]
         public long TotalGearPower { get; set; }
 
-        [JsonPropertyName("trialsCompleted")]
-        public object[] TrialsCompleted { get; set; }
+        [JsonProperty(PropertyName = "trialsCompleted")]
+        public object[] TrialsCompleted { get; set; } = default!;
 
-        [JsonPropertyName("uiHintsExpired")]
-        public object[] UiHintsExpired { get; set; }
+        [JsonProperty(PropertyName = "uiHintsExpired")]
+        public object[] UiHintsExpired { get; set; } = default!;
 
-        [JsonPropertyName("version")]
+        [JsonProperty(PropertyName = "version")]
         public long Version { get; set; }
 
-        [JsonPropertyName("xp")]
+        [JsonProperty(PropertyName = "xp")]
         public long Xp { get; set; }
 
         #region Extensions
@@ -160,32 +152,32 @@ namespace MCDStorageChest.Json.Classes
             HotbarSlot3Item?.RefreshProperties();
         }
 
-        [JsonIgnore, SafeForDependencyAnalysis]
+        [JsonIgnore, SafeForDependencyAnalysis, Browsable(false)]
         public Item MeleeGearItem
         {
             get => this.equipmentSlot(EquipmentSlotEnum.MeleeGear);
         }
-        [JsonIgnore, SafeForDependencyAnalysis]
+        [JsonIgnore, SafeForDependencyAnalysis, Browsable(false)]
         public Item ArmorGearItem
         {
             get => this.equipmentSlot(EquipmentSlotEnum.ArmorGear);
         }
-        [JsonIgnore, SafeForDependencyAnalysis]
+        [JsonIgnore, SafeForDependencyAnalysis, Browsable(false)]
         public Item RangedGearItem
         {
             get => this.equipmentSlot(EquipmentSlotEnum.RangedGear);
         }
-        [JsonIgnore, SafeForDependencyAnalysis]
+        [JsonIgnore, SafeForDependencyAnalysis, Browsable(false)]
         public Item HotbarSlot1Item
         {
             get => this.equipmentSlot(EquipmentSlotEnum.HotbarSlot1);
         }
-        [JsonIgnore, SafeForDependencyAnalysis]
+        [JsonIgnore, SafeForDependencyAnalysis, Browsable(false)]
         public Item HotbarSlot2Item
         {
             get => this.equipmentSlot(EquipmentSlotEnum.HotbarSlot2);
         }
-        [JsonIgnore, SafeForDependencyAnalysis]
+        [JsonIgnore, SafeForDependencyAnalysis, Browsable(false)]
         public Item HotbarSlot3Item
         {
             get => this.equipmentSlot(EquipmentSlotEnum.HotbarSlot3);
@@ -229,14 +221,12 @@ namespace MCDStorageChest.Json.Classes
             get => this.level();
             set => this.Xp = GameCalculator.experienceForLevel(value);
         }
-        [JsonIgnore, SafeForDependencyAnalysis]
+        [JsonIgnore, SafeForDependencyAnalysis, Browsable(false)]
         public int AvaliableEnchantmentPoints
         {
             get => this.remainingEnchantmentPoints();
         }
 
-        [JsonIgnore, SafeForDependencyAnalysis]
-        public JObject RawData => JObject.Parse(JsonSerializer.Serialize(this));
 
         #endregion
     }

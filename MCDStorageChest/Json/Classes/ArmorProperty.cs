@@ -1,10 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 using MCDStorageChest.Json.Enums;
 using MCDStorageChest.Models;
 using MCDStorageChest.Json.Mapping;
 using PostSharp.Patterns.Model;
+using MCDStorageChest.Libraries;
 
 namespace MCDStorageChest.Json.Classes
 {
@@ -13,18 +14,18 @@ namespace MCDStorageChest.Json.Classes
     {
         #region JSON
 
-        [JsonPropertyName("id")]
+        [JsonProperty(PropertyName = "id")]
         public string Id { get; set; } = null!;
-        [JsonPropertyName("rarity")]
+        [JsonProperty(PropertyName = "rarity")]
         public RarityEnum Rarity { get; set; } = default!;
 
         #endregion
 
         #region Extensions
 
-        [JsonIgnore, IgnoreAutoChangeNotification]
+        [JsonIgnore, IgnoreAutoChangeNotification, Browsable(false)]
         public string Name => StringLibrary.armorProperty(Id);
-        [JsonIgnore, IgnoreAutoChangeNotification]
+        [JsonIgnore, IgnoreAutoChangeNotification, Browsable(false)]
         public string Description => StringLibrary.armorPropertyDescription(Id);
 
         #endregion

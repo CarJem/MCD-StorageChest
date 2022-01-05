@@ -12,27 +12,44 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using MCDStorageChest.Logic;
 using MCDStorageChest.Json.Classes;
 using MCDStorageChest.Properties;
+using Microsoft.Win32;
 #nullable enable
 
 namespace MCDStorageChest.Models
 {
     [NotifyPropertyChanged]
-    public class MainViewModel : IMainViewModel
+    public class MainViewModel
     {
         #region Properties
 
         public ObservableCollection<SaveModel> SaveModelsList { get; set; } = new ObservableCollection<SaveModel>();
-        public int CurrentIndex { get; set; } = 0;
         public ObservableCollection<Item> ItemClipboard { get; set; } = new ObservableCollection<Item>();
-        public ObservableCollection<string> RecentStorageDirectories { get; set; } = null;
-        public ObservableCollection<string> RecentSaveGameDirectories { get; set; } = null;
+        public ObservableCollection<string>? RecentStorageDirectories { get; set; } = null;
+        public ObservableCollection<string>? RecentSaveGameDirectories { get; set; } = null;
+
+
+        private int _currentIndex = -1;
+        public int CurrentIndex
+        {
+            get
+            {
+                return _currentIndex;
+            }
+            set
+            {
+                _currentIndex = value;
+                foreach (var entry in SaveModelsList)
+                    entry.IsTabSelected = _currentIndex == SaveModelsList.IndexOf(entry);
+            }
+        }
+
 
         #endregion
 
         #region Commands
 
-        private ICommand _loadRecentSaveGameCommand; 
-        private ICommand _loadRecentStorageCommand;
+        private ICommand? _loadRecentSaveGameCommand; 
+        private ICommand? _loadRecentStorageCommand;
 
         [SafeForDependencyAnalysis]
         public ICommand LoadRecentSaveGameCommand
@@ -68,11 +85,12 @@ namespace MCDStorageChest.Models
 
         public bool OpenFromDirectoryCheck(object param)
         {
-            if ((param is string) && !(param as string).StartsWith(Constants.NO_RECENT_DIRECTORIES_TEXT)) return true;
+            if ((param is string) && !((string)param).StartsWith(Constants.NO_RECENT_DIRECTORIES_TEXT)) return true;
             else return false;
         }
         public void OpenFromDirectory(string directory, bool isStorage)
         {
+            if (Parent == null) return;
             Parent.Dispatcher.Invoke(async () =>
             {
                 var result = await FileOpenAsync(directory, isStorage);
@@ -85,7 +103,8 @@ namespace MCDStorageChest.Models
 
         #region Connector
 
-        private IMainWindow Parent;
+        private IMainWindow? Parent;
+
         public void Init(IMainWindow parent)
         {
             Parent = parent;
@@ -135,7 +154,7 @@ namespace MCDStorageChest.Models
             {
                 Properties.Settings.Default.PakFileLocation = cofd.FileName;
                 Properties.Settings.Default.Save();
-                await AssetResolver.FileLoadGameContent(Properties.Settings.Default.PakFileLocation);
+                await AssetLoader.FileLoadGameContent(Properties.Settings.Default.PakFileLocation);
                 return true;
             }
             else return false;
@@ -143,13 +162,32 @@ namespace MCDStorageChest.Models
         }
         public bool FileUnloadDataAsync()
         {
-            AssetResolver.FileUnloadGameContent();
+            AssetLoader.FileUnloadGameContent();
             return true;
         }
 
         public void FileClose(SaveModel save)
         {
             SaveModelsList.Remove(save);
+        }
+
+        public async Task<bool> ToolsConvertFile()
+        {
+            OpenFileDialog ofd = new OpenFileDialog()
+            {
+                Filter = "dat files (*.dat)|*.dat|json files (*.json)|*.json|All files (*.*)|*.*",
+                Multiselect = false,
+                CheckFileExists = true
+            };
+
+            var result = ofd?.ShowDialog() ?? false;
+
+            if (result)
+            {
+                await FileLoader.FileConvert(new System.IO.FileInfo(ofd?.FileName), false);
+                return true;
+            }
+            else return false;
         }
 
         #endregion
@@ -165,15 +203,9 @@ namespace MCDStorageChest.Models
             return SaveModelsList.Count();
         }
 
-        #endregion
-
-        #region Listing Methods
-
-        public List<SaveModel> OtherSaves(SaveModel saveModel)
+        public int GetCurrentIndex()
         {
-            var storages = SaveModelsList.ToList();
-            storages.Remove(saveModel);
-            return storages;
+            return CurrentIndex;
         }
 
         #endregion

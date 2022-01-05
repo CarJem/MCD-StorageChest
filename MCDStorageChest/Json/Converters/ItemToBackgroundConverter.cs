@@ -9,23 +9,26 @@ using System.Windows.Data;
 using System.Windows.Media;
 using MCDStorageChest.Models;
 using MCDStorageChest.Json.Mapping;
+using PostSharp.Patterns.Model;
 
 namespace MCDStorageChest.Json.Converters
 {
+
     public sealed class ItemToBackgroundConverter : IValueConverter
     {
         public static object ConvertBase(object value)
         {
-            if (!(value is Classes.Item)) return Brushes.Transparent;
-            var currentItem = (Classes.Item)value;
+            if (!(value is Enums.ItemBGEnum)) return Brushes.Transparent;
+            var currentItem = (Enums.ItemBGEnum)value;
 
-            if (currentItem.IsGilded) return ImageMappings.Instance.Item_GildedBackground;
+            if (currentItem == ItemBGEnum.Gilded) return ImageMappings.Instance.Item_GildedBackground;
 
+            var rarity = GetRarity(currentItem);
 
-            var image = Logic.AssetResolver.instance.imageSourceForRarity(currentItem.Rarity);
+            var image = Logic.AssetLoader.instance.imageSourceForRarity(rarity);
             if (image != null) return new ImageBrush(image);
 
-            switch (currentItem.Rarity)
+            switch (rarity)
             {
                 case RarityEnum.Common:
                     return Brushes.Gray;
@@ -35,6 +38,20 @@ namespace MCDStorageChest.Json.Converters
                     return Brushes.Orange;
                 default:
                     return Brushes.Transparent;
+            }
+
+            RarityEnum GetRarity(ItemBGEnum item)
+            {
+                switch (item) {
+                    case ItemBGEnum.Common:
+                        return RarityEnum.Common;
+                    case ItemBGEnum.Rare:
+                        return RarityEnum.Rare;
+                    case ItemBGEnum.Unique:
+                        return RarityEnum.Unique;
+                    default:
+                        return RarityEnum.Common;
+                }
             }
         }
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

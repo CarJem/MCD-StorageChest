@@ -16,7 +16,7 @@ namespace MCDStorageChest.Json.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (!(value is Classes.Enchantment)) return "0";
-            else return (value as Classes.Enchantment).Level;
+            else return ((Classes.Enchantment)value).Level;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

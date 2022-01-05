@@ -27,8 +27,8 @@ namespace MCDStorageChest.Controls.SaveViews
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ContextMenu contextMenu = (sender as Button).ContextMenu;
-            contextMenu.PlacementTarget = (sender as Button);
+            ContextMenu contextMenu = ((Button)sender).ContextMenu;
+            contextMenu.PlacementTarget = ((Button)sender);
             contextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
             contextMenu.DataContext = this.DataContext;
             contextMenu.IsOpen = true;

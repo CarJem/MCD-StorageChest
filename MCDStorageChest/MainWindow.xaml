@@ -67,7 +67,7 @@
                 <MenuItem Header="Auto Load Last Game Data" StaysOpenOnClick="True" IsCheckable="True" Click="SettingChanged" IsChecked="{Binding Source={x:Static properties:Settings.Default}, Path=AutoLoadLastGameData}"/>
             </MenuItem>
             <MenuItem Header="Tools">
-                <MenuItem Header="Coming Soon!" IsEnabled="False"/>
+                <MenuItem Header="Convert File..." x:Name="ConvertFileMenuItem" IsEnabled="True" Click="ConvertFileMenuItem_Click"/>
             </MenuItem>
             <MenuItem Header="Other">
                 <MenuItem Header="Github" IsEnabled="False"/>

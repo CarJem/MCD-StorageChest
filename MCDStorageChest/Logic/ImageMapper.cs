@@ -11,6 +11,7 @@ using MCDStorageChest.Models;
 using System.ComponentModel;
 using System.Windows.Media.Imaging;
 using System.Windows;
+#nullable enable
 
 namespace MCDStorageChest.Json.Mapping
 {
@@ -18,7 +19,7 @@ namespace MCDStorageChest.Json.Mapping
     {
         public static ImageMappings Instance { get; private set; } = new ImageMappings();
 
-        public event PropertyChangedEventHandler PropertyChanged = default;
+        public event PropertyChangedEventHandler? PropertyChanged = default;
         void OnPropertyChanged(string propertyName)
         {
             var handler = PropertyChanged;
@@ -52,7 +53,7 @@ namespace MCDStorageChest.Json.Mapping
         {
             get
             {
-                var img = Logic.AssetResolver.instance.imageSource(Item_MarkedNewBackgroundPath);
+                var img = Logic.AssetLoader.instance.imageSource(Item_MarkedNewBackgroundPath);
                 if (img != null) return new ImageBrush(img);
                 else return Brushes.Gold;
             }
@@ -61,7 +62,7 @@ namespace MCDStorageChest.Json.Mapping
         {
             get
             {
-                var img = Logic.AssetResolver.instance.imageSource(Item_GildedBackgroundPath);
+                var img = Logic.AssetLoader.instance.imageSource(Item_GildedBackgroundPath);
                 if (img != null) return new ImageBrush(img);
                 else return Brushes.Yellow;
             }
@@ -74,7 +75,7 @@ namespace MCDStorageChest.Json.Mapping
             {
                 try
                 {
-                    var img = Logic.AssetResolver.instance.imageSource(Inventory_BackgroundPath);
+                    var img = Logic.AssetLoader.instance.imageSource(Inventory_BackgroundPath);
                     if (img != null)
                     {
                         var img2 = new CroppedBitmap(img, new Int32Rect(0, 0, 1920, 1080));
@@ -88,75 +89,75 @@ namespace MCDStorageChest.Json.Mapping
             }
         }
 
-        public ImageSource EnchantmentPointsImageSource
+        public ImageSource? EnchantmentPointsImageSource
         {
             get
             {
-                var game = Logic.AssetResolver.instance.imageSource(EnchantmentPointsImageSourcePath);
-                if (game == null) return Logic.AssetResolver.instance.imageSource("Enchantments.png");
+                var game = Logic.AssetLoader.instance.imageSource(EnchantmentPointsImageSourcePath);
+                if (game == null) return Logic.AssetLoader.instance.imageSource("Enchantments.png");
                 else return game;
             }
         }
-        public ImageSource EnchantCommonIcon
+        public ImageSource? EnchantCommonIcon
         {
             get
             {
-                var game = Logic.AssetResolver.instance.imageSource(EnchantCommonIconPath);
-                if (game == null) return Logic.AssetResolver.instance.imageSource("Enchantments.png");
+                var game = Logic.AssetLoader.instance.imageSource(EnchantCommonIconPath);
+                if (game == null) return Logic.AssetLoader.instance.imageSource("Enchantments.png");
                 else return game;
             }
         }
-        public ImageSource Inventory_AllItemsButtonImage 
+        public ImageSource? Inventory_AllItemsButtonImage 
         { 
             get
             {
-                var game = Logic.AssetResolver.instance.imageSource(Inventory_AllItemsButtonImagePath);
-                if (game == null) return Logic.AssetResolver.instance.imageSource("Unknown.png");
+                var game = Logic.AssetLoader.instance.imageSource(Inventory_AllItemsButtonImagePath);
+                if (game == null) return Logic.AssetLoader.instance.imageSource("Unknown.png");
                 else return game;
             }
         }
-        public ImageSource Inventory_MeleeItemsButtonImage
+        public ImageSource? Inventory_MeleeItemsButtonImage
         {
             get
             {
-                var game = Logic.AssetResolver.instance.imageSource(Inventory_MeleeItemsButtonImagePath);
-                if (game == null) return Logic.AssetResolver.instance.imageSource("MeleeWeapons.png");
+                var game = Logic.AssetLoader.instance.imageSource(Inventory_MeleeItemsButtonImagePath);
+                if (game == null) return Logic.AssetLoader.instance.imageSource("MeleeWeapons.png");
                 else return game;
             }
         }
-        public ImageSource Inventory_RangedItemsButtonImage
+        public ImageSource? Inventory_RangedItemsButtonImage
         {
             get
             {
-                var game = Logic.AssetResolver.instance.imageSource(Inventory_RangedItemsButtonImagePath);
-                if (game == null) return Logic.AssetResolver.instance.imageSource("RangedWeapons.png");
+                var game = Logic.AssetLoader.instance.imageSource(Inventory_RangedItemsButtonImagePath);
+                if (game == null) return Logic.AssetLoader.instance.imageSource("RangedWeapons.png");
                 else return game;
             }
         }
-        public ImageSource Inventory_ArmorItemsButtonImage
+        public ImageSource? Inventory_ArmorItemsButtonImage
         {
             get
             {
-                var game = Logic.AssetResolver.instance.imageSource(Inventory_ArmorItemsButtonImagePath);
-                if (game == null) return Logic.AssetResolver.instance.imageSource("Armor.png");
+                var game = Logic.AssetLoader.instance.imageSource(Inventory_ArmorItemsButtonImagePath);
+                if (game == null) return Logic.AssetLoader.instance.imageSource("Armor.png");
                 else return game;
             }
         }
-        public ImageSource Inventory_ArtifactItemsButtonImage
+        public ImageSource? Inventory_ArtifactItemsButtonImage
         {
             get
             {
-                var game = Logic.AssetResolver.instance.imageSource(Inventory_ArtifactItemsButtonImagePath);
-                if (game == null) return Logic.AssetResolver.instance.imageSource("Artifacts.png");
+                var game = Logic.AssetLoader.instance.imageSource(Inventory_ArtifactItemsButtonImagePath);
+                if (game == null) return Logic.AssetLoader.instance.imageSource("Artifacts.png");
                 else return game;
             }
         }
-        public ImageSource Inventory_EnchantedItemsButtonImage
+        public ImageSource? Inventory_EnchantedItemsButtonImage
         {
             get
             {
-                var game = Logic.AssetResolver.instance.imageSource(Inventory_EnchantedItemsButtonImagePath);
-                if (game == null) return Logic.AssetResolver.instance.imageSource("Points.png");
+                var game = Logic.AssetLoader.instance.imageSource(Inventory_EnchantedItemsButtonImagePath);
+                if (game == null) return Logic.AssetLoader.instance.imageSource("Points.png");
                 else return game;
             }
         }
@@ -169,78 +170,78 @@ namespace MCDStorageChest.Json.Mapping
             }
         }
 
-        public ImageSource EnchantmentSet_Background
+        public ImageSource? EnchantmentSet_Background
         {
             get
             {
-                var game = Logic.AssetResolver.instance.imageSource(EnchantmentSet_BackgroundPath);
-                if (game == null) return Logic.AssetResolver.instance.imageSource("Unknown.png");
+                var game = Logic.AssetLoader.instance.imageSource(EnchantmentSet_BackgroundPath);
+                if (game == null) return Logic.AssetLoader.instance.imageSource("Unknown.png");
                 else return game;
             }
         }
-        public ImageSource EnchantmentSet_LockedNode
+        public ImageSource? EnchantmentSet_LockedNode
         {
             get
             {
-                var game = Logic.AssetResolver.instance.imageSource(EnchantmentSet_LockedNodePath);
-                if (game == null) return Logic.AssetResolver.instance.imageSource("Unknown.png");
-                else return game;
-            }
-        }
-
-        public ImageSource Hotbar_EmeraldImage
-        {
-            get
-            {
-                var game = Logic.AssetResolver.instance.imageSource(Hotbar_EmeraldImagePath);
-                if (game == null) return Logic.AssetResolver.instance.imageSource("Emerald.png");
-                else return game;
-            }
-        }
-        public ImageSource Hotbar_GoldImage
-        {
-            get
-            {
-                var game = Logic.AssetResolver.instance.imageSource(Hotbar_GoldImagePath);
-                if (game == null) return Logic.AssetResolver.instance.imageSource("Gold.png");
-                else return game;
-            }
-        }
-        public ImageSource Hotbar_EnchantmentPointsImage
-        {
-            get
-            {
-                var game = Logic.AssetResolver.instance.imageSource(Hotbar_EnchantmentPointsImagePath);
-                if (game == null) return Logic.AssetResolver.instance.imageSource("Enchantments.png");
+                var game = Logic.AssetLoader.instance.imageSource(EnchantmentSet_LockedNodePath);
+                if (game == null) return Logic.AssetLoader.instance.imageSource("Unknown.png");
                 else return game;
             }
         }
 
-        public ImageSource Hotbar_EyeOfEnderImage
+        public ImageSource? Hotbar_EmeraldImage
         {
             get
             {
-                var game = Logic.AssetResolver.instance.imageSource(Hotbar_EyeOfEnderImagePath);
-                if (game == null) return Logic.AssetResolver.instance.imageSource("Unknown.png");
+                var game = Logic.AssetLoader.instance.imageSource(Hotbar_EmeraldImagePath);
+                if (game == null) return Logic.AssetLoader.instance.imageSource("Emerald.png");
+                else return game;
+            }
+        }
+        public ImageSource? Hotbar_GoldImage
+        {
+            get
+            {
+                var game = Logic.AssetLoader.instance.imageSource(Hotbar_GoldImagePath);
+                if (game == null) return Logic.AssetLoader.instance.imageSource("Gold.png");
+                else return game;
+            }
+        }
+        public ImageSource? Hotbar_EnchantmentPointsImage
+        {
+            get
+            {
+                var game = Logic.AssetLoader.instance.imageSource(Hotbar_EnchantmentPointsImagePath);
+                if (game == null) return Logic.AssetLoader.instance.imageSource("Enchantments.png");
                 else return game;
             }
         }
 
-        public ImageSource Hotbar_LevelFrameImage
+        public ImageSource? Hotbar_EyeOfEnderImage
         {
             get
             {
-                var game = Logic.AssetResolver.instance.imageSource(Hotbar_LevelFrameImagePath);
-                if (game == null) return Logic.AssetResolver.instance.imageSource("Unknown.png");
+                var game = Logic.AssetLoader.instance.imageSource(Hotbar_EyeOfEnderImagePath);
+                if (game == null) return Logic.AssetLoader.instance.imageSource("Unknown.png");
                 else return game;
             }
         }
-        public ImageSource Hotbar_PowerLevelImage
+
+        public ImageSource? Hotbar_LevelFrameImage
         {
             get
             {
-                var game = Logic.AssetResolver.instance.imageSource(Hotbar_PowerLevelImagePath);
-                if (game == null) return Logic.AssetResolver.instance.imageSource("Enchantments.png");
+                var game = Logic.AssetLoader.instance.imageSource(Hotbar_LevelFrameImagePath);
+                if (game == null) return Logic.AssetLoader.instance.imageSource("Unknown.png");
+                else return game;
+            }
+        }
+        public ImageSource? Hotbar_PowerLevelImage
+        {
+            get
+            {
+                var game = Logic.AssetLoader.instance.imageSource(Hotbar_PowerLevelImagePath);
+                if (game == null) return Logic.AssetLoader.instance.imageSource("Enchantments.png");
                 else return game;
             }
         }
