@@ -122,11 +122,11 @@
     <Compile Include="Converters\IsNotNullConverter.cs" />
     <Compile Include="Converters\MethodToValueConverter.cs" />
     <Compile Include="Converters\MultiValueConverter.cs" />
+    <Compile Include="Converters\StringVisibilityConverter.cs" />
     <Compile Include="Extensions\CaseInSensitiveDictionary.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\RelayCommand.cs" />
     <Compile Include="Json\Classes\ItemCollection.cs" />
-    <Compile Include="Json\Enums\ItemBGEnum.cs" />
     <Compile Include="Logic\SettingMapper.cs" />
     <Compile Include="IMainWindow.cs" />
     <Compile Include="Libraries\ItemDataLibrary.cs" />

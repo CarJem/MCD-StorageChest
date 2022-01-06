@@ -166,32 +166,6 @@ namespace MCDStorageChest.Json.Classes
             }
         }
 
-        [JsonIgnore, SafeForDependencyAnalysis, Browsable(false)]
-        public ItemBGEnum Background
-        {
-            get
-            {
-                Depends.On(IsGilded);
-                Depends.On(Rarity);
-
-                if (IsGilded) return ItemBGEnum.Gilded;
-                else
-                {
-                    switch (Rarity)
-                    {
-                        case RarityEnum.Common:
-                            return ItemBGEnum.Common;
-                        case RarityEnum.Rare:
-                            return ItemBGEnum.Rare;
-                        case RarityEnum.Unique:
-                            return ItemBGEnum.Unique;
-                        default:
-                            return ItemBGEnum.Common;
-                    }
-                }
-            }
-        }
-
         [JsonIgnore, Browsable(false)]
         public bool IsGilded
         {

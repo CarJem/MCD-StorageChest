@@ -16,19 +16,18 @@ namespace MCDStorageChest.Json.Converters
 
     public sealed class ItemToBackgroundConverter : IValueConverter
     {
+
+        public bool GildedMode { get; set; } = false;
+
         public static object ConvertBase(object value)
         {
-            if (!(value is Enums.ItemBGEnum)) return Brushes.Transparent;
-            var currentItem = (Enums.ItemBGEnum)value;
+            if (!(value is Classes.Item)) return Brushes.Transparent;
+            var currentItem = (Classes.Item)value;
 
-            if (currentItem == ItemBGEnum.Gilded) return ImageMappings.Instance.Item_GildedBackground;
-
-            var rarity = GetRarity(currentItem);
-
-            var image = Logic.AssetLoader.instance.imageSourceForRarity(rarity);
+            var image = Logic.AssetLoader.instance.imageSourceForRarity(currentItem.Rarity);
             if (image != null) return new ImageBrush(image);
 
-            switch (rarity)
+            switch (currentItem.Rarity)
             {
                 case RarityEnum.Common:
                     return Brushes.Gray;
@@ -39,24 +38,20 @@ namespace MCDStorageChest.Json.Converters
                 default:
                     return Brushes.Transparent;
             }
-
-            RarityEnum GetRarity(ItemBGEnum item)
-            {
-                switch (item) {
-                    case ItemBGEnum.Common:
-                        return RarityEnum.Common;
-                    case ItemBGEnum.Rare:
-                        return RarityEnum.Rare;
-                    case ItemBGEnum.Unique:
-                        return RarityEnum.Unique;
-                    default:
-                        return RarityEnum.Common;
-                }
-            }
         }
+
+        private static object ConvertGilded(object value)
+        {
+            if (!(value is Classes.Item)) return Brushes.Transparent;
+            var currentItem = (Classes.Item)value;
+            if (currentItem.IsGilded) return ImageMappings.Instance.Item_GildedBackground;
+            else return Brushes.Transparent;
+        }
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ConvertBase(value);
+            if (GildedMode) return ConvertGilded(value);
+            else return ConvertBase(value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

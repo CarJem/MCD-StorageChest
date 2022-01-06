@@ -71,7 +71,7 @@ namespace MCDStorageChest.Libraries
         {
             if (itemName == null) return new Enchantment[0];
             if (_builtInEnchants.ContainsKey(itemName)) return _builtInEnchants[itemName];
-            return new Enchantment[0];
+            return new Enchantment[0];  
         }
         public static RuneData getItemRunes(string? itemName)
         {

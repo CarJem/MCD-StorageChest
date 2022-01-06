@@ -20,7 +20,7 @@ namespace MCDStorageChest.Json.Classes
         #region JSON
 
         [JsonProperty(PropertyName = "id")]
-        public string Id { get; set; } = default!;
+        public string Id { get; set; } = null!;
 
         [JsonProperty(PropertyName = "level")]
         public long Level { get; set; } = default!;

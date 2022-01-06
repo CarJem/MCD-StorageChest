@@ -7,14 +7,16 @@
              xmlns:profile="clr-namespace:MCDStorageChest.Json.Classes"
              xmlns:mappings="clr-namespace:MCDStorageChest.Json.Mapping"
              xmlns:converters="clr-namespace:MCDStorageChest.Json.Converters"
+             xmlns:converters2="clr-namespace:MCDStorageChest.Converters"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=profile:Enchantment}">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="VisibleIfTrueConverter" />
+        <converters2:StringVisibilityConverter x:Key="NullVisibilityConverter" IsEmpty="Collapsed" IsNotEmpty="Visible"/>
         <converters:RarityToBulletConverter x:Key="rarityToBullet" />
     </UserControl.Resources>
-    <StackPanel Orientation="Horizontal" >
-            <Image Source="{Binding Image}" Height="30" Width="30"  VerticalAlignment="Center" Margin="10,0,10,0"/>
+    <StackPanel Orientation="Horizontal" Visibility="{Binding Id, Converter={StaticResource NullVisibilityConverter}}">
+        <Image Source="{Binding Image}" Height="25" Width="25"  VerticalAlignment="Center" Margin="10,0,10,0"/>
             <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                 <TextBlock Margin="0,0,0,0" Text="{Binding Name, Mode=OneWay}"/>
                 <TextBlock Margin="0,0,0,0" Text="{Binding Description, Mode=OneWay}" Visibility="Collapsed"/>

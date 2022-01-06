@@ -17,7 +17,8 @@
         <converters:RarityToColorConverter x:Key="rarityToColor" />
         <converters2:BooleanConverter x:Key="InverseBoolean" True="False" False="True"/>
         <converters:ItemToBackgroundConverter x:Key="ItemToBG" />
-        <Style TargetType="{x:Type local:RuneIcon}" x:Key="RuneIcon">
+        <converters:ItemToBackgroundConverter x:Key="GildedItemToBG" GildedMode="True" />
+        <Style x:Key="RuneIconStyle" TargetType="{x:Type local:RuneIcon}">
             <Setter Property="Width" Value="16"/>
             <Setter Property="Height" Value="16"/>
             <Setter Property="LayoutTransform">
@@ -43,17 +44,18 @@
 
     </UserControl.Resources>
 
-    <Grid Background="{Binding Background, Converter={StaticResource ItemToBG}}" Width="100" Height="100">
+    <Grid Background="{Binding ., Converter={StaticResource ItemToBG}}" Width="100" Height="100">
+        <Grid Margin="3" Panel.ZIndex="-2" Background="{Binding ., Converter={StaticResource GildedItemToBG}}"/>
         <UniformGrid Style="{StaticResource RuneGrid}">
-            <local:RuneIcon CurrentArchetype="A" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_A, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
-            <local:RuneIcon CurrentArchetype="C" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_C, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
-            <local:RuneIcon CurrentArchetype="I" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_I, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
-            <local:RuneIcon CurrentArchetype="O" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_O, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
-            <local:RuneIcon CurrentArchetype="P" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_P, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
-            <local:RuneIcon CurrentArchetype="R" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_R, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
-            <local:RuneIcon CurrentArchetype="S" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_S, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
-            <local:RuneIcon CurrentArchetype="T" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_T, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
-            <local:RuneIcon CurrentArchetype="U" Style="{StaticResource RuneIcon}" Visibility="{Binding Runes.HasRune_U, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
+            <local:RuneIcon CurrentArchetype="A" Style="{StaticResource RuneIconStyle}" Visibility="{Binding Runes.HasRune_A, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
+            <local:RuneIcon CurrentArchetype="C" Style="{StaticResource RuneIconStyle}" Visibility="{Binding Runes.HasRune_C, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
+            <local:RuneIcon CurrentArchetype="I" Style="{StaticResource RuneIconStyle}" Visibility="{Binding Runes.HasRune_I, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
+            <local:RuneIcon CurrentArchetype="O" Style="{StaticResource RuneIconStyle}" Visibility="{Binding Runes.HasRune_O, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
+            <local:RuneIcon CurrentArchetype="P" Style="{StaticResource RuneIconStyle}" Visibility="{Binding Runes.HasRune_P, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
+            <local:RuneIcon CurrentArchetype="R" Style="{StaticResource RuneIconStyle}" Visibility="{Binding Runes.HasRune_R, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
+            <local:RuneIcon CurrentArchetype="S" Style="{StaticResource RuneIconStyle}" Visibility="{Binding Runes.HasRune_S, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
+            <local:RuneIcon CurrentArchetype="T" Style="{StaticResource RuneIconStyle}" Visibility="{Binding Runes.HasRune_T, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
+            <local:RuneIcon CurrentArchetype="U" Style="{StaticResource RuneIconStyle}" Visibility="{Binding Runes.HasRune_U, FallbackValue={x:Static Visibility.Collapsed}, Converter={StaticResource VisibleIfTrueConverter}}"/>
         </UniformGrid>
         <Grid Background="{Binding Source={x:Static mappings:ImageMappings.Instance}, Path=Item_MarkedNewBackground}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="30" Height="30" Visibility="{Binding MarkedNew, FallbackValue={x:Static Visibility.Hidden}, Converter={StaticResource VisibleIfTrueConverter}}"/>
         <StackPanel Margin="5" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Top" Visibility="{Binding HasEnchantmentPoints, FallbackValue={x:Static Visibility.Hidden}, Converter={StaticResource VisibleIfTrueConverter}}">

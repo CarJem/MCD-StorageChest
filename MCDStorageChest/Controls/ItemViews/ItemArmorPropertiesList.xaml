@@ -5,23 +5,34 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MCDStorageChest.Controls.ItemViews"      
              xmlns:templates="clr-namespace:MCDStorageChest.Controls.ItemTemplates"
+             xmlns:conv="clr-namespace:MCDStorageChest.Converters"
              xmlns:controls="clr-namespace:MCDStorageChest.Controls"
              xmlns:profile="clr-namespace:MCDStorageChest.Json.Classes"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=profile:Item}"
              d:DesignHeight="800" d:DesignWidth="800">
     <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="VisibleIfTrueConverter" />
-        <DataTemplate x:Key="ArmorPropertyControl">
+        <conv:BooleanToVisibilityConverter x:Key="VisibleIfFalseConverter" False="Visible" True="Collapsed" />
+
+        <CollectionViewSource x:Key="ArmorPropertiesSource" Source="{Binding Armorproperties}"/>
+        <CollectionViewSource x:Key="BuiltInEnchantmentsSource" Source="{Binding BuiltInEnchantments}"/>
+
+        <CompositeCollection x:Key="CombinedCollection">
+            <CollectionContainer Collection="{Binding Source={StaticResource ArmorPropertiesSource}}" />
+            <CollectionContainer Collection="{Binding Source={StaticResource BuiltInEnchantmentsSource}}" />
+        </CompositeCollection>
+
+        <DataTemplate DataType="{x:Type profile:Armorproperty}">
             <templates:ArmorPropertyItemTemplate DataContext="{Binding .}"></templates:ArmorPropertyItemTemplate>
         </DataTemplate>
-        <DataTemplate x:Key="BuiltInEnchantmentsControl">
+        <DataTemplate DataType="{x:Type profile:Enchantment}">
             <templates:BuiltInEnchantmentItemTemplate DataContext="{Binding .}"></templates:BuiltInEnchantmentItemTemplate>
         </DataTemplate>
+
+
     </UserControl.Resources>
     <Grid>
-        <ListBox ScrollViewer.VerticalScrollBarVisibility="Visible" Visibility="{Binding IsRangedWeapon, Converter={StaticResource VisibleIfTrueConverter}}" ItemsSource="{Binding BuiltInEnchantments}" ItemTemplate="{StaticResource BuiltInEnchantmentsControl}"/>
-        <ListBox ScrollViewer.VerticalScrollBarVisibility="Visible" Visibility="{Binding IsMeleeWeapon, Converter={StaticResource VisibleIfTrueConverter}}" ItemsSource="{Binding BuiltInEnchantments}" ItemTemplate="{StaticResource BuiltInEnchantmentsControl}"/>
-        <ListBox ScrollViewer.VerticalScrollBarVisibility="Visible" Visibility="{Binding IsArmor, Converter={StaticResource VisibleIfTrueConverter}}" ItemsSource="{Binding Armorproperties}" ItemTemplate="{StaticResource ArmorPropertyControl}"/>
+        <ListBox ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding Source={StaticResource CombinedCollection}}" Visibility="{Binding IsArtifact, Converter={StaticResource VisibleIfFalseConverter}}">
+        </ListBox>
     </Grid>
 </UserControl>
